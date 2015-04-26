@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>笔记 - java annotation</title>
+  
+    <meta name="author" content="tiemei">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/twitter/stylesheets/bootstrap.min.css" type="text/css" rel="stylesheet" media="all">
+<link href="/assets/twitter/stylesheets/style.css" type="text/css" rel="stylesheet" media="all">
+<link href="/assets/twitter/widgets/google_prettify/stylesheets/twitter-bootstrap.css" type="text/css" rel="stylesheet" media="all">
+ 
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+  </head>
+
+  <body>
+
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/">顽固的卡夫卡</a>
+          <ul class="nav">
+            
+              
+
+
+  <li><a href="/">关于我</a></li>
+
+
+            
+              
+
+
+  <li><a href="/archive">技术博客</a></li>
+
+
+            
+              
+
+
+  <li><a href="/categories">分类</a></li>
+
+
+            
+              
+
+
+  <li><a href="/poems">其他博客</a></li>
+
+
+            
+            <!--
+            <li>
+              <a href="poems">其他博客</a>
+            </li>
+            -->
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="content">
+        <div class="page-header">
+  <h1>笔记 - java annotation </h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <h1><a style="display: block;" name="分类" href="#分类"></a>分类</h1>
+
+<p>java annotation主要分为以下几类：</p>
+
+<ul>
+<li>Compiler instructions</li>
+<li>Build-time instructions</li>
+<li>Runtime instructions</li>
+</ul>
+
+<p>Compiler instructions比如Java&rsquo;s Builtin Annotations，give instructions to the Java compiler：</p>
+
+<ul>
+<li>@Deprecated</li>
+<li>@Override</li>
+<li>@SuppressWarnings</li>
+</ul>
+
+<p>The build process includes generating source code, compiling the source, generating XML files (e.g. deployment descriptors), packaging the compiled code and files into a JAR file etc. Building the software is typically done by an automatic build tool like Apache Ant or Apache Maven. Build tools may scan your Java code for specific annotations and generate source code or other files based on these annotations. Build-time instructions比如</p>
+
+<h1><a style="display: block;" name="构成" href="#构成"></a>构成</h1>
+
+<p>java annotation主要构成：</p>
+
+<ul>
+<li><p>Annotation Elements</p>
+
+<pre><code>You can use all primitive data types as element data types. You can 
+also use arrays as data type. You cannot use complex objects as data type.
+</code></pre></li>
+
+<li><p>Annotation Placement,@Target:</p>
+
+<pre><code>You can put Java annotations above classes, interfaces, methods, 
+method parameters, fields and local variables.
+</code></pre></li>
+
+<li><p>Java Annotation Purposes,@Retention:</p>
+
+<pre><code>/**
+ * Annotations are to be discarded by the compiler.
+ * (If you create your own annotations for use with build tools that scan the code, you can use this retention policy.)
+ */
+SOURCE,
+
+
+/**
+* Annotations are to be recorded in the class file by the compiler
+* but need not be retained by the VM at run time.  This is the default
+* behavior.
+*/
+CLASS,
+
+
+/**
+* Annotations are to be recorded in the class file by the compiler and
+* retained by the VM at run time, so they may be read reflectively.
+*
+* @see java.lang.reflect.AnnotatedElement
+*/
+RUNTIME
+</code></pre></li>
+
+<li><p>@Inherited 可以被subclasses继承，只能用在class上</p></li>
+
+<li><p>@Documented 标识javaDoc中可以见这个annotation</p></li>
+</ul>
+
+<h1><a style="display: block;" name="难点：理解class、runtime区别" href="#难点：理解class、runtime区别"></a>难点：理解CLASS、RUNTIME区别</h1>
+
+<p><a href="http://stackoverflow.com/questions/3107970/annotations-retention-policy">这个stackoverflow</a>提到RetentionPolicy.CLASS实际上 &ldquo;Discard during class load.Useful when doing bytecode-level post-processing. &ldquo;，而RetentionPolicy.RUNTIME: Do not discard. 我们进一步看什么叫做bytecode-level post-processing。<a href="http://stackoverflow.com/questions/15268057/where-does-bytecode-injection-happen">这个stackoverflow</a>提到，我们可以借助一些工具在多个阶段对bytecode进行处理。例如 Javassist / ASM这两个工具可以做到的。可以参考fastjson的源码，来理解这两个个工具如何使用。</p>
+
+<p>但是，似乎还是不能解释，因为我遇到过一个case，用CLASS级别，同样可以通过反射库拿到这些标签。<a href="http://stackoverflow.com/questions/21167610/does-reflections-library-ignore-the-retentionpolicy?rq=1">这个stackoverflow</a>解释这个事情是&rdquo;Though “need not be retained” does not sound like a strong requirement.&ldquo;，说明并不是严格限制，如果你用第三方反射库或者自定义annotation，结果不一定如此。</p>
+
+<h2><a style="display: block;" name="fastjson如何使用反射" href="#fastjson如何使用反射"></a>fastjson如何使用反射</h2>
+
+<p>待续</p>
+
+<p>参考：</p>
+
+<p><a href="http://ifeve.com/java-reflection-8-annotation/">Java Reflection(八):注解</a><br />
+<a href="http://tutorials.jenkov.com/java/annotations.html">Java Annotations</a><br />
+<a href="http://docs.oracle.com/javase/tutorial/java/annotations/">Lesson: Annotations</a><br />
+<a href="http://en.wikipedia.org/wiki/Java_annotation#Processing">Java annotation wiki</a></p>
+
+    <hr>
+    <div class="pagination">
+      <ul>
+        <ul>
+          
+            <li class="prev"><a href="/2014/12/18/concurrent-programming-lock.html" title="并发编程 - 锁">&larr; Previous</a></li>
+          
+          
+
+            <li><a href="/archive">Archive</a></li>
+
+          
+            <li class="next"><a href="/2014/12/05/r-db.html" title="关系型数据库笔记">Next &rarr;</a></li>
+          
+          
+        </ul>
+      </ul>
+    </div>
+    <hr>
+    
+<div id="disqus_thread"></div>
+<script>
+    var disqus_developer = 1;
+    var disqus_shortname = 'jekyllbootstrap'; // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+  </div>
+  
+  <div class="span4">
+    <h4>Published</h4>
+    <div class="date"><span>2014-12-18</span></div>
+    <br>
+    <h4>Categories</h4>
+    <ul class="tag_box">
+    
+      <li>
+  <a href="/categories/#java-ref">java <span>14</span></a>
+</li>
+    
+    </ul>
+    <br>
+    <h4>Tags</h4>
+    <ul class="tag_box">
+    
+    </ul>
+  </div>
+</div>
+
+      </div>
+
+      <footer>
+        <p>&copy; tiemei 2013 
+          with help from <a href="http://github.com/wendal/gor" target="_blank" title="Gor -- Fast Blog">Gor</a>
+          and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+		  and Idea from <a href="http://ruhoh.com" target="_blank" title="The Definitive Technical Blogging Framework">ruhoh</a>
+        </p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    
+<script src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>
+<script>
+  var pres = document.getElementsByTagName("pre");
+  for (var i=0; i < pres.length; ++i) {
+    pres[i].className = "prettyprint linenums";
+  }
+  prettyPrint();
+</script>
+
+    
+<script>
+    var _gaq=[['_setAccount','UA-123-12'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5379369'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s9.cnzz.com/stat.php%3Fid%3D5379369%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+  </body>
+</html>

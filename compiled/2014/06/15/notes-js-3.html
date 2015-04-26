@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>js入门笔记（三）</title>
+  
+    <meta name="author" content="tiemei">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/twitter/stylesheets/bootstrap.min.css" type="text/css" rel="stylesheet" media="all">
+<link href="/assets/twitter/stylesheets/style.css" type="text/css" rel="stylesheet" media="all">
+<link href="/assets/twitter/widgets/google_prettify/stylesheets/twitter-bootstrap.css" type="text/css" rel="stylesheet" media="all">
+ 
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+  </head>
+
+  <body>
+
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/">顽固的卡夫卡</a>
+          <ul class="nav">
+            
+              
+
+
+  <li><a href="/">关于我</a></li>
+
+
+            
+              
+
+
+  <li><a href="/archive">技术博客</a></li>
+
+
+            
+              
+
+
+  <li><a href="/categories">分类</a></li>
+
+
+            
+              
+
+
+  <li><a href="/poems">其他博客</a></li>
+
+
+            
+            <!--
+            <li>
+              <a href="poems">其他博客</a>
+            </li>
+            -->
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="content">
+        <div class="page-header">
+  <h1>js入门笔记（三） </h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <h2><a style="display: block;" name="利用`__definegetter__``__definesetter__`定义get/set方法，并且注意下js没有块作用域的问题" href="#利用`__definegetter__``__definesetter__`定义get/set方法，并且注意下js没有块作用域的问题"></a>利用<code>__defineGetter__</code><code>__defineSetter__</code>定义get/set方法，并且注意下js没有块作用域的问题</h2>
+
+<pre><code class="js">// 错误的写法
+var Record = function(data) {
+  this.fieldValues = {}
+  this._data = data;
+  var record = this;
+  for(var key in data) {
+    record.__defineGetter__(key, function() {
+      return record._data[key];
+    });
+    record.__defineSetter__(key, function(val) {
+      record.fieldValues[key] = val; // 因为key是全局变量，对data对象遍历时，最终key为prop2
+    });
+  }
+}
+
+var myRecord = new Record({prop1: 'prop1test', prop2: 'prop2test'});
+
+myRecord.prop1 = 'newvalue';
+
+console.log(myRecord.fieldValues.prop1); // undefined
+console.log(myRecord.fieldValues.prop2); // 'newvalue'
+
+// 正确的写法
+var Record = function(data) {
+    var key;
+    this.fieldValues = {}
+    this._data = data;
+    for(key in data) {
+        //closure maintains state of &quot;key&quot; variable
+        //without being overwritten each iteration
+        (function (record, key) { // 把key变成局部对象，函数内部的使用将不会随着外部key变量的指向而改变
+            record.__defineGetter__(key, function() {
+                return record._data[key];
+            });
+            record.__defineSetter__(key, function(val) {
+                record.fieldValues[key] = val;
+            });
+        }(this, key));
+    }
+}
+</code></pre>
+
+<p>参考:<br />
+<a href="http://stackoverflow.com/questions/10453725/weird-behavior-with-javascript-getter-setters">Weird behavior with Javascript getter/setters</a></p>
+
+    <hr>
+    <div class="pagination">
+      <ul>
+        <ul>
+          
+            <li class="prev"><a href="/2014/08/08/load-test-3.html" title="压力测试 - 关注那些点">&larr; Previous</a></li>
+          
+          
+
+            <li><a href="/archive">Archive</a></li>
+
+          
+            <li class="next"><a href="/2014/06/13/notes-js-1.html" title="js入门笔记（一）——基础">Next &rarr;</a></li>
+          
+          
+        </ul>
+      </ul>
+    </div>
+    <hr>
+    
+<div id="disqus_thread"></div>
+<script>
+    var disqus_developer = 1;
+    var disqus_shortname = 'jekyllbootstrap'; // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+  </div>
+  
+  <div class="span4">
+    <h4>Published</h4>
+    <div class="date"><span>2014-06-15</span></div>
+    <br>
+    <h4>Categories</h4>
+    <ul class="tag_box">
+    
+      <li>
+  <a href="/categories/#Node.js-ref">Node.js <span>10</span></a>
+</li>
+    
+    </ul>
+    <br>
+    <h4>Tags</h4>
+    <ul class="tag_box">
+    
+    </ul>
+  </div>
+</div>
+
+      </div>
+
+      <footer>
+        <p>&copy; tiemei 2013 
+          with help from <a href="http://github.com/wendal/gor" target="_blank" title="Gor -- Fast Blog">Gor</a>
+          and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+		  and Idea from <a href="http://ruhoh.com" target="_blank" title="The Definitive Technical Blogging Framework">ruhoh</a>
+        </p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    
+<script src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>
+<script>
+  var pres = document.getElementsByTagName("pre");
+  for (var i=0; i < pres.length; ++i) {
+    pres[i].className = "prettyprint linenums";
+  }
+  prettyPrint();
+</script>
+
+    
+<script>
+    var _gaq=[['_setAccount','UA-123-12'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5379369'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s9.cnzz.com/stat.php%3Fid%3D5379369%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+  </body>
+</html>

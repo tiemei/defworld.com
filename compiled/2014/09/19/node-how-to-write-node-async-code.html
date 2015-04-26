@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Node的异步代码怎么写</title>
+  
+    <meta name="author" content="tiemei">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/twitter/stylesheets/bootstrap.min.css" type="text/css" rel="stylesheet" media="all">
+<link href="/assets/twitter/stylesheets/style.css" type="text/css" rel="stylesheet" media="all">
+<link href="/assets/twitter/widgets/google_prettify/stylesheets/twitter-bootstrap.css" type="text/css" rel="stylesheet" media="all">
+ 
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+  </head>
+
+  <body>
+
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/">顽固的卡夫卡</a>
+          <ul class="nav">
+            
+              
+
+
+  <li><a href="/">关于我</a></li>
+
+
+            
+              
+
+
+  <li><a href="/archive">技术博客</a></li>
+
+
+            
+              
+
+
+  <li><a href="/categories">分类</a></li>
+
+
+            
+              
+
+
+  <li><a href="/poems">其他博客</a></li>
+
+
+            
+            <!--
+            <li>
+              <a href="poems">其他博客</a>
+            </li>
+            -->
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="content">
+        <div class="page-header">
+  <h1>Node的异步代码怎么写 </h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <h1><a style="display: block;" name="函数式编程" href="#函数式编程"></a>函数式编程</h1>
+
+<p>函数作为js中的一等公民，可以作为参数或返回值传递，此谓高阶函数。偏函数也是基于此，返回一个函数，但是这个返回的函数一部分已经预置了，举个例子：</p>
+
+<pre><code class="js">// 一个调用多次才会执行的函数
+_.after = function(times, func) {
+    if (times &lt;= 0)return func();
+    return function() {
+        if (--times &lt; 1) {
+            return func.apply(this, arguments);
+        }
+    }
+}
+</code></pre>
+
+<h1><a style="display: block;" name="异步编程难点" href="#异步编程难点"></a>异步编程难点</h1>
+
+<h2><a style="display: block;" name="异常处理" href="#异常处理"></a>异常处理</h2>
+
+<h2><a style="display: block;" name="函数嵌套过深" href="#函数嵌套过深"></a>函数嵌套过深</h2>
+
+<h2><a style="display: block;" name="阻塞代码" href="#阻塞代码"></a>阻塞代码</h2>
+
+<h2><a style="display: block;" name="多线程编程" href="#多线程编程"></a>多线程编程</h2>
+
+<h1><a style="display: block;" name="异步编程解决方案" href="#异步编程解决方案"></a>异步编程解决方案</h1>
+
+<h2><a style="display: block;" name="事件发布订阅模式" href="#事件发布订阅模式"></a>事件发布订阅模式</h2>
+
+<p>Node自身提供的events模块。</p>
+
+<pre><code class="js">// 订阅
+emitter.on(&quot;event1&quot;, function (message) {
+    console.log(message);
+});
+
+// 发布
+emitter.emit('event1', &quot;I am message!&quot;);
+</code></pre>
+
+<p>将事件与具体的处理逻辑解耦，一个时间与多个回调函数关联。从某种角度来说事件的设计就是组件的接口设计。</p>
+
+    <hr>
+    <div class="pagination">
+      <ul>
+        <ul>
+          
+            <li class="prev"><a href="/2014/10/16/node-js-prmoise.html" title="Node.js Promise/Deferred入门">&larr; Previous</a></li>
+          
+          
+
+            <li><a href="/archive">Archive</a></li>
+
+          
+            <li class="next"><a href="/2014/09/19/node-js-async-i-o.html" title="聊聊Node.js的异步I/O">Next &rarr;</a></li>
+          
+          
+        </ul>
+      </ul>
+    </div>
+    <hr>
+    
+<div id="disqus_thread"></div>
+<script>
+    var disqus_developer = 1;
+    var disqus_shortname = 'jekyllbootstrap'; // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+  </div>
+  
+  <div class="span4">
+    <h4>Published</h4>
+    <div class="date"><span>2014-09-19</span></div>
+    <br>
+    <h4>Categories</h4>
+    <ul class="tag_box">
+    
+      <li>
+  <a href="/categories/#Node.js-ref">Node.js <span>10</span></a>
+</li>
+    
+    </ul>
+    <br>
+    <h4>Tags</h4>
+    <ul class="tag_box">
+    
+    </ul>
+  </div>
+</div>
+
+      </div>
+
+      <footer>
+        <p>&copy; tiemei 2013 
+          with help from <a href="http://github.com/wendal/gor" target="_blank" title="Gor -- Fast Blog">Gor</a>
+          and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+		  and Idea from <a href="http://ruhoh.com" target="_blank" title="The Definitive Technical Blogging Framework">ruhoh</a>
+        </p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    
+<script src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>
+<script>
+  var pres = document.getElementsByTagName("pre");
+  for (var i=0; i < pres.length; ++i) {
+    pres[i].className = "prettyprint linenums";
+  }
+  prettyPrint();
+</script>
+
+    
+<script>
+    var _gaq=[['_setAccount','UA-123-12'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5379369'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s9.cnzz.com/stat.php%3Fid%3D5379369%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+  </body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ssh密钥自动登陆+ssh-agent使用+单机多个ssh账号</title>
+  
+    <meta name="description" content="ssh">
+  
+    <meta name="author" content="tiemei">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/twitter/stylesheets/bootstrap.min.css" type="text/css" rel="stylesheet" media="all">
+<link href="/assets/twitter/stylesheets/style.css" type="text/css" rel="stylesheet" media="all">
+<link href="/assets/twitter/widgets/google_prettify/stylesheets/twitter-bootstrap.css" type="text/css" rel="stylesheet" media="all">
+ 
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+  </head>
+
+  <body>
+
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/">顽固的卡夫卡</a>
+          <ul class="nav">
+            
+              
+
+
+  <li><a href="/">关于我</a></li>
+
+
+            
+              
+
+
+  <li><a href="/archive">技术博客</a></li>
+
+
+            
+              
+
+
+  <li><a href="/categories">分类</a></li>
+
+
+            
+              
+
+
+  <li><a href="/poems">其他博客</a></li>
+
+
+            
+            <!--
+            <li>
+              <a href="poems">其他博客</a>
+            </li>
+            -->
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="content">
+        <div class="page-header">
+  <h1>ssh密钥自动登陆+ssh-agent使用+单机多个ssh账号 </h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <p>参考：<br />
+<a href="http://www.lainme.com/doku.php/blog/2011/01/%E4%BD%BF%E7%94%A8ssh_config#生成ssh证书">使用SSH CONFIG</a><br />
+<a href="http://7056824.blog.51cto.com/69854/403669/">使用ssh公钥密钥自动登陆linux服务器</a></p>
+
+<h2><a style="display: block;" name="生成ssh-key" href="#生成ssh-key"></a>生成ssh key</h2>
+
+<p><code>ssh -t rsa</code><br />
+<code>ssh -t rsa -C &quot;jiadongkai@gmail.com&quot;</code> 注释用邮箱地址<br />
+将公钥追加到需要登录机器的~/.ssh/authorized_keys，如果无法登陆将~/.ssh/known_hosts
+对应行删掉<br />
+注意需要保证authorized_keys文件只有当前用户有写权限</p>
+
+<h2><a style="display: block;" name="用ssh-agent省掉passphrase输入" href="#用ssh-agent省掉passphrase输入"></a>用ssh-agent省掉passphrase输入</h2>
+
+<ol>
+<li><p>准备ssh-agent需要的环境变量，选择下面的一种方法即可</p>
+
+<pre><code>eval `ssh-agent` 只在当前登陆窗口生效
+echo 'eval `ssh-agent`' &gt;&gt; /etc/profile 每次登陆生效
+</code></pre></li>
+
+<li><p>将ssh key对应的passphrase添加到ssh agent高速缓存中</p>
+
+<pre><code>ssh-add ~/.ssh/private_key_name
+你可已查看缓存中内容
+</code></pre></li>
+
+<li><p>ssh-agent默认打开，你可以关掉<code>ssh-agent -k</code></p></li>
+</ol>
+
+<h2><a style="display: block;" name="你有这些特殊需求嘛？-多个ssh帐号、使用非标准端口" href="#你有这些特殊需求嘛？-多个ssh帐号、使用非标准端口"></a>你有这些特殊需求嘛？ 多个ssh帐号、使用非标准端口</h2>
+
+<p>用ssh config解决，详见<code>man ssh_config</code><br />
+编辑<code>~/.ssh/config</code>：</p>
+
+<pre><code>Host pi
+  HostName defworld.com
+  User pi
+  IdentityFile ~/.ssh/id_rsa
+
+Host github
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/gmail
+</code></pre>
+
+<p>任何使用<code>pi@defworld.com</code>的地方用<code>pi</code>代替，例如<code>ssh pi@defworld.com</code>用<code>ssh pi</code>代替，
+会自动查找指定的密钥<code>id_rsa</code>进行权限验证。于是，你可以单机保存多个密钥。</p>
+
+    <hr>
+    <div class="pagination">
+      <ul>
+        <ul>
+          
+            <li class="prev"><a href="/2013/06/30/pi-q-a.html" title="玩Pi过程中Q&amp;A(持续更新)">&larr; Previous</a></li>
+          
+          
+
+            <li><a href="/archive">Archive</a></li>
+
+          
+            <li class="next"><a href="/2013/06/28/about-bashrc.html" title=".bashrc .bash_profile等文件区别">Next &rarr;</a></li>
+          
+          
+        </ul>
+      </ul>
+    </div>
+    <hr>
+    
+<div id="disqus_thread"></div>
+<script>
+    var disqus_developer = 1;
+    var disqus_shortname = 'jekyllbootstrap'; // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+  </div>
+  
+  <div class="span4">
+    <h4>Published</h4>
+    <div class="date"><span>2013-06-30</span></div>
+    <br>
+    <h4>Categories</h4>
+    <ul class="tag_box">
+    
+      <li>
+  <a href="/categories/#linux-ref">linux <span>5</span></a>
+</li>
+    
+    </ul>
+    <br>
+    <h4>Tags</h4>
+    <ul class="tag_box">
+    
+    </ul>
+  </div>
+</div>
+
+      </div>
+
+      <footer>
+        <p>&copy; tiemei 2013 
+          with help from <a href="http://github.com/wendal/gor" target="_blank" title="Gor -- Fast Blog">Gor</a>
+          and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+		  and Idea from <a href="http://ruhoh.com" target="_blank" title="The Definitive Technical Blogging Framework">ruhoh</a>
+        </p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    
+<script src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>
+<script>
+  var pres = document.getElementsByTagName("pre");
+  for (var i=0; i < pres.length; ++i) {
+    pres[i].className = "prettyprint linenums";
+  }
+  prettyPrint();
+</script>
+
+    
+<script>
+    var _gaq=[['_setAccount','UA-123-12'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5379369'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s9.cnzz.com/stat.php%3Fid%3D5379369%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+  </body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>spring DispatcherServlet &amp; ContextLoaderListener</title>
+  
+    <meta name="author" content="tiemei">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/twitter/stylesheets/bootstrap.min.css" type="text/css" rel="stylesheet" media="all">
+<link href="/assets/twitter/stylesheets/style.css" type="text/css" rel="stylesheet" media="all">
+<link href="/assets/twitter/widgets/google_prettify/stylesheets/twitter-bootstrap.css" type="text/css" rel="stylesheet" media="all">
+ 
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+  </head>
+
+  <body>
+
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/">顽固的卡夫卡</a>
+          <ul class="nav">
+            
+              
+
+
+  <li><a href="/">关于我</a></li>
+
+
+            
+              
+
+
+  <li><a href="/archive">技术博客</a></li>
+
+
+            
+              
+
+
+  <li><a href="/categories">分类</a></li>
+
+
+            
+              
+
+
+  <li><a href="/poems">其他博客</a></li>
+
+
+            
+            <!--
+            <li>
+              <a href="poems">其他博客</a>
+            </li>
+            -->
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="content">
+        <div class="page-header">
+  <h1>spring DispatcherServlet &amp; ContextLoaderListener </h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <p>实际上我们只要知道了servlet config和servlet conext的区别就能清楚spring中的DispatcherServlet和ContextLoaderListener有啥区别了。servlet config是单个servlet维度的，而servlet conext是整个application维度的，一个application可能有多个servlet。</p>
+
+<p>spring是基于servlet标准的serlvet为中心扩展的一个MVC框架（<a href="http://webx.github.io/">webx</a>以filter为中心扩展的），DispatcherServlet正是这个中心。如下图，Front Controller就是指的DispatchServlet。</p>
+
+<p><img src="https://farm4.staticflickr.com/3851/15218580671_18437fa8a9.jpg" alt="spring mvc" />
+</p>
+
+<p>所以我们用类似这样的方式指定的实际是DispatchServlet范围内的context:</p>
+
+<pre><code class="xml">&lt;servlet&gt;
+        &lt;servlet-name&gt;dispatcher&lt;/servlet-name&gt;
+        &lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;
+        &lt;init-param&gt;
+            &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+            &lt;param-value&gt;classpath:spring-context.xml&lt;/param-value&gt;
+        &lt;/init-param&gt;
+        &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+&lt;/servlet&gt;
+</code></pre>
+
+<p>而用这样的方式指定的是app范围的：</p>
+
+<pre><code class="xml">&lt;context-param&gt; &lt;!-- context-param配置的只是一个servlet context维度可以拿到的变量而已 --&gt;
+    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt; 
+    &lt;param-value&gt;/WEB-INF/applicationContext*.xml&lt;/param-value&gt;
+&lt;/context-param&gt;
+
+&lt;listener&gt;&lt;!-- 根据contextConfigLocation指定的配置，初始化spring app context --&gt;
+    &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;
+&lt;/listener&gt;
+</code></pre>
+
+<p>在代码层面整个过程如下：</p>
+
+<ul>
+<li>在任何filer和servlet还未初始化时，<code>ServletContextListener#contextInitialized</code>被容器调用</li>
+<li>而spring提供的<code>ContextLoaderListener</code>实现了<code>ServletContextListener#contextInitialized</code>，也正是此时被调用初始化了spring root context</li>
+<li><code>Servlet#init</code>在servlet container开始初始化servlet，还没有用它服务第一个request的时候，因为<code>DispatchServlet</code>实现了<code>FrameworkServlet#initServletBean</code>，而这个方法就是在此时被调用的。</li>
+<li><code>FrameworkServlet#initServletBean</code>主要的工作就是初始化context，详见下面这段代码：<br /></li>
+</ul>
+
+<pre><code class="java">protected WebApplicationContext initWebApplicationContext() {
+        // 这里会拿到ContextLoaderListener中初始化的root context
+        WebApplicationContext rootContext =
+                WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+        WebApplicationContext wac = null; // 代表当前servlet对应的context
+
+        if (this.webApplicationContext != null) {
+            // A context instance was injected at construction time -&gt; use it
+            wac = this.webApplicationContext;
+            if (wac instanceof ConfigurableWebApplicationContext) {
+                ConfigurableWebApplicationContext cwac = (ConfigurableWebApplicationContext) wac;
+                if (!cwac.isActive()) {
+                    // The context has not yet been refreshed -&gt; provide services such as
+                    // setting the parent context, setting the application context id, etc
+                    if (cwac.getParent() == null) {
+                        // The context instance was injected without an explicit parent -&gt; set
+                        // the root application context (if any; may be null) as the parent
+                        cwac.setParent(rootContext);
+                    }
+                    configureAndRefreshWebApplicationContext(cwac);
+                }
+            }
+        }
+        if (wac == null) {
+            // No context instance was injected at construction time -&gt; see if one
+            // has been registered in the servlet context. If one exists, it is assumed
+            // that the parent context (if any) has already been set and that the
+            // user has performed any initialization such as setting the context id
+            wac = findWebApplicationContext(); // 这里通过contextAttribute参数指定某个特定的context作为当前servlet的context
+        }
+        if (wac == null) {
+            // No context instance is defined for this servlet -&gt; create a local one
+            wac = createWebApplicationContext(rootContext); //  这里通过contextConfigLocation参数指定一个文件初始化当前servlet对应的context
+        }
+
+        if (!this.refreshEventReceived) {
+            // Either the context is not a ConfigurableApplicationContext with refresh
+            // support or the context injected at construction time had already been
+            // refreshed -&gt; trigger initial onRefresh manually here.
+            onRefresh(wac);
+        }
+
+        if (this.publishContext) {
+            // Publish the context as a servlet context attribute.
+            String attrName = getServletContextAttributeName();
+            getServletContext().setAttribute(attrName, wac);
+            if (this.logger.isDebugEnabled()) {
+                this.logger.debug(&quot;Published WebApplicationContext of servlet '&quot; + getServletName() +
+                        &quot;' as ServletContext attribute with name [&quot; + attrName + &quot;]&quot;);
+            }
+        }
+
+        return wac;
+    }
+</code></pre>
+
+<p>参考：</p>
+
+<ul>
+<li>《spring framework reference 3.2.x》17.2 The DispatcherServlet</li>
+<li>《spring framework reference 3.2.x》5.14 Standard and Custom Events</li>
+<li>《spring framework reference 3.2.x》6.7 Application contexts and Resource paths</li>
+<li>《servlet config servlet context》http://stackoverflow.com/questions/4223564/servlet-config-servlet-context</li>
+</ul>
+
+    <hr>
+    <div class="pagination">
+      <ul>
+        <ul>
+          
+            <li class="prev"><a href="/2014/09/19/node-js-async-i-o.html" title="聊聊Node.js的异步I/O">&larr; Previous</a></li>
+          
+          
+
+            <li><a href="/archive">Archive</a></li>
+
+          
+            <li class="next"><a href="/2014/09/12/java-null-note.html" title="笔记 - 关于Java中的Null">Next &rarr;</a></li>
+          
+          
+        </ul>
+      </ul>
+    </div>
+    <hr>
+    
+<div id="disqus_thread"></div>
+<script>
+    var disqus_developer = 1;
+    var disqus_shortname = 'jekyllbootstrap'; // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+  </div>
+  
+  <div class="span4">
+    <h4>Published</h4>
+    <div class="date"><span>2014-09-13</span></div>
+    <br>
+    <h4>Categories</h4>
+    <ul class="tag_box">
+    
+      <li>
+  <a href="/categories/#java-ref">java <span>14</span></a>
+</li>
+    
+    </ul>
+    <br>
+    <h4>Tags</h4>
+    <ul class="tag_box">
+    
+    </ul>
+  </div>
+</div>
+
+      </div>
+
+      <footer>
+        <p>&copy; tiemei 2013 
+          with help from <a href="http://github.com/wendal/gor" target="_blank" title="Gor -- Fast Blog">Gor</a>
+          and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+		  and Idea from <a href="http://ruhoh.com" target="_blank" title="The Definitive Technical Blogging Framework">ruhoh</a>
+        </p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    
+<script src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>
+<script>
+  var pres = document.getElementsByTagName("pre");
+  for (var i=0; i < pres.length; ++i) {
+    pres[i].className = "prettyprint linenums";
+  }
+  prettyPrint();
+</script>
+
+    
+<script>
+    var _gaq=[['_setAccount','UA-123-12'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5379369'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s9.cnzz.com/stat.php%3Fid%3D5379369%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+  </body>
+</html>

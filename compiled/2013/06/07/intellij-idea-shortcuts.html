@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>从eclipse迁移到intellijIDEA(OS x 10.5)</title>
+  
+    <meta name="description" content="eclipse,IDEA,intellij,快捷键,OSX">
+  
+    <meta name="author" content="tiemei">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/twitter/stylesheets/bootstrap.min.css" type="text/css" rel="stylesheet" media="all">
+<link href="/assets/twitter/stylesheets/style.css" type="text/css" rel="stylesheet" media="all">
+<link href="/assets/twitter/widgets/google_prettify/stylesheets/twitter-bootstrap.css" type="text/css" rel="stylesheet" media="all">
+ 
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+  </head>
+
+  <body>
+
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/">顽固的卡夫卡</a>
+          <ul class="nav">
+            
+              
+
+
+  <li><a href="/">关于我</a></li>
+
+
+            
+              
+
+
+  <li><a href="/archive">技术博客</a></li>
+
+
+            
+              
+
+
+  <li><a href="/categories">分类</a></li>
+
+
+            
+              
+
+
+  <li><a href="/poems">其他博客</a></li>
+
+
+            
+            <!--
+            <li>
+              <a href="poems">其他博客</a>
+            </li>
+            -->
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="content">
+        <div class="page-header">
+  <h1>从eclipse迁移到intellijIDEA(OS x 10.5) </h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <p><img src="http://farm8.staticflickr.com/7287/8977180999_271d543e62.jpg" alt="intellijIDEA" />
+<br />
+本文帮助希望从eclipse迁移到IntelliJ IDEA的coder.<br />
+我已经使用eclipse开发java程序快3年，虽然也能满足基本需求，但是我还是希望尝试新的东西，IDEA也确实有独到之处。</p>
+
+<p>参考：<br />
+<a href="http://www.oschina.net/question/12_70799">IntelliJ IDEA 的 20 个代码自动完成的特性</a><br />
+<a href="http://www.ituring.com.cn/article/37792">从Eclipse转移到IntelliJ IDEA一点心得</a><br />
+<a href="http://www.colorfuldays.org/program/idea_keymap/">常用IDEA快捷键</a>
+<a href="https://github.com/damao/Intellij-IDEA-F2E">Intellij-IDEA-F2E</a><br />
+<a href="http://www.youmeek.com/intellij-idea-part-ii-ui/">@IntelliJ IDEA第二部分视频讲解：项目创建/打开/导入+主题修改+布局/界面介绍+工具栏/菜单栏介绍</a>
+(http://wiki.jetbrains.net/intellij/Creating_and_importing_Maven_projects)<br />
+<a href="http://willerce.com/post/intellij-idea-config-sync">Intellij配置文件同步</a><br />
+<a href="http://www.myexception.cn/program/1032108.html">Intellij IDEA常用设置</a>
+<a href="http://www.jetbrains.com/idea/documentation/migration_faq.html">IntelliJ IDEA Q&amp;A for Eclipse Users</a></p>
+
+<p>本文快捷键仅适用于：<br />
+&gt; Mac OS X 10.5+ keymap<br />
+&gt; Intellij IDEA 12</p>
+
+<p>其他环境请参照<a href="http://www.jetbrains.com/idea/documentation/index.jsp">Intellij IEDA Getting Started</a><br />
+或者自己到<code>settings → keymap</code>查看设置</p>
+
+<h2><a style="display: block;" name="自动完成功能" href="#自动完成功能"></a>自动完成功能</h2>
+
+<p>相比于eclipse停留在类方法和变量的简单自动提示，IDEA实在有强太多:</p>
+
+<ul>
+<li><code>⌃ Space/自动</code>(Basic code completion) 基本的类、方法、成员变量、局部变量等查找</li>
+<li><code>⌃ ⌥  Space</code>(Smart code completion)更加智能的根据上下文过滤后的提示</li>
+<li>chain completion，多层调用提示，在eclipse里要通过pluging: Code Recommenders完成</li>
+<li>父类构造函数super()所用参数自动完成</li>
+<li><code>⌘ ⇧ ↩</code>(statements complemention)语句自动完成</li>
+<li><code>⌘ p</code>(Parameter info)方法参数信息提示</li>
+<li><code>⌥ Space</code>(quick definition)显示建议列表中方法定义</li>
+<li><code>⌥ ↩</code>(Exclude from completion) 排除几乎总是无用的提示</li>
+<li>输入一个字符的中间部分也能匹配</li>
+<li>自动完成不止在代码编辑器，debug模式，文件选择器等都有它的影子</li>
+</ul>
+
+<h2><a style="display: block;" name="从eclipse迁移过来" href="#从eclipse迁移过来"></a>从eclipse迁移过来</h2>
+
+<p>作为一个多年的eclipse用户，总有些情节和习惯无法割舍。好，现在
+一起看看如何平滑过度：</p>
+
+<ul>
+<li>show number line : settings → editor → Appearance → 勾选&rsquo;show line numbers&rsquo;</li>
+<li>编辑窗口与project窗口关联: 点击project栏头部第一个地球仪图案，或者选中齿轮图案的
+<code>AutoScroll to Source</code>和<code>AutoScroll from source</code>。你也可以充分利用<code>Navigation Bar</code>
+(<code>⌘ ↑</code>)</li>
+<li>eclipse: ctrl + o，列出所有成员变量方法，IDEA中<code>⌘ F12</code></li>
+<li><code>⌥ ↑</code> / <code>⌥ ↓</code> 扩大/减少选中的词语的范围</li>
+<li>eclipse<code>ctrl + k</code>同单词跳转，IDEA建议手动添加绑定<code>⌘ ⌃ k</code>(Find Word at Caret),
+结合<code>⌘ g</code> (Find Next) <code>⌘ ⇧ g</code>(find Previous)使用</li>
+<li>svn /git 版本控制，修改过的eclipse默认标记到最高层目录，而IDEA默认只标记
+有改动的文件，需要手动设置<code>settings → Version Control → 勾选show directories with
+changed descendants</code></li>
+<li>IDEA默认自动保存，无需手动<code>ctrl + s</code></li>
+<li>IDEA文件默认同步刷新到磁盘，无需手动刷新</li>
+<li>工程导入时忽略某些文件<code>settings → file types → ignore files and folders</code></li>
+<li>关联源码或doc<code>⌘ ;</code>到project structure界面，<code>SDK → Sourcepath</code>将下载的src.zip关联进来即可</li>
+</ul>
+
+<h2><a style="display: block;" name="我的其他设置及快捷键" href="#我的其他设置及快捷键"></a>我的其他设置及快捷键</h2>
+
+<h3>未归类</h3>
+
+<ul>
+<li>关闭拼写检查 <code>settings → spell</code></li>
+<li>类注释修改  <code>settings → file template</code></li>
+<li>空格替换⇥ : <code>settings → code type → java</code></li>
+<li><a href="https://github.com/jkaving/intellij-colors-solarized">color theme</a>
+<code>Preferences → Editor → Colors &amp; Fonts</code></li>
+<li>文件过滤<code>settings → file types → Ignore files and folders</code></li>
+<li><code>⌘  ,</code>     全局setting</li>
+<li><code>⌘  ;</code>     项目settting</li>
+<li><code>⌘  w</code>    关闭当前界面</li>
+<li><code>⌘ ⇧ w</code>   自定义,close all</li>
+<li><code>F2 / ⇧ F2</code> next/preview highlighting syntax problem</li>
+<li><code>settings → file types</code>设定文件后缀与文件类型的对应关系</li>
+<li><code>⇧ ⌘ A</code> to find any action inside the IDE user find action</li>
+</ul>
+
+<h3>编辑代码</h3>
+
+<ul>
+<li><code>⇧ ↩</code>/ <code>⌘ ⌥ ↩</code> 下/上插入新行</li>
+<li><code>⌘ j</code>    必statements complemention更强大， <a href="http://ooxx.me/intellij-idea-live-template.orz">live template</a></li>
+<li><code>⌘ n</code>    生成代码/创建文件/生成get&amp;setter</li>
+<li><code>⌘ ⇧ t</code>  生成测试类，位于editor打开文件任何位置;<code>⌥ ↩</code>位于editor class name上才有用</li>
+<li><code>⌥  ↩</code>    调出出错提示处理方法</li>
+<li><code>⌘ d</code>      double整行、块</li>
+<li><code>⌘ ⌦</code> / <code>⌘ x</code> 删除一行</li>
+<li><code>⌘  c/v/x</code> 整行操作</li>
+<li><code>⇧ ⌘ v</code>    调出寄存中保存的最近赋值的内容</li>
+<li><code>⌘ /</code>      注释/取消注释</li>
+<li><code>⌘ ⌥ /</code>    块注释</li>
+<li><code>⌃ o</code>      生成override方法</li>
+<li><code>⌃ i</code>      生成implement方方法(用⌥ + enter即可)</li>
+<li><code>⇧ ⌥ ↑/↓</code> 选中的整行行上下移</li>
+<li><code>⇧ ⌘ ↑/↓</code> 更加智能的上下移动</li>
+<li><code>⌘ ⌥ t</code>   对选中代码自动生成环绕(if/try..catch/..)</li>
+<li><code>⌘ ⇧ u</code> 大小写转换</li>
+</ul>
+
+<h3>代码跳转</h3>
+
+<ul>
+<li><code>⌘ ⌥ b</code> / <code>⌘ b</code> Go to declaration / Go to implementation(s)</li>
+<li><code>⌃ ⇧ b</code> Go to type declaration</li>
+<li><code>⌘ u</code>  Go to super-method/super-class</li>
+<li><code>⌘ y</code>  Open quick definition lookup</li>
+<li><code>⌥ ⌘ [</code> / <code>⌥ ⌘ ]</code> Move to code block start/end(我机器设置)</li>
+<li><code>⌘ ⇧ [</code> / <code>⌘ ⇧ ]</code> pre/next tab</li>
+<li><code>⌘ ⌥ ← /→</code> 在代码间前进后退</li>
+</ul>
+
+<h3>代码查看</h3>
+
+<ul>
+<li><code>⌘ + / ⌘ -</code> expand/collapse code block</li>
+<li><code>⌘ ⇧ + / ⌘ ⇧ -</code> expand /collapse all</li>
+<li><code>⌃ + j</code> class quick doc，文档生成<br /></li>
+<li><code>⌃ h</code> class type hierarchy</li>
+<li><code>⌃ ⌥ h</code> Call hierarchy。常见用法，查看某个方法调用处</li>
+<li><code>⌥ F7</code> find usages(filed/local var/method..)</li>
+<li><code>⌘ F7</code> 搜索对象在当前文件被引用地方</li>
+</ul>
+
+<h3>格式化</h3>
+
+<ul>
+<li>rearranger 格式化代码，给你更精细的格式化控制，设置<code>settings → rearranger</code>，
+可用云盘同步,快捷键<code>⌘ ⌥ ⇧ r</code></li>
+<li><code>settings → code style</code>调整<code>⌥ ⌘ l</code>格式化效果</li>
+<li><code>⌃ ⌥ o</code> 优化import,排除无用的import(optimize import)</li>
+</ul>
+
+<h3>视图切换</h3>
+
+<ul>
+<li><code>⌘  n</code>   切换到n对应的视图</li>
+<li><code>⌃  ⇥</code>(plugin → Switch) 打开的文件切换</li>
+<li><code>⌘ e</code>  列出最近查看的额文件列表+视图</li>
+<li><code>⇧ ⌘  e</code> 最近修改的文件</li>
+<li><code>⌥ F1</code> 调出视图切换界面（可切换到finder）</li>
+<li><code>⇧ ⌃ ⌘ v</code>垂直分屏(自定义 split vertically)</li>
+<li><code>⇧ ⌃ ⌘ h</code>水平分屏(自定义 split horizontally)</li>
+</ul>
+
+<h3>搜索</h3>
+
+<ul>
+<li><code>⌘ f</code>搜索，<code>⌘ r</code> 搜索替换</li>
+<li>project中，<code>⌃ ⇧ f/r</code> 递归搜索/替换，<code>⌥  a</code>全部替换</li>
+<li><code>⌘ o</code>    查找类 （正则/大写字母缩略）</li>
+<li><code>⌘ ⇧ o</code>  查找文件 (正则/大些字母缩略)</li>
+<li><code>⌘ ⌥ o</code>  查找文件内容(symbol)</li>
+</ul>
+
+<h3>重构</h3>
+
+<ul>
+<li><code>F5</code> 拷贝，只能是文件，到其他地方(类和xml都会相应变动)</li>
+<li><code>F6</code> 移动（文件/变量/域/方法&hellip;）</li>
+<li><code>⇧ F6</code>   改名</li>
+<li><code>⌘ F6</code>   修改方法签名(不常用，直接改代码就行)</li>
+<li><code>⌘ ⌥ v</code>  extract vaiable</li>
+<li><code>⌘ ⌥ p</code>  extract parameter</li>
+<li><code>⌘ ⌥ f</code>  extract filed</li>
+<li><code>⌘ ⌥ m</code>  extract method</li>
+<li><code>⌘ ⌥ c</code>  extract constant</li>
+</ul>
+
+<h3>debug &amp; run</h3>
+
+<ul>
+<li><code>⌃ ⌥ r</code> select configuration and run</li>
+<li><code>⌃ ⌥ d</code> select configuration and debug</li>
+<li><code>⌃ r</code>   run当前选中的config</li>
+<li><code>⌃ d</code>   debug当前选中的config</li>
+<li><code>F7</code>  step into</li>
+<li><code>F8</code>  step over</li>
+<li><code>⇧ F8</code> step out</li>
+<li><code>⌥ F8</code> evaluate expression</li>
+<li><code>⌥ F9</code> 下一个断点处</li>
+</ul>
+
+    <hr>
+    <div class="pagination">
+      <ul>
+        <ul>
+          
+            <li class="prev"><a href="/2013/06/11/set-up-my-eclipse.html" title="我的eclipse配置、快捷键、插件">&larr; Previous</a></li>
+          
+          
+
+            <li><a href="/archive">Archive</a></li>
+
+          
+            <li class="next"><a href="/2013/06/03/zhangdan.html" title="生活中多人购物一人付账算钱程序">Next &rarr;</a></li>
+          
+          
+        </ul>
+      </ul>
+    </div>
+    <hr>
+    
+<div id="disqus_thread"></div>
+<script>
+    var disqus_developer = 1;
+    var disqus_shortname = 'jekyllbootstrap'; // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+  </div>
+  
+  <div class="span4">
+    <h4>Published</h4>
+    <div class="date"><span>2013-06-07</span></div>
+    <br>
+    <h4>Categories</h4>
+    <ul class="tag_box">
+    
+      <li>
+  <a href="/categories/#tool-ref">tool <span>7</span></a>
+</li>
+    
+    </ul>
+    <br>
+    <h4>Tags</h4>
+    <ul class="tag_box">
+    
+      <li>
+  <a href="/tags/#intellij-ref">intellij <span>1</span></a>
+</li>
+    
+    </ul>
+  </div>
+</div>
+
+      </div>
+
+      <footer>
+        <p>&copy; tiemei 2013 
+          with help from <a href="http://github.com/wendal/gor" target="_blank" title="Gor -- Fast Blog">Gor</a>
+          and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+		  and Idea from <a href="http://ruhoh.com" target="_blank" title="The Definitive Technical Blogging Framework">ruhoh</a>
+        </p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    
+<script src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>
+<script>
+  var pres = document.getElementsByTagName("pre");
+  for (var i=0; i < pres.length; ++i) {
+    pres[i].className = "prettyprint linenums";
+  }
+  prettyPrint();
+</script>
+
+    
+<script>
+    var _gaq=[['_setAccount','UA-123-12'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5379369'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s9.cnzz.com/stat.php%3Fid%3D5379369%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+  </body>
+</html>

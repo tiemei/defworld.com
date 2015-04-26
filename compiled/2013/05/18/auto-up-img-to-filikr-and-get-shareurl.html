@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>markdown所用图片上传自动化脚本</title>
+  
+    <meta name="author" content="tiemei">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/twitter/stylesheets/bootstrap.min.css" type="text/css" rel="stylesheet" media="all">
+<link href="/assets/twitter/stylesheets/style.css" type="text/css" rel="stylesheet" media="all">
+<link href="/assets/twitter/widgets/google_prettify/stylesheets/twitter-bootstrap.css" type="text/css" rel="stylesheet" media="all">
+ 
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+  </head>
+
+  <body>
+
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/">顽固的卡夫卡</a>
+          <ul class="nav">
+            
+              
+
+
+  <li><a href="/">关于我</a></li>
+
+
+            
+              
+
+
+  <li><a href="/archive">技术博客</a></li>
+
+
+            
+              
+
+
+  <li><a href="/categories">分类</a></li>
+
+
+            
+              
+
+
+  <li><a href="/poems">其他博客</a></li>
+
+
+            
+            <!--
+            <li>
+              <a href="poems">其他博客</a>
+            </li>
+            -->
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="content">
+        <div class="page-header">
+  <h1>markdown所用图片上传自动化脚本 </h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <h2><a style="display: block;" name="我在做一件什么事?" href="#我在做一件什么事?"></a>我在做一件什么事?</h2>
+
+<p>我在写markdown笔记时，有些本地图片需要嵌入，而上传并获取外链实在是一个繁琐的
+过程。这明显是可以自动化掉的过程。<br />
+更进一步，图片上传和获取外链自动化掉，但还需要手动拷贝替换makrdown中的图片链接，这个过程亦可自动化掉。</p>
+
+<h2><a style="display: block;" name="思路" href="#思路"></a>思路</h2>
+
+<p>调用<a href="http://flikr.com/">flickr</a>将图片上传并获取外链</p>
+
+<h2><a style="display: block;" name="操作步骤" href="#操作步骤"></a>操作步骤</h2>
+
+<h3>flickr授权验证</h3>
+
+<p>我写了一个工具，方便拿到flickr授权后的access_token &amp; access_secret, <a href="/tools">here</a><br />
+或者你写个脚本来拿，类似下面我用ruby实现的这段：</p>
+
+<pre><code>require 'flickraw'
+
+FlickRaw.api_key = &quot;933e8bb7bee8381c46a9b3cb1e321ed6&quot;
+FlickRaw.shared_secret=&quot;99bb0541ec349ae5&quot;
+
+# authentication 
+token = flickr.get_request_token
+auth_url =  flickr.get_authorize_url(token['oauth_token'], :perms =&gt; 'delete')
+
+puts &quot;Open this url in your process to complete the authication process : #{auth_url}&quot;
+</code></pre>
+
+<h3>flickr图片自动上传&amp;获取分享外链</h3>
+
+<p>用ruby实现，所以若想成功运行请确保安装了ruby，且<code>gem install flickraw</code></p>
+
+<pre><code>require 'flickraw'
+
+FlickRaw.api_key = &quot;933e8bb7bee8381c46a9b3cb1e321ed6&quot;
+FlickRaw.shared_secret=&quot;99bb0541ec349ae5&quot;
+
+flickr.access_token = &quot;72157633501230371-9da780bd34f&quot; # !!! 填你的acess_token
+flickr.access_secret = &quot;f448a228f71afecd&quot; # !!! 填你的acess_secret
+
+puts 'photo path:'
+photo_path = gets.strip # 命令行输入图片路径
+
+puts 'photo tilte:'
+photo_title = gets.strip 
+if photo_title.empty?
+    photo_title = File.basename(photo_path, &quot;.*&quot;) # 若没有输入title，默认用图片名
+end
+
+puts 'photo description:'
+photo_description = gets.strip
+
+
+# 所有图片都存在这个set中
+SET_TITLE=&quot;markdown_imgs&quot;
+SET_DESCRIPTION=&quot;iFlikcr应用，tiemei支持，详见defworld.com&quot;
+
+photo_id = flickr.upload_photo photo_path, :title =&gt; photo_title, 
+                               :description =&gt; photo_description 
+
+
+set = nil 
+
+has_set = false
+# !!! 换成你自己的user_id，右侧可拿到：http://www.flickr.com/services/api/explore/flickr.auth.oauth.getAccessToken
+flickr.photosets.getList(:user_id =&gt; '79104125@N05').each do |e| 
+  if e.to_hash['title'] == SET_TITLE
+    has_set = true
+    set = e.to_hash
+  end 
+end
+# title相同的set还不存在
+if not has_set
+  set = flickr.photosets.create(:title       =&gt; SET_TITLE, 
+                                :description =&gt; SET_DESCRIPTION,
+                                :primary_photo_id    =&gt; photo_id)
+else
+  flickr.photosets.addPhoto(:photoset_id =&gt; set['id'], 
+                            :photo_id    =&gt; photo_id)
+end
+
+# 获取图片外链
+info = flickr.photos.getInfo(:photo_id =&gt; photo_id)
+puts FlickRaw.url(info) # !!! 替换这个方法可选择外链的图片尺寸
+</code></pre>
+
+<p>演示示例：</p>
+
+<p><img src="http://farm8.staticflickr.com/7401/8749136193_2d19cbb140.jpg" alt="auto upload imgs &amp; get share url demo" />
+</p>
+
+<p>另，返回的share url的图片支持是可调节的:<br />
+<img src="http://farm3.staticflickr.com/2833/8749133645_83b09f7396.jpg" alt="flickr图片尺寸规则" />
+</p>
+
+<p>对应到代码里是<code>puts FlickRaw.url(info)</code>这行:<br />
+<img src="http://farm8.staticflickr.com/7368/8749149989_2f285b06da.jpg" alt="flickraw接口" />
+</p>
+
+<h2><a style="display: block;" name="遇到的坑" href="#遇到的坑"></a>遇到的坑</h2>
+
+<ul>
+<li><p>pi的默认时区不是CST</p>
+
+<pre><code>cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+如果你之前用date修改了时间没改时区，惊醒oauth验证会报错，
+改完时区后不仅需要手动date修改时间，还需要进到root下去修改
+sudo -s; date MMDDhhmmYYYY
+</code></pre></li>
+</ul>
+
+<h2><a style="display: block;" name="tips" href="#tips"></a>tips</h2>
+
+<ul>
+<li><p>install ruby in pi</p>
+
+<pre><code>sudo apt-get install ruby 
+</code></pre></li>
+
+<li><p>install node.js in pi</p>
+
+<pre><code>sudo apt-get install g++
+
+
+wget http://nodejs.org/dist/v0.10.7/node-v0.10.7.tar.gz
+tar -xzvf node-v0.10.7.tar.gz
+cd node-v0.10.7
+./configure --prefix=/usr/local/node
+make 
+sudo make install
+</code></pre></li>
+</ul>
+
+<p>ok ! enjoy it !</p>
+
+    <hr>
+    <div class="pagination">
+      <ul>
+        <ul>
+          
+            <li class="prev"><a href="/2013/05/18/a-little-things-abount-java-language.html" title="java语言基础细节">&larr; Previous</a></li>
+          
+          
+
+            <li><a href="/archive">Archive</a></li>
+
+          
+            <li class="next"><a href="/2013-05/build-your-blog-with-gor-and-pi.html" title="树莓派搭建个人静态博客">Next &rarr;</a></li>
+          
+          
+        </ul>
+      </ul>
+    </div>
+    <hr>
+    
+<div id="disqus_thread"></div>
+<script>
+    var disqus_developer = 1;
+    var disqus_shortname = 'jekyllbootstrap'; // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+  </div>
+  
+  <div class="span4">
+    <h4>Published</h4>
+    <div class="date"><span>2013-05-18</span></div>
+    <br>
+    <h4>Categories</h4>
+    <ul class="tag_box">
+    
+      <li>
+  <a href="/categories/#funny-ref">funny <span>4</span></a>
+</li>
+    
+    </ul>
+    <br>
+    <h4>Tags</h4>
+    <ul class="tag_box">
+    
+      <li>
+  <a href="/tags/#script-ref">script <span>1</span></a>
+</li>
+    
+    </ul>
+  </div>
+</div>
+
+      </div>
+
+      <footer>
+        <p>&copy; tiemei 2013 
+          with help from <a href="http://github.com/wendal/gor" target="_blank" title="Gor -- Fast Blog">Gor</a>
+          and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+		  and Idea from <a href="http://ruhoh.com" target="_blank" title="The Definitive Technical Blogging Framework">ruhoh</a>
+        </p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    
+<script src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>
+<script>
+  var pres = document.getElementsByTagName("pre");
+  for (var i=0; i < pres.length; ++i) {
+    pres[i].className = "prettyprint linenums";
+  }
+  prettyPrint();
+</script>
+
+    
+<script>
+    var _gaq=[['_setAccount','UA-123-12'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5379369'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s9.cnzz.com/stat.php%3Fid%3D5379369%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+  </body>
+</html>

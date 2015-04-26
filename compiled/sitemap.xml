@@ -4,247 +4,247 @@
 		<loc>http://defworld.com/</loc>
 	</url>
 	<url>
-		<loc>http://defworld.com/tool/sequel-pro-%E5%BF%AB%E6%8D%B7%E9%94%AE/</loc>
+		<loc>http://defworld.com/2015/02/12/sequel-pro-shortcuts.html</loc>
 		<lastmod>2015-02-12</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/java/%E4%B8%80%E5%8F%A5%E8%AF%9D%E8%A1%A8%E8%BE%BE%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
+		<loc>http://defworld.com/2015/01/16/java-design-pattern.html</loc>
 		<lastmod>2015-01-16</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/java/java%E5%B0%8F%E8%B4%B4%E5%A3%AB-1/</loc>
+		<loc>http://defworld.com/2015/01/06/note-java-tips-1.html</loc>
 		<lastmod>2015-01-06</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/other/%E8%AE%A1%E7%AE%97%E6%9C%BA%E3%80%81%E7%BC%96%E7%A8%8B%E6%9C%AF%E8%AF%AD%E8%A7%A3%E9%87%8A/</loc>
+		<loc>http://defworld.com/2014/12/19/computer-noun-explanation.html</loc>
 		<lastmod>2014-12-19</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/Concurrent Programming/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B---%E9%94%81/</loc>
+		<loc>http://defworld.com/2014/12/18/concurrent-programming-lock.html</loc>
 		<lastmod>2014-12-18</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/java/%E7%AC%94%E8%AE%B0---java-annotation/</loc>
+		<loc>http://defworld.com/2014/12/18/java-annotation.html</loc>
 		<lastmod>2014-12-18</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/DB/%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%94%E8%AE%B0/</loc>
+		<loc>http://defworld.com/2014/12/05/r-db.html</loc>
 		<lastmod>2014-12-05</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/http/url-encode/</loc>
+		<loc>http://defworld.com/2014/11/16/url-encode.html</loc>
 		<lastmod>2014-11-16</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/Node.js/node%E7%9B%B8%E5%85%B3%E6%96%87%E7%AB%A0%E7%A7%AF%E7%B4%AF/</loc>
+		<loc>http://defworld.com/2014/11/05/node-articles.html</loc>
 		<lastmod>2014-11-05</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/linux/%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87/</loc>
+		<loc>http://defworld.com/2014/11/03/system-evn-prepare.html</loc>
 		<lastmod>2014-11-03</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/Node.js/Node.js-Promise%2FDeferred%E5%85%A5%E9%97%A8/</loc>
+		<loc>http://defworld.com/2014/10/16/node-js-prmoise.html</loc>
 		<lastmod>2014-10-16</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/Node.js/%E8%81%8A%E8%81%8ANode.js%E7%9A%84%E5%BC%82%E6%AD%A5I%2FO/</loc>
+		<loc>http://defworld.com/2014/09/19/node-how-to-write-node-async-code.html</loc>
 		<lastmod>2014-09-19</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/Node.js/Node%E7%9A%84%E5%BC%82%E6%AD%A5%E4%BB%A3%E7%A0%81%E6%80%8E%E4%B9%88%E5%86%99/</loc>
+		<loc>http://defworld.com/2014/09/19/node-js-async-i-o.html</loc>
 		<lastmod>2014-09-19</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/java/spring-DispatcherServlet-%26-ContextLoaderListener/</loc>
+		<loc>http://defworld.com/2014/09/13/spring-dispatcherservlet-and-contextloaderlistener.html</loc>
 		<lastmod>2014-09-13</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/java/%E7%AC%94%E8%AE%B0---%E5%85%B3%E4%BA%8EJava%E4%B8%AD%E7%9A%84Null/</loc>
+		<loc>http://defworld.com/2014/09/12/java-null-note.html</loc>
 		<lastmod>2014-09-12</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/Node.js/js%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94-%E5%B7%A5%E5%85%B7/</loc>
+		<loc>http://defworld.com/2014/09/03/node-js-4-tools.html</loc>
 		<lastmod>2014-09-03</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/funny/%E9%BB%84%E5%B1%B1%E5%9B%A2%E9%98%9F%E4%B8%89%E6%97%A5%E6%B8%B8/</loc>
+		<loc>http://defworld.com/2014/08/10/huangshan.html</loc>
 		<lastmod>2014-08-10</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/default/%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95---%E5%85%B3%E6%B3%A8%E9%82%A3%E4%BA%9B%E7%82%B9/</loc>
+		<loc>http://defworld.com/2014/08/08/load-test-1.html</loc>
 		<lastmod>2014-08-08</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/default/%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95%E5%B0%8F%E7%BB%93---%E5%B7%A5%E5%85%B7/</loc>
+		<loc>http://defworld.com/2014/08/08/load-test-3.html</loc>
 		<lastmod>2014-08-08</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/Node.js/js%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%89%EF%BC%89/</loc>
+		<loc>http://defworld.com/2014/06/15/notes-js-3.html</loc>
 		<lastmod>2014-06-15</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/Node.js/js%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E5%9F%BA%E7%A1%80/</loc>
+		<loc>http://defworld.com/2014/06/13/notes-js-1.html</loc>
 		<lastmod>2014-06-13</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/Node.js/js%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/</loc>
+		<loc>http://defworld.com/2014/06/13/notes-js-2-object.html</loc>
 		<lastmod>2014-06-13</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/Node.js/run-%26-debug-node.js/</loc>
+		<loc>http://defworld.com/2014/06/08/st3-debug-node-js.html</loc>
 		<lastmod>2014-06-08</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/C/C%E8%AF%AD%E8%A8%80%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/</loc>
+		<loc>http://defworld.com/2014/06/05/notes-c.html</loc>
 		<lastmod>2014-06-05</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/java/java-web%E5%BA%94%E7%94%A8%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/</loc>
+		<loc>http://defworld.com/2014/05/26/java-web-app-performance-optimization.html</loc>
 		<lastmod>2014-05-26</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/tool/%E6%88%91%E7%9A%84Sublime-Text%E5%BF%AB%E6%8D%B7%E9%94%AE/</loc>
+		<loc>http://defworld.com/2014/05/09/my-sublime-text-3-shortcuts.html</loc>
 		<lastmod>2014-05-09</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/Node.js/Node.js%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E5%9C%A8%E5%B9%BF%E5%91%8A%E9%A1%B5%E9%9D%A2%E4%B8%AD%E7%9A%84%E6%80%9D%E8%80%83/</loc>
+		<loc>http://defworld.com/2014/04/20/node-js-and-division-of-work.html</loc>
 		<lastmod>2014-04-20</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/reading notes/%E3%80%8Alinux-101-hacks%E3%80%8B%E7%AC%94%E8%AE%B0/</loc>
+		<loc>http://defworld.com/2014/01/18/reading-linux-101-hacks.html</loc>
 		<lastmod>2014-01-18</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/linux/%E8%B0%88%E8%B0%88Unix-like%E4%B8%8A%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85%E9%82%A3%E4%BA%9B%E4%BA%8B/</loc>
+		<loc>http://defworld.com/2013/11/10/linux-software-install.html</loc>
 		<lastmod>2013-11-10</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/summary/2013%E4%B8%8A%E5%8D%8A%E5%B9%B4%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/</loc>
+		<loc>http://defworld.com/2013/10/13/personal-summary-first-half-of-2013.html</loc>
 		<lastmod>2013-10-13</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/java/JVM%E2%80%94%E2%80%94%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%EF%BC%8C%E5%88%9D%E5%A7%8B%E5%8C%96/</loc>
+		<loc>http://defworld.com/2013/09/15/jvm-class-loader-and-init.html</loc>
 		<lastmod>2013-09-15</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/tool/%E5%B8%B8%E7%94%A8maven%E5%91%BD%E4%BB%A4/</loc>
+		<loc>http://defworld.com/2013/09/12/maven-cmd.html</loc>
 		<lastmod>2013-09-12</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/java/java%E9%94%81%E7%AC%94%E8%AE%B0/</loc>
+		<loc>http://defworld.com/2013/08/30/java-locks.html</loc>
 		<lastmod>2013-08-30</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/java/jdk%E8%87%AA%E5%B8%A6%E5%B7%A5%E5%85%B7/</loc>
+		<loc>http://defworld.com/2013/08/30/jdk-tools.html</loc>
 		<lastmod>2013-08-30</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/linux/ssh%E5%AF%86%E9%92%A5%E8%87%AA%E5%8A%A8%E7%99%BB%E9%99%86%2Bssh-agent%E4%BD%BF%E7%94%A8%2B%E5%8D%95%E6%9C%BA%E5%A4%9A%E4%B8%AAssh%E8%B4%A6%E5%8F%B7/</loc>
+		<loc>http://defworld.com/2013/06/30/pi-q-a.html</loc>
 		<lastmod>2013-06-30</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/pi/%E7%8E%A9Pi%E8%BF%87%E7%A8%8B%E4%B8%ADQ%26A%28%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%29/</loc>
+		<loc>http://defworld.com/2013/06/30/ssh.html</loc>
 		<lastmod>2013-06-30</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/linux/.bashrc-.bash_profile%E7%AD%89%E6%96%87%E4%BB%B6%E5%8C%BA%E5%88%AB/</loc>
+		<loc>http://defworld.com/2013/06/28/about-bashrc.html</loc>
 		<lastmod>2013-06-28</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/tool/%E6%88%91%E7%9A%84svn-git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%8F%8A%E9%85%8D%E7%BD%AE/</loc>
+		<loc>http://defworld.com/2013/06/27/svn-git-cmds.html</loc>
 		<lastmod>2013-06-27</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/linux/%E8%BF%91%E4%B8%80%E5%B9%B4%E6%9D%A5shell%E5%91%BD%E4%BB%A4%E7%A7%AF%E7%B4%AF%28%E9%9A%8F%E6%97%B6%E6%9B%B4%E6%96%B0%29/</loc>
+		<loc>http://defworld.com/2013/06/12/my-shell-mannual.html</loc>
 		<lastmod>2013-06-12</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/tool/%E6%88%91%E7%9A%84eclipse%E9%85%8D%E7%BD%AE%E3%80%81%E5%BF%AB%E6%8D%B7%E9%94%AE%E3%80%81%E6%8F%92%E4%BB%B6/</loc>
+		<loc>http://defworld.com/2013/06/11/set-up-my-eclipse.html</loc>
 		<lastmod>2013-06-11</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/tool/%E4%BB%8Eeclipse%E8%BF%81%E7%A7%BB%E5%88%B0intellijIDEA%28OS-x-10.5%29/</loc>
+		<loc>http://defworld.com/2013/06/07/intellij-idea-shortcuts.html</loc>
 		<lastmod>2013-06-07</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/funny/%E7%94%9F%E6%B4%BB%E4%B8%AD%E5%A4%9A%E4%BA%BA%E8%B4%AD%E7%89%A9%E4%B8%80%E4%BA%BA%E4%BB%98%E8%B4%A6%E7%AE%97%E9%92%B1%E7%A8%8B%E5%BA%8F/</loc>
+		<loc>http://defworld.com/2013/06/03/zhangdan.html</loc>
 		<lastmod>2013-06-03</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/tool/%E4%B8%8D%E8%AE%BE%E9%99%90%E7%9A%84Vim%EF%BC%8C%E4%B8%8D%E8%AE%BE%E9%99%90%E7%9A%84%E4%BA%BA%E7%94%9F/</loc>
+		<loc>http://defworld.com/2013/06/01/read-vim-help-doc.html</loc>
 		<lastmod>2013-06-01</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/java/spring-annotation-note/</loc>
+		<loc>http://defworld.com/2013/05/23/spring-annotaion.html</loc>
 		<lastmod>2013-05-23</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/java/JMM-java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/</loc>
+		<loc>http://defworld.com/2013/05/21/jmm.html</loc>
 		<lastmod>2013-05-21</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/java/tomcat%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-1-%E5%87%86%E5%A4%87%E6%BA%90%E7%A0%81/</loc>
+		<loc>http://defworld.com/2013/05/20/read-tomcat-source-1.html</loc>
 		<lastmod>2013-05-20</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/java/spring%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/</loc>
+		<loc>http://defworld.com/2013/05/19/spring-3-exception-handling.html</loc>
 		<lastmod>2013-05-19</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/java/java%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E7%BB%86%E8%8A%82/</loc>
+		<loc>http://defworld.com/2013/05/18/a-little-things-abount-java-language.html</loc>
 		<lastmod>2013-05-18</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/funny/markdown%E6%89%80%E7%94%A8%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E8%87%AA%E5%8A%A8%E5%8C%96%E8%84%9A%E6%9C%AC/</loc>
+		<loc>http://defworld.com/2013/05/18/auto-up-img-to-filikr-and-get-shareurl.html</loc>
 		<lastmod>2013-05-18</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
