@@ -3,7 +3,7 @@
   <channel>
     <title>顽固的卡夫卡</title>
     <link>http://defworld.com</link>
-    <pubDate>2015-04-26 12:33:05 +0800</pubDate>
+    <pubDate>2015-04-29 09:57:39 +0800</pubDate>
     <item>
       <title>sequel pro 快捷键</title>
       <link>http://defworld.com/2015/02/12/sequel-pro-shortcuts.html</link>
@@ -1503,140 +1503,6 @@ var Record = function(data) {
 </description>
     </item>
     <item>
-      <title>js入门笔记（一）——基础</title>
-      <link>http://defworld.com/2014/06/13/notes-js-1.html</link>
-      <pubDate>2014-06-13 12:00:00 +0800</pubDate>
-      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;js函数有啥特点&#34; href=&#34;#js函数有啥特点&#34;&gt;&lt;/a&gt;js函数有啥特点&lt;/h1&gt;
-
-&lt;ul&gt;
-&lt;li&gt;函数的参数实际上在内部是用一个数组表示的，在函数体内可以通过&lt;code&gt;arguments&lt;/code&gt;对象访问。arguments只是跟数组类型可以通过方括号访问每一个元素，实际不是Array实例&lt;/li&gt;
-&lt;li&gt;函数定义的参数与实际传递的参数没有个数相等的限制，不像Java语言会编译校验这个&lt;/li&gt;
-&lt;li&gt;因为函数参数是由包含另零个或多个值的数组来表示的，没有函数签名，故&lt;code&gt;没有重载&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;js基本类型和引用类型&#34; href=&#34;#js基本类型和引用类型&#34;&gt;&lt;/a&gt;js基本类型和引用类型&lt;/h1&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;基本数据类型&lt;/code&gt;：Undefined 、 Null 、 Boolean 、 Number 、 String&lt;/li&gt;
-&lt;li&gt;不能给基本数据类型添加属性，添加以后访问也是undifined&lt;/li&gt;
-&lt;li&gt;因为String在js不同于其他语言是基本类型，所以赋值的时候会将值拷贝一份&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3&gt;检测类型&lt;/h3&gt;
-
-&lt;p&gt;&lt;strong&gt;&lt;code&gt;typeof&lt;/code&gt;区分是基本类型还是应用类型&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;var s = &#39;Nicholas&#39;;
-var b = true;
-var i = 22;
-var u;
-var n = null;
-var o = new Object();
-
-alert(typeof s); // string
-alert(typeof i); // number
-alert(typeof b); // boolean
-alert(typeof u); // undefined
-alert(typeof n); // object
-alert(typeof o); // object
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;&lt;code&gt;instanceof&lt;/code&gt;检测对象是啥基本类型&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;所有引用类型都是Object的实例&lt;/li&gt;
-&lt;li&gt;对基本类型使用都会返回false&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;函数也是对象。&lt;/p&gt;
-
-&lt;h3&gt;基本包装类型Boolean Number String&lt;/h3&gt;
-
-&lt;p&gt;不建议在代码中使用包装类型。&lt;br /&gt;
-之所以基本类型上有方法可以访问，是因为执行的瞬间后台创建了一个包装类型，例如：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;var s1 = &#39;some text&#39;;
-var s2 = s1.substring(2);
-
-// 上面的实际上再后台是这么运行的
-
-var s1 = new String(&#39;some text&#39;);
-var s2 = s1.substring(2);
-s1 = null; // 使用new操作符创建的引用类型实例作用域内一直存在，而这里只是存在于一行代码的执行瞬间
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ol&gt;
-&lt;li&gt;创建String类型的一个实例&lt;/li&gt;
-&lt;li&gt;在实例上调用指定的方法&lt;/li&gt;
-&lt;li&gt;销毁这个实例&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;// 两种创建包装类型的方式
-
-var obj = new Object(&#39;some text&#39;);
-
-// 等价于
-
-var str = new String(&#39;some text&#39;);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code&gt;// 转型函数与包装类型
-
-var value = &#39;25&#39;;
-var number = Number(value); // 转型函数
-alert(typeof number); // &#39;number&#39;
-
-var obj = new Number(value); // 构造函数
-alert(typeof obj); // &#39;object&#39;
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;布尔表达式中所有对象都会被转换成true&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;var falseObj = new Boolean(false);
-var result = falseObj &amp;amp;&amp;amp; true;
-alert(result); // true
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;js执行环境及作用域&#34; href=&#34;#js执行环境及作用域&#34;&gt;&lt;/a&gt;js执行环境及作用域&lt;/h1&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;执行环境与作用域链&#34; href=&#34;#执行环境与作用域链&#34;&gt;&lt;/a&gt;执行环境与作用域链&lt;/h2&gt;
-
-&lt;p&gt;每个&lt;code&gt;执行环境&lt;/code&gt;都有一个与之关联的&lt;strong&gt;变量对象（variable object）&lt;/strong&gt;，环境中定义的所有变量和函数都保存在这个对象中，虽然我们编写的代码无法访问这个对象，但解析器在处理数据时会在后台使用它。&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;每个函数有自己的执行环境&lt;/li&gt;
-&lt;li&gt;代码在一个环境中执行时，会创建变量对象的一个&lt;code&gt;作用域链（scope chain）&lt;/code&gt;，超找对象也按此链形成一个优先级&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;延长作用域链&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;function buildUrl() {
-    var qs = &#39;?debug=true&#39;;
-
-    with(location) {
-        var url = herf + qs; // herf实际上是location.herf
-    }
-
-    return url;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;try-catch&lt;/code&gt;的catch块也是类似&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;没有块级作用域&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;所有控制语句的代码块内部声明的变量都会逸出到外部，不同于Java语言。&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;函数中的声明的var变量作用域仅限于函数内部&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;参考:&lt;/p&gt;
-
-&lt;p&gt;JavaScript高级程序设计（第2版）》&lt;/p&gt;
-</description>
-    </item>
-    <item>
       <title>js入门笔记（二）——面向对象</title>
       <link>http://defworld.com/2014/06/13/notes-js-2-object.html</link>
       <pubDate>2014-06-13 12:00:00 +0800</pubDate>
@@ -2170,6 +2036,140 @@ SubType.prototype.sayAge = function() {
 &lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;js闭包&#34; href=&#34;#js闭包&#34;&gt;&lt;/a&gt;js闭包&lt;/h1&gt;
 
 &lt;p&gt;待续&lt;/p&gt;
+
+&lt;p&gt;参考:&lt;/p&gt;
+
+&lt;p&gt;JavaScript高级程序设计（第2版）》&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>js入门笔记（一）——基础</title>
+      <link>http://defworld.com/2014/06/13/notes-js-1.html</link>
+      <pubDate>2014-06-13 12:00:00 +0800</pubDate>
+      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;js函数有啥特点&#34; href=&#34;#js函数有啥特点&#34;&gt;&lt;/a&gt;js函数有啥特点&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;函数的参数实际上在内部是用一个数组表示的，在函数体内可以通过&lt;code&gt;arguments&lt;/code&gt;对象访问。arguments只是跟数组类型可以通过方括号访问每一个元素，实际不是Array实例&lt;/li&gt;
+&lt;li&gt;函数定义的参数与实际传递的参数没有个数相等的限制，不像Java语言会编译校验这个&lt;/li&gt;
+&lt;li&gt;因为函数参数是由包含另零个或多个值的数组来表示的，没有函数签名，故&lt;code&gt;没有重载&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;js基本类型和引用类型&#34; href=&#34;#js基本类型和引用类型&#34;&gt;&lt;/a&gt;js基本类型和引用类型&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;基本数据类型&lt;/code&gt;：Undefined 、 Null 、 Boolean 、 Number 、 String&lt;/li&gt;
+&lt;li&gt;不能给基本数据类型添加属性，添加以后访问也是undifined&lt;/li&gt;
+&lt;li&gt;因为String在js不同于其他语言是基本类型，所以赋值的时候会将值拷贝一份&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;检测类型&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;typeof&lt;/code&gt;区分是基本类型还是应用类型&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;var s = &#39;Nicholas&#39;;
+var b = true;
+var i = 22;
+var u;
+var n = null;
+var o = new Object();
+
+alert(typeof s); // string
+alert(typeof i); // number
+alert(typeof b); // boolean
+alert(typeof u); // undefined
+alert(typeof n); // object
+alert(typeof o); // object
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;instanceof&lt;/code&gt;检测对象是啥基本类型&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;所有引用类型都是Object的实例&lt;/li&gt;
+&lt;li&gt;对基本类型使用都会返回false&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;函数也是对象。&lt;/p&gt;
+
+&lt;h3&gt;基本包装类型Boolean Number String&lt;/h3&gt;
+
+&lt;p&gt;不建议在代码中使用包装类型。&lt;br /&gt;
+之所以基本类型上有方法可以访问，是因为执行的瞬间后台创建了一个包装类型，例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;var s1 = &#39;some text&#39;;
+var s2 = s1.substring(2);
+
+// 上面的实际上再后台是这么运行的
+
+var s1 = new String(&#39;some text&#39;);
+var s2 = s1.substring(2);
+s1 = null; // 使用new操作符创建的引用类型实例作用域内一直存在，而这里只是存在于一行代码的执行瞬间
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;创建String类型的一个实例&lt;/li&gt;
+&lt;li&gt;在实例上调用指定的方法&lt;/li&gt;
+&lt;li&gt;销毁这个实例&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;// 两种创建包装类型的方式
+
+var obj = new Object(&#39;some text&#39;);
+
+// 等价于
+
+var str = new String(&#39;some text&#39;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;// 转型函数与包装类型
+
+var value = &#39;25&#39;;
+var number = Number(value); // 转型函数
+alert(typeof number); // &#39;number&#39;
+
+var obj = new Number(value); // 构造函数
+alert(typeof obj); // &#39;object&#39;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;布尔表达式中所有对象都会被转换成true&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;var falseObj = new Boolean(false);
+var result = falseObj &amp;amp;&amp;amp; true;
+alert(result); // true
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;js执行环境及作用域&#34; href=&#34;#js执行环境及作用域&#34;&gt;&lt;/a&gt;js执行环境及作用域&lt;/h1&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;执行环境与作用域链&#34; href=&#34;#执行环境与作用域链&#34;&gt;&lt;/a&gt;执行环境与作用域链&lt;/h2&gt;
+
+&lt;p&gt;每个&lt;code&gt;执行环境&lt;/code&gt;都有一个与之关联的&lt;strong&gt;变量对象（variable object）&lt;/strong&gt;，环境中定义的所有变量和函数都保存在这个对象中，虽然我们编写的代码无法访问这个对象，但解析器在处理数据时会在后台使用它。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;每个函数有自己的执行环境&lt;/li&gt;
+&lt;li&gt;代码在一个环境中执行时，会创建变量对象的一个&lt;code&gt;作用域链（scope chain）&lt;/code&gt;，超找对象也按此链形成一个优先级&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;延长作用域链&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;function buildUrl() {
+    var qs = &#39;?debug=true&#39;;
+
+    with(location) {
+        var url = herf + qs; // herf实际上是location.herf
+    }
+
+    return url;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;try-catch&lt;/code&gt;的catch块也是类似&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;没有块级作用域&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;所有控制语句的代码块内部声明的变量都会逸出到外部，不同于Java语言。&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;函数中的声明的var变量作用域仅限于函数内部&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;参考:&lt;/p&gt;
 

@@ -28,3 +28,6 @@ description: '顽固的卡夫卡 介绍'
 * 一个人去新疆看雪
 * 台湾环岛骑行
 
+## 好友链接
+
+[伯涵](http://fatmind.gitcafe.io/)  
