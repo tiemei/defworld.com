@@ -95,7 +95,7 @@
 
 <p>于是，A需要将自己的公钥提交给CA，让CA用CA的私钥加密A的公钥以及其他相关信息，生成&rdquo;数字证书&rdquo;（Digital Certificate）。后面A传递内容给B时，只要附上数字证书就好了。因为CA机构是有限的几个，很好去控制，CA的公钥很难造假，于是解密取的的A的公钥肯定也是真的了。进一步，用A的公钥最终取的的内容也是完整正确的。</p>
 
-<h2><a style="display: block;" name="完整的https交互过程" href="#完整的https交互过程"></a>完整的https交互过程</h2>
+<h2><a style="display: block;" name="https中的ssl握手" href="#https中的ssl握手"></a>https中的SSL握手</h2>
 
 <ul>
 <li>浏览器将自己支持的加密规则告诉网站</li>
