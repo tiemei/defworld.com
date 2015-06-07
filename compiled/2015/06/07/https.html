@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>https加密与证书</title>
+  
+    <meta name="author" content="tiemei">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/twitter/stylesheets/bootstrap.min.css" type="text/css" rel="stylesheet" media="all">
+<link href="/assets/twitter/stylesheets/style.css" type="text/css" rel="stylesheet" media="all">
+<link href="/assets/twitter/widgets/google_prettify/stylesheets/twitter-bootstrap.css" type="text/css" rel="stylesheet" media="all">
+ 
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+  </head>
+
+  <body>
+
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/">顽固的卡夫卡</a>
+          <ul class="nav">
+            
+              
+
+
+  <li><a href="/">关于我</a></li>
+
+
+            
+              
+
+
+  <li><a href="/archive">技术博客</a></li>
+
+
+            
+              
+
+
+  <li><a href="/categories">分类</a></li>
+
+
+            
+              
+
+
+  <li><a href="/poems">其他博客</a></li>
+
+
+            
+            <!--
+            <li>
+              <a href="poems">其他博客</a>
+            </li>
+            -->
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="content">
+        <div class="page-header">
+  <h1>https加密与证书 </h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <p>加密分为对称加密，和不对称加密。对称加密双方都持有私钥；不对称加密公钥是公开的，而私钥只有一方持有，公钥加密的内容，只能由对应的私钥解开，私钥加密的内容只能由对应的公钥解开。</p>
+
+<blockquote>
+<p>B(Browser) &lt;&ndash;&gt; A(Server)</p>
+</blockquote>
+
+<p>例如A跟B通信，A先将公钥传递给B，然后B用A的公钥加密需要传递的数据给A，只有A能够用其私钥解开。这样只要保证A的私钥不会泄露，数据内容就是比较安全的。这时候攻击者很难攻击。</p>
+
+<p>但是当A需要传递信息给B时，也是可以利用上面的过程通信的。但是browser/server的模式下，browser很难去维护私钥不泄露，所以这样行不通。</p>
+
+<p>A为了防止内容被攻击者串改，取数据的hash值摘要（digest）,然后用自己的私钥加密digest，生成签名（signature）,这样B就可以用A的公钥去解密signature，从而比对digest，确保内容没有被串改。但是，其实B很难确保自己持有的A的公钥没有被串改过，所以要找一个证书颁发中心（certificate authority，简称CA），做一个公证，证明这确实是A的公钥。</p>
+
+<p>于是，A需要将自己的公钥提交给CA，让CA用CA的私钥加密A的公钥以及其他相关信息，生成&rdquo;数字证书&rdquo;（Digital Certificate）。后面A传递内容给B时，只要附上数字证书就好了。因为CA机构是有限的几个，很好去控制，CA的公钥很难造假，于是解密取的的A的公钥肯定也是真的了。进一步，用A的公钥最终取的的内容也是完整正确的。</p>
+
+<h2><a style="display: block;" name="完整的https交互过程" href="#完整的https交互过程"></a>完整的https交互过程</h2>
+
+<ul>
+<li>浏览器将自己支持的加密规则告诉网站</li>
+<li>网站从中选出一组加密算法与HASH算法，并将自己的身份信息以证书的形式发回给浏览器。证书里面包含了网站地址，加密公钥，以及证书的颁发机构等信息。</li>
+<li>浏览器获得证书
+
+<ul>
+<li>从自己维护的受信任证书列表里对比，验证证书合法性（颁发结构、网址是否一致），如果受信任，显示小锁头，否则提示不受信任</li>
+<li>如果证书受信任，或者用户强制接受，浏览器生成一串随机密码（即浏览器的私钥），并用证书中的公钥加密</li>
+<li>使用约定好的HASH计算握手消息，用刚的随机数加密（这里的交互是对称加密）。最后连同上一步加密后的浏览器私钥，以及这一步用浏览器私钥加密后的握手消息发送给网站</li>
+</ul></li>
+<li>网站接收后
+
+<ul>
+<li>用自己的私钥解出浏览器的私钥</li>
+<li>在用浏览器的私钥解除握手消息，并验证HASH一致</li>
+<li>使用浏览器私钥加密一段握手消息，返回浏览器</li>
+</ul></li>
+<li>浏览器解密消息，并计算HASH一致。SSL握手完成，之后所有的通信基于这个浏览器私钥进行对称加密通信。<br /></li>
+</ul>
+
+<p>另外，
+* TCP/IP握手，跟SSL握手是两个过程
+* 证书是由证书链构成的，我们网站的证书是末节点证书，只有每层都验证合法才行</p>
+
+<h2><a style="display: block;" name="几种劫持方式" href="#几种劫持方式"></a>几种劫持方式</h2>
+
+<ul>
+<li>session劫持：arp欺骗，将自己伪造成网关，局域网内可以看到一个ip对应两个mac。有局限性。</li>
+<li>dns劫持：各级 dns 服务商受到污染，将用户的请求的解析地址改为钓鱼服务器的ip地址。易被发现。</li>
+<li>http劫持：请求或者返回的内容被串改，或者被直接重定向走。常用，隐蔽度高。</li>
+<li>流氓插件：易被发现。</li>
+</ul>
+
+<h2><a style="display: block;" name="https几种攻击方式" href="#https几种攻击方式"></a>https几种攻击方式</h2>
+
+<h3>SSL劫持攻击</h3>
+
+<pre><code>[浏览器] &lt;======&gt; [目标网站] （正常情况）
+[浏览器] &lt;======&gt; 中间人 &lt;======&gt; [目标网站] （中间人攻击）
+</code></pre>
+
+<p>攻击者返回的证书一般都会被证书验证机制识别，提示证书不合法。</p>
+
+<h3>SSLStrip攻击</h3>
+
+<p>中间人将用户重定向到一个http页面，这样就能获取用户输入的信息。防御：</p>
+
+<ul>
+<li>在配置HTTPS服务的时候加上“HTTP Strict Transport Security”配置项；或者是在代码中将所有HTTP的请求强制转移到HTTPS上，使用URL REWRITE也可以达到同样的效果</li>
+<li>发送密码前JS加密一次</li>
+<li>用户地址栏输入强制加上https开头</li>
+</ul>
+
+<h3>第三类攻击</h3>
+
+<p>浏览器bug等</p>
+
+<h3>另外</h3>
+
+<p>如今分布式计算能力提升、量子计算机，RSA算法安全性也受到挑战。</p>
+
+<p>参考：<br />
+<a href="https://www.evernote.com/l/AIVBQV9UoX9NNZ5hV0duKrwHtwGaUjakO3s">https://www.evernote.com/l/AIVBQV9UoX9NNZ5hV0duKrwHtwGaUjakO3s</a><br />
+<a href="https://www.evernote.com/l/AIVBQV9UoX9NNZ5hV0duKrwHtwGaUjakO3s">https://www.evernote.com/l/AIVBQV9UoX9NNZ5hV0duKrwHtwGaUjakO3s</a><br />
+<a href="https://www.evernote.com/l/AIWIkMnop15GXqkfBJDXw9kphf0oY03frOw">https://www.evernote.com/l/AIWIkMnop15GXqkfBJDXw9kphf0oY03frOw</a></p>
+
+    <hr>
+    <div class="pagination">
+      <ul>
+        <ul>
+          
+          
+            <li class="prev disabled"><a>&larr; Previous</a></li>
+          
+
+            <li><a href="/archive">Archive</a></li>
+
+          
+            <li class="next"><a href="/2015/05/08/time-to-access-data.html" title="time-to-access-data">Next &rarr;</a></li>
+          
+          
+        </ul>
+      </ul>
+    </div>
+    <hr>
+    
+<div id="disqus_thread"></div>
+<script>
+    var disqus_developer = 1;
+    var disqus_shortname = 'jekyllbootstrap'; // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+  </div>
+  
+  <div class="span4">
+    <h4>Published</h4>
+    <div class="date"><span>2015-06-07</span></div>
+    <br>
+    <h4>Categories</h4>
+    <ul class="tag_box">
+    
+      <li>
+  <a href="/categories/#http-ref">http <span>2</span></a>
+</li>
+    
+    </ul>
+    <br>
+    <h4>Tags</h4>
+    <ul class="tag_box">
+    
+    </ul>
+  </div>
+</div>
+
+      </div>
+
+      <footer>
+        <p>&copy; tiemei 2013 
+          with help from <a href="http://github.com/wendal/gor" target="_blank" title="Gor -- Fast Blog">Gor</a>
+          and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+		  and Idea from <a href="http://ruhoh.com" target="_blank" title="The Definitive Technical Blogging Framework">ruhoh</a>
+        </p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    
+<script src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>
+<script>
+  var pres = document.getElementsByTagName("pre");
+  for (var i=0; i < pres.length; ++i) {
+    pres[i].className = "prettyprint linenums";
+  }
+  prettyPrint();
+</script>
+
+    
+<script>
+    var _gaq=[['_setAccount','UA-123-12'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5379369'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s9.cnzz.com/stat.php%3Fid%3D5379369%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+  </body>
+</html>

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>java锁笔记</title>
+    <title>time-to-access-data</title>
   
     <meta name="author" content="tiemei">
 
@@ -76,75 +76,29 @@
 
       <div class="content">
         <div class="page-header">
-  <h1>java锁笔记 </h1>
+  <h1>time-to-access-data </h1>
 </div>
 
 <div class="row">
   <div class="span8">
-    <h1><a style="display: block;" name="线程通信" href="#线程通信"></a>线程通信</h1>
-
-<p>通信遇到的问题包括：</p>
-
-<ol>
-<li>共享对象：需要做同步处理</li>
-<li>忙等待：循环等待另一个线程发来信号，可sleep</li>
-
-<li><p>wait(),notify()</p>
-
-<pre><code>1. 遇到mobj.wait()，让线程进入非运行状态，直到另一个线程mobj.nitify
-2. 这几个方法必须在获得mobj锁的前提下调用，否则IllegalMonitorStateException
-3. 一个线程调用了wait()，即释放mobj上的锁
-4. 一旦一个线程被唤醒，不能立刻就退出wait()的方法调用，直到调用
-notify()的线程退出了它自己的同步块。因此，多个线程被notifyAll唤醒，只有一个
-线程可以最终退出wait()方法，因为必须获得mobj的锁
-</code></pre></li>
-
-<li><p>丢失的信号（Missed Signal）</p>
-
-<pre><code>线程A先调用了mobj.notify()，线程B后调用mobj.wait()，通知信号发送过了就被丢弃，
-线程B就可能永远不能醒来。
-这就需要一个额外的变量来保存‘是否被通知过’的信息。
-</code></pre></li>
-
-<li><p>假唤醒（spurious wakeups）</p>
-
-<pre><code>没有调用过notify()和notifyAll()的情况下醒来，原因未知
-需要加个自旋锁，即将wait()方法放到while循环中
-</code></pre></li>
-
-<li><p>不要在字符串常量或全局对象中调用wait()。mobj与信号常量不是一一对应。</p></li>
-</ol>
-
-<p>mobj: 管程 (英语：Monitors，也称为监视器)</p>
-
-<h1><a style="display: block;" name="锁" href="#锁"></a>锁</h1>
-
-<p>锁由synchronized实现，有以下几个特性:</p>
-
-<ol>
-<li>同一时刻只能有一个线程穿过临界区，进入同步块</li>
-<li>锁的可重入性：synchronized同步块可重入，相应也有可重入锁</li>
-<li>锁的公平性：多个线程不断竞争访问相同的synchronized同步块，可能存在某个
-线程一直竞争不到。</li>
-</ol>
-
-<p><strong>参考</strong>:<br />
-<a href="http://ifeve.com/locks/">Java中的锁</a><br />
-<a href="http://ifeve.com/thread-signaling/">线程通信</a></p>
+    <p>参考：<br />
+<a href="http://www.jdon.com/performance/first-rule-of-performance-optimisation.html">性能优化的首要法则</a><br />
+<a href="http://www.jdon.com/cache.html">内存缓存(in-memory cache)</a><br />
+<a href="http://www.jdon.com/47253">12306核心开源中间件Geode</a></p>
 
     <hr>
     <div class="pagination">
       <ul>
         <ul>
           
-            <li class="prev"><a href="/2013/08/30/jdk-tools.html" title="jdk自带工具">&larr; Previous</a></li>
+            <li class="prev"><a href="/2015/06/07/https.html" title="https加密与证书">&larr; Previous</a></li>
           
           
 
             <li><a href="/archive">Archive</a></li>
 
           
-            <li class="next"><a href="/2013/06/30/pi-q-a.html" title="玩Pi过程中Q&amp;A(持续更新)">Next &rarr;</a></li>
+            <li class="next"><a href="/2015/05/07/system-rt-tools.html" title="系统rt排查常用工具">Next &rarr;</a></li>
           
           
         </ul>
@@ -170,13 +124,13 @@ notify()的线程退出了它自己的同步块。因此，多个线程被notify
   
   <div class="span4">
     <h4>Published</h4>
-    <div class="date"><span>2013-08-30</span></div>
+    <div class="date"><span>2015-05-08</span></div>
     <br>
     <h4>Categories</h4>
     <ul class="tag_box">
     
       <li>
-  <a href="/categories/#java-ref">java <span>14</span></a>
+  <a href="/categories/#%E6%80%A7%E8%83%BD-ref">性能 <span>2</span></a>
 </li>
     
     </ul>

@@ -3,7 +3,134 @@
   <channel>
     <title>顽固的卡夫卡</title>
     <link>http://defworld.com</link>
-    <pubDate>2015-04-29 09:57:39 +0800</pubDate>
+    <pubDate>2015-06-08 12:18:54 +0800</pubDate>
+    <item>
+      <title>https加密与证书</title>
+      <link>http://defworld.com/2015/06/07/https.html</link>
+      <pubDate>2015-06-07 12:00:00 +0800</pubDate>
+      <description>&lt;p&gt;加密分为对称加密，和不对称加密。对称加密双方都持有私钥；不对称加密公钥是公开的，而私钥只有一方持有，公钥加密的内容，只能由对应的私钥解开，私钥加密的内容只能由对应的公钥解开。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;B(Browser) &amp;lt;&amp;ndash;&amp;gt; A(Server)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;例如A跟B通信，A先将公钥传递给B，然后B用A的公钥加密需要传递的数据给A，只有A能够用其私钥解开。这样只要保证A的私钥不会泄露，数据内容就是比较安全的。这时候攻击者很难攻击。&lt;/p&gt;
+
+&lt;p&gt;但是当A需要传递信息给B时，也是可以利用上面的过程通信的。但是browser/server的模式下，browser很难去维护私钥不泄露，所以这样行不通。&lt;/p&gt;
+
+&lt;p&gt;A为了防止内容被攻击者串改，取数据的hash值摘要（digest）,然后用自己的私钥加密digest，生成签名（signature）,这样B就可以用A的公钥去解密signature，从而比对digest，确保内容没有被串改。但是，其实B很难确保自己持有的A的公钥没有被串改过，所以要找一个证书颁发中心（certificate authority，简称CA），做一个公证，证明这确实是A的公钥。&lt;/p&gt;
+
+&lt;p&gt;于是，A需要将自己的公钥提交给CA，让CA用CA的私钥加密A的公钥以及其他相关信息，生成&amp;rdquo;数字证书&amp;rdquo;（Digital Certificate）。后面A传递内容给B时，只要附上数字证书就好了。因为CA机构是有限的几个，很好去控制，CA的公钥很难造假，于是解密取的的A的公钥肯定也是真的了。进一步，用A的公钥最终取的的内容也是完整正确的。&lt;/p&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;完整的https交互过程&#34; href=&#34;#完整的https交互过程&#34;&gt;&lt;/a&gt;完整的https交互过程&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;浏览器将自己支持的加密规则告诉网站&lt;/li&gt;
+&lt;li&gt;网站从中选出一组加密算法与HASH算法，并将自己的身份信息以证书的形式发回给浏览器。证书里面包含了网站地址，加密公钥，以及证书的颁发机构等信息。&lt;/li&gt;
+&lt;li&gt;浏览器获得证书
+
+&lt;ul&gt;
+&lt;li&gt;从自己维护的受信任证书列表里对比，验证证书合法性（颁发结构、网址是否一致），如果受信任，显示小锁头，否则提示不受信任&lt;/li&gt;
+&lt;li&gt;如果证书受信任，或者用户强制接受，浏览器生成一串随机密码（即浏览器的私钥），并用证书中的公钥加密&lt;/li&gt;
+&lt;li&gt;使用约定好的HASH计算握手消息，用刚的随机数加密（这里的交互是对称加密）。最后连同上一步加密后的浏览器私钥，以及这一步用浏览器私钥加密后的握手消息发送给网站&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;网站接收后
+
+&lt;ul&gt;
+&lt;li&gt;用自己的私钥解出浏览器的私钥&lt;/li&gt;
+&lt;li&gt;在用浏览器的私钥解除握手消息，并验证HASH一致&lt;/li&gt;
+&lt;li&gt;使用浏览器私钥加密一段握手消息，返回浏览器&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;浏览器解密消息，并计算HASH一致。SSL握手完成，之后所有的通信基于这个浏览器私钥进行对称加密通信。&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;另外，
+* TCP/IP握手，跟SSL握手是两个过程
+* 证书是由证书链构成的，我们网站的证书是末节点证书，只有每层都验证合法才行&lt;/p&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;几种劫持方式&#34; href=&#34;#几种劫持方式&#34;&gt;&lt;/a&gt;几种劫持方式&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;session劫持：arp欺骗，将自己伪造成网关，局域网内可以看到一个ip对应两个mac。有局限性。&lt;/li&gt;
+&lt;li&gt;dns劫持：各级 dns 服务商受到污染，将用户的请求的解析地址改为钓鱼服务器的ip地址。易被发现。&lt;/li&gt;
+&lt;li&gt;http劫持：请求或者返回的内容被串改，或者被直接重定向走。常用，隐蔽度高。&lt;/li&gt;
+&lt;li&gt;流氓插件：易被发现。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;https几种攻击方式&#34; href=&#34;#https几种攻击方式&#34;&gt;&lt;/a&gt;https几种攻击方式&lt;/h2&gt;
+
+&lt;h3&gt;SSL劫持攻击&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;[浏览器] &amp;lt;======&amp;gt; [目标网站] （正常情况）
+[浏览器] &amp;lt;======&amp;gt; 中间人 &amp;lt;======&amp;gt; [目标网站] （中间人攻击）
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;攻击者返回的证书一般都会被证书验证机制识别，提示证书不合法。&lt;/p&gt;
+
+&lt;h3&gt;SSLStrip攻击&lt;/h3&gt;
+
+&lt;p&gt;中间人将用户重定向到一个http页面，这样就能获取用户输入的信息。防御：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;在配置HTTPS服务的时候加上“HTTP Strict Transport Security”配置项；或者是在代码中将所有HTTP的请求强制转移到HTTPS上，使用URL REWRITE也可以达到同样的效果&lt;/li&gt;
+&lt;li&gt;发送密码前JS加密一次&lt;/li&gt;
+&lt;li&gt;用户地址栏输入强制加上https开头&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;第三类攻击&lt;/h3&gt;
+
+&lt;p&gt;浏览器bug等&lt;/p&gt;
+
+&lt;h3&gt;另外&lt;/h3&gt;
+
+&lt;p&gt;如今分布式计算能力提升、量子计算机，RSA算法安全性也受到挑战。&lt;/p&gt;
+
+&lt;p&gt;参考：&lt;br /&gt;
+&lt;a href=&#34;https://www.evernote.com/l/AIVBQV9UoX9NNZ5hV0duKrwHtwGaUjakO3s&#34;&gt;https://www.evernote.com/l/AIVBQV9UoX9NNZ5hV0duKrwHtwGaUjakO3s&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;https://www.evernote.com/l/AIVBQV9UoX9NNZ5hV0duKrwHtwGaUjakO3s&#34;&gt;https://www.evernote.com/l/AIVBQV9UoX9NNZ5hV0duKrwHtwGaUjakO3s&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;https://www.evernote.com/l/AIWIkMnop15GXqkfBJDXw9kphf0oY03frOw&#34;&gt;https://www.evernote.com/l/AIWIkMnop15GXqkfBJDXw9kphf0oY03frOw&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>time-to-access-data</title>
+      <link>http://defworld.com/2015/05/08/time-to-access-data.html</link>
+      <pubDate>2015-05-08 12:00:00 +0800</pubDate>
+      <description>&lt;p&gt;参考：&lt;br /&gt;
+&lt;a href=&#34;http://www.jdon.com/performance/first-rule-of-performance-optimisation.html&#34;&gt;性能优化的首要法则&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://www.jdon.com/cache.html&#34;&gt;内存缓存(in-memory cache)&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://www.jdon.com/47253&#34;&gt;12306核心开源中间件Geode&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>系统rt排查常用工具</title>
+      <link>http://defworld.com/2015/05/07/system-rt-tools.html</link>
+      <pubDate>2015-05-07 12:00:00 +0800</pubDate>
+      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;wireshark&#34; href=&#34;#wireshark&#34;&gt;&lt;/a&gt;wireshark&lt;/h1&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;特殊的filter&#34; href=&#34;#特殊的filter&#34;&gt;&lt;/a&gt;特殊的filter&lt;/h2&gt;
+
+&lt;p&gt;参考：https://www.wireshark.org/lists/wireshark-users/201211/msg00002.html&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# http GET方法，切url符合一定的规则
+http.request.method == &amp;quot;GET&amp;quot; &amp;amp;&amp;amp; http.request.full_uri matches &amp;quot;index\.php\?.*=&amp;quot;
+http.request.method == &amp;quot;GET&amp;quot; &amp;amp;&amp;amp; http.request.full_uri contains &amp;quot;index.php?&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;“tcp-segment-of-a-reassembled-pdu”&#34; href=&#34;#“tcp-segment-of-a-reassembled-pdu”&#34;&gt;&lt;/a&gt;“TCP segment of a reassembled PDU”&lt;/h2&gt;
+
+&lt;p&gt;参考：http://blog.csdn.net/rossini23/article/details/5424850&lt;br /&gt;
+&lt;a href=&#34;http://blog.csdn.net/hldjf/article/details/7450565&#34;&gt;http://blog.csdn.net/hldjf/article/details/7450565&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;“TCP segment of a reassembled PDU”指的不是IP层的分片，IP分片在wireshark里用“Fragmented IP protocol”来标识。详细查了一下，发现“TCP segment of a reassembled PDU”指TCP层收到上层大块报文后分解成段后发出去。&lt;/p&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;btrace&#34; href=&#34;#btrace&#34;&gt;&lt;/a&gt;BTrace&lt;/h1&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;网卡&#34; href=&#34;#网卡&#34;&gt;&lt;/a&gt;网卡&lt;/h1&gt;
+
+&lt;p&gt;如何查看是否1GB网卡
+&lt;a href=&#34;http://www.ctohome.com/FuWuQi/ea/517.html&#34;&gt;http://www.ctohome.com/FuWuQi/ea/517.html&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
     <item>
       <title>sequel pro 快捷键</title>
       <link>http://defworld.com/2015/02/12/sequel-pro-shortcuts.html</link>
@@ -115,38 +242,6 @@
 </description>
     </item>
     <item>
-      <title>并发编程 - 锁</title>
-      <link>http://defworld.com/2014/12/18/concurrent-programming-lock.html</link>
-      <pubDate>2014-12-18 12:00:00 +0800</pubDate>
-      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;饥饿和公平&#34; href=&#34;#饥饿和公平&#34;&gt;&lt;/a&gt;饥饿和公平&lt;/h1&gt;
-
-&lt;p&gt;饥饿是说某个线程总是被其他线程抢走CPU运行时间，而公平指所有的线程都能公平的获得运行机会。&lt;br /&gt;
-如果是使用synchronized同步块，不能保证某个线程一定获得运行机会，所以需要使用锁。锁的实现里可以自己控制唤醒时的机会分配。理论上Java不能实现100%公平。&lt;/p&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;自旋锁&#34; href=&#34;#自旋锁&#34;&gt;&lt;/a&gt;自旋锁&lt;/h1&gt;
-
-&lt;p&gt;自旋锁是采用让当前线程不停地在循环体内执行实现的。&lt;/p&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;阻塞锁&#34; href=&#34;#阻塞锁&#34;&gt;&lt;/a&gt;阻塞锁&lt;/h1&gt;
-
-&lt;p&gt;阻塞锁，与自旋锁不同，改变了线程的运行状态。&lt;br /&gt;
-阻塞锁的优势在于，阻塞的线程不会占用cpu时间，不会导致。CPU占用率过高，但进入时间以及恢复时间都要比自旋锁略慢。在竞争激烈的情况下 阻塞锁的性能要明显高于 自旋锁。&lt;br /&gt;
-理想的情况则是; 在线程竞争不激烈的情况下，使用自旋锁，竞争激烈的情况下使用，阻塞锁。&lt;/p&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;可重入锁&#34; href=&#34;#可重入锁&#34;&gt;&lt;/a&gt;可重入锁&lt;/h1&gt;
-
-&lt;p&gt;可重入锁，也叫做递归锁，指的是同一线程外层函数获得锁之后，内层递归函数仍然有获取该锁的代码，等到其他线程unlock时，这个线程能够从这个锁里出来。&lt;/p&gt;
-
-&lt;p&gt;参考：&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://ifeve.com/starvation-and-fairness/&#34;&gt;饥饿和公平&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/java_lock_see1/&#34;&gt;java锁的种类以及辨析（一）：自旋锁&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/java_lock_see2/&#34;&gt;Java锁的种类以及辨析（二）：自旋锁的其他种类&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/java_lock_see3/&#34;&gt;Java锁的种类以及辨析（三）：阻塞锁&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/java_lock_see4/&#34;&gt;Java锁的种类以及辨析（四）：可重入锁&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    <item>
       <title>笔记 - java annotation</title>
       <link>http://defworld.com/2014/12/18/java-annotation.html</link>
       <pubDate>2014-12-18 12:00:00 +0800</pubDate>
@@ -234,6 +329,38 @@ RUNTIME
 &lt;a href=&#34;http://tutorials.jenkov.com/java/annotations.html&#34;&gt;Java Annotations&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&#34;http://docs.oracle.com/javase/tutorial/java/annotations/&#34;&gt;Lesson: Annotations&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&#34;http://en.wikipedia.org/wiki/Java_annotation#Processing&#34;&gt;Java annotation wiki&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>并发编程 - 锁</title>
+      <link>http://defworld.com/2014/12/18/concurrent-programming-lock.html</link>
+      <pubDate>2014-12-18 12:00:00 +0800</pubDate>
+      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;饥饿和公平&#34; href=&#34;#饥饿和公平&#34;&gt;&lt;/a&gt;饥饿和公平&lt;/h1&gt;
+
+&lt;p&gt;饥饿是说某个线程总是被其他线程抢走CPU运行时间，而公平指所有的线程都能公平的获得运行机会。&lt;br /&gt;
+如果是使用synchronized同步块，不能保证某个线程一定获得运行机会，所以需要使用锁。锁的实现里可以自己控制唤醒时的机会分配。理论上Java不能实现100%公平。&lt;/p&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;自旋锁&#34; href=&#34;#自旋锁&#34;&gt;&lt;/a&gt;自旋锁&lt;/h1&gt;
+
+&lt;p&gt;自旋锁是采用让当前线程不停地在循环体内执行实现的。&lt;/p&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;阻塞锁&#34; href=&#34;#阻塞锁&#34;&gt;&lt;/a&gt;阻塞锁&lt;/h1&gt;
+
+&lt;p&gt;阻塞锁，与自旋锁不同，改变了线程的运行状态。&lt;br /&gt;
+阻塞锁的优势在于，阻塞的线程不会占用cpu时间，不会导致。CPU占用率过高，但进入时间以及恢复时间都要比自旋锁略慢。在竞争激烈的情况下 阻塞锁的性能要明显高于 自旋锁。&lt;br /&gt;
+理想的情况则是; 在线程竞争不激烈的情况下，使用自旋锁，竞争激烈的情况下使用，阻塞锁。&lt;/p&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;可重入锁&#34; href=&#34;#可重入锁&#34;&gt;&lt;/a&gt;可重入锁&lt;/h1&gt;
+
+&lt;p&gt;可重入锁，也叫做递归锁，指的是同一线程外层函数获得锁之后，内层递归函数仍然有获取该锁的代码，等到其他线程unlock时，这个线程能够从这个锁里出来。&lt;/p&gt;
+
+&lt;p&gt;参考：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://ifeve.com/starvation-and-fairness/&#34;&gt;饥饿和公平&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/java_lock_see1/&#34;&gt;java锁的种类以及辨析（一）：自旋锁&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/java_lock_see2/&#34;&gt;Java锁的种类以及辨析（二）：自旋锁的其他种类&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/java_lock_see3/&#34;&gt;Java锁的种类以及辨析（三）：阻塞锁&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/java_lock_see4/&#34;&gt;Java锁的种类以及辨析（四）：可重入锁&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -3062,7 +3189,8 @@ tomcat内核线程上下文加载器就是它。
 &lt;a href=&#34;http://blog.csdn.net/vernonzheng/article/details/8461380&#34;&gt; 深入JVM系列（三）之类加载、类加载器、双亲委派机制与常见问题&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&#34;http://ieroot.com/2013/05/01/932.html&#34;&gt;ClassLoader类加载器&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&#34;http://www.goldendoc.org/2010/12/tomcat_classloader/&#34;&gt;Tomcat ClassLoader机制介绍&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://www.blogjava.net/William/archive/2006/08/25/65804.html&#34;&gt;深入探讨Java的类加载机制&lt;/a&gt;&lt;/p&gt;
+&lt;a href=&#34;http://www.blogjava.net/William/archive/2006/08/25/65804.html&#34;&gt;深入探讨Java的类加载机制&lt;/a&gt;&lt;br /&gt;
+[](http://www.atatech.org/articles/33671)&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -3111,62 +3239,6 @@ mvn clean deploy 只发布calss jar包
 &lt;p&gt;maven-compiler-plugin&lt;br /&gt;
 1. maven2.1 默认用jdk 1.3来编译，这个版本不支持注解，compiler插件可以制定jdk版本为1.6
 2. windows平台默认GBK编码，如果工程编码为utf-8，需要再compiler插件中指定&lt;/p&gt;
-</description>
-    </item>
-    <item>
-      <title>java锁笔记</title>
-      <link>http://defworld.com/2013/08/30/java-locks.html</link>
-      <pubDate>2013-08-30 12:00:00 +0800</pubDate>
-      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;线程通信&#34; href=&#34;#线程通信&#34;&gt;&lt;/a&gt;线程通信&lt;/h1&gt;
-
-&lt;p&gt;通信遇到的问题包括：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;共享对象：需要做同步处理&lt;/li&gt;
-&lt;li&gt;忙等待：循环等待另一个线程发来信号，可sleep&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;wait(),notify()&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;1. 遇到mobj.wait()，让线程进入非运行状态，直到另一个线程mobj.nitify
-2. 这几个方法必须在获得mobj锁的前提下调用，否则IllegalMonitorStateException
-3. 一个线程调用了wait()，即释放mobj上的锁
-4. 一旦一个线程被唤醒，不能立刻就退出wait()的方法调用，直到调用
-notify()的线程退出了它自己的同步块。因此，多个线程被notifyAll唤醒，只有一个
-线程可以最终退出wait()方法，因为必须获得mobj的锁
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;丢失的信号（Missed Signal）&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;线程A先调用了mobj.notify()，线程B后调用mobj.wait()，通知信号发送过了就被丢弃，
-线程B就可能永远不能醒来。
-这就需要一个额外的变量来保存‘是否被通知过’的信息。
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;假唤醒（spurious wakeups）&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;没有调用过notify()和notifyAll()的情况下醒来，原因未知
-需要加个自旋锁，即将wait()方法放到while循环中
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;不要在字符串常量或全局对象中调用wait()。mobj与信号常量不是一一对应。&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;mobj: 管程 (英语：Monitors，也称为监视器)&lt;/p&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;锁&#34; href=&#34;#锁&#34;&gt;&lt;/a&gt;锁&lt;/h1&gt;
-
-&lt;p&gt;锁由synchronized实现，有以下几个特性:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;同一时刻只能有一个线程穿过临界区，进入同步块&lt;/li&gt;
-&lt;li&gt;锁的可重入性：synchronized同步块可重入，相应也有可重入锁&lt;/li&gt;
-&lt;li&gt;锁的公平性：多个线程不断竞争访问相同的synchronized同步块，可能存在某个
-线程一直竞争不到。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;strong&gt;参考&lt;/strong&gt;:&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/locks/&#34;&gt;Java中的锁&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/thread-signaling/&#34;&gt;线程通信&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -3263,6 +3335,62 @@ runnable - 线程状态
 &lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;jvm-pid文件&#34; href=&#34;#jvm-pid文件&#34;&gt;&lt;/a&gt;JVM pid文件&lt;/h2&gt;
 
 &lt;p&gt;jvm运行时会生成一个目录hsperfdata&lt;em&gt;$USER(linux默认在/tmp/hsperfdata&lt;/em&gt;$USER)，存放Pid文件(/etc/cron.daily/tmpwatch会240h移除这个目录)。jstack等工具读取这个文件获取pid。（&lt;a href=&#34;http://windows9834.blog.163.com/blog/static/273450042012919101435608/&#34;&gt;参考&lt;/a&gt;）从Java 6 update 21 ~ 24，会优先&lt;code&gt;-Djava.io.tmpdir&lt;/code&gt;，这样jstack等文件可可能找不到pid文件。&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>java锁笔记</title>
+      <link>http://defworld.com/2013/08/30/java-locks.html</link>
+      <pubDate>2013-08-30 12:00:00 +0800</pubDate>
+      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;线程通信&#34; href=&#34;#线程通信&#34;&gt;&lt;/a&gt;线程通信&lt;/h1&gt;
+
+&lt;p&gt;通信遇到的问题包括：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;共享对象：需要做同步处理&lt;/li&gt;
+&lt;li&gt;忙等待：循环等待另一个线程发来信号，可sleep&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;wait(),notify()&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1. 遇到mobj.wait()，让线程进入非运行状态，直到另一个线程mobj.nitify
+2. 这几个方法必须在获得mobj锁的前提下调用，否则IllegalMonitorStateException
+3. 一个线程调用了wait()，即释放mobj上的锁
+4. 一旦一个线程被唤醒，不能立刻就退出wait()的方法调用，直到调用
+notify()的线程退出了它自己的同步块。因此，多个线程被notifyAll唤醒，只有一个
+线程可以最终退出wait()方法，因为必须获得mobj的锁
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;丢失的信号（Missed Signal）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;线程A先调用了mobj.notify()，线程B后调用mobj.wait()，通知信号发送过了就被丢弃，
+线程B就可能永远不能醒来。
+这就需要一个额外的变量来保存‘是否被通知过’的信息。
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;假唤醒（spurious wakeups）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;没有调用过notify()和notifyAll()的情况下醒来，原因未知
+需要加个自旋锁，即将wait()方法放到while循环中
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;不要在字符串常量或全局对象中调用wait()。mobj与信号常量不是一一对应。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;mobj: 管程 (英语：Monitors，也称为监视器)&lt;/p&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;锁&#34; href=&#34;#锁&#34;&gt;&lt;/a&gt;锁&lt;/h1&gt;
+
+&lt;p&gt;锁由synchronized实现，有以下几个特性:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;同一时刻只能有一个线程穿过临界区，进入同步块&lt;/li&gt;
+&lt;li&gt;锁的可重入性：synchronized同步块可重入，相应也有可重入锁&lt;/li&gt;
+&lt;li&gt;锁的公平性：多个线程不断竞争访问相同的synchronized同步块，可能存在某个
+线程一直竞争不到。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;参考&lt;/strong&gt;:&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/locks/&#34;&gt;Java中的锁&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/thread-signaling/&#34;&gt;线程通信&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -3385,6 +3513,7 @@ Host github
 &lt;li&gt;&lt;code&gt;svn merge URL local_dir/url&lt;/code&gt;合并分支，先将原分支cm，然后merge到本地新开发分支，
 或者merge到远程svn新分支&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;svn update -r version&lt;/code&gt;更新到指定版本&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;svn checkout -r r974 URL&lt;/code&gt;checkout指定版本代码&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h3&gt;配置&lt;/h3&gt;

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>java锁笔记</title>
+    <title>系统rt排查常用工具</title>
   
     <meta name="author" content="tiemei">
 
@@ -76,75 +76,49 @@
 
       <div class="content">
         <div class="page-header">
-  <h1>java锁笔记 </h1>
+  <h1>系统rt排查常用工具 </h1>
 </div>
 
 <div class="row">
   <div class="span8">
-    <h1><a style="display: block;" name="线程通信" href="#线程通信"></a>线程通信</h1>
+    <h1><a style="display: block;" name="wireshark" href="#wireshark"></a>wireshark</h1>
 
-<p>通信遇到的问题包括：</p>
+<h2><a style="display: block;" name="特殊的filter" href="#特殊的filter"></a>特殊的filter</h2>
 
-<ol>
-<li>共享对象：需要做同步处理</li>
-<li>忙等待：循环等待另一个线程发来信号，可sleep</li>
+<p>参考：https://www.wireshark.org/lists/wireshark-users/201211/msg00002.html</p>
 
-<li><p>wait(),notify()</p>
+<pre><code># http GET方法，切url符合一定的规则
+http.request.method == &quot;GET&quot; &amp;&amp; http.request.full_uri matches &quot;index\.php\?.*=&quot;
+http.request.method == &quot;GET&quot; &amp;&amp; http.request.full_uri contains &quot;index.php?&quot;
+</code></pre>
 
-<pre><code>1. 遇到mobj.wait()，让线程进入非运行状态，直到另一个线程mobj.nitify
-2. 这几个方法必须在获得mobj锁的前提下调用，否则IllegalMonitorStateException
-3. 一个线程调用了wait()，即释放mobj上的锁
-4. 一旦一个线程被唤醒，不能立刻就退出wait()的方法调用，直到调用
-notify()的线程退出了它自己的同步块。因此，多个线程被notifyAll唤醒，只有一个
-线程可以最终退出wait()方法，因为必须获得mobj的锁
-</code></pre></li>
+<h2><a style="display: block;" name="“tcp-segment-of-a-reassembled-pdu”" href="#“tcp-segment-of-a-reassembled-pdu”"></a>“TCP segment of a reassembled PDU”</h2>
 
-<li><p>丢失的信号（Missed Signal）</p>
+<p>参考：http://blog.csdn.net/rossini23/article/details/5424850<br />
+<a href="http://blog.csdn.net/hldjf/article/details/7450565">http://blog.csdn.net/hldjf/article/details/7450565</a></p>
 
-<pre><code>线程A先调用了mobj.notify()，线程B后调用mobj.wait()，通知信号发送过了就被丢弃，
-线程B就可能永远不能醒来。
-这就需要一个额外的变量来保存‘是否被通知过’的信息。
-</code></pre></li>
+<p>“TCP segment of a reassembled PDU”指的不是IP层的分片，IP分片在wireshark里用“Fragmented IP protocol”来标识。详细查了一下，发现“TCP segment of a reassembled PDU”指TCP层收到上层大块报文后分解成段后发出去。</p>
 
-<li><p>假唤醒（spurious wakeups）</p>
+<h1><a style="display: block;" name="btrace" href="#btrace"></a>BTrace</h1>
 
-<pre><code>没有调用过notify()和notifyAll()的情况下醒来，原因未知
-需要加个自旋锁，即将wait()方法放到while循环中
-</code></pre></li>
+<h1><a style="display: block;" name="网卡" href="#网卡"></a>网卡</h1>
 
-<li><p>不要在字符串常量或全局对象中调用wait()。mobj与信号常量不是一一对应。</p></li>
-</ol>
-
-<p>mobj: 管程 (英语：Monitors，也称为监视器)</p>
-
-<h1><a style="display: block;" name="锁" href="#锁"></a>锁</h1>
-
-<p>锁由synchronized实现，有以下几个特性:</p>
-
-<ol>
-<li>同一时刻只能有一个线程穿过临界区，进入同步块</li>
-<li>锁的可重入性：synchronized同步块可重入，相应也有可重入锁</li>
-<li>锁的公平性：多个线程不断竞争访问相同的synchronized同步块，可能存在某个
-线程一直竞争不到。</li>
-</ol>
-
-<p><strong>参考</strong>:<br />
-<a href="http://ifeve.com/locks/">Java中的锁</a><br />
-<a href="http://ifeve.com/thread-signaling/">线程通信</a></p>
+<p>如何查看是否1GB网卡
+<a href="http://www.ctohome.com/FuWuQi/ea/517.html">http://www.ctohome.com/FuWuQi/ea/517.html</a></p>
 
     <hr>
     <div class="pagination">
       <ul>
         <ul>
           
-            <li class="prev"><a href="/2013/08/30/jdk-tools.html" title="jdk自带工具">&larr; Previous</a></li>
+            <li class="prev"><a href="/2015/05/08/time-to-access-data.html" title="time-to-access-data">&larr; Previous</a></li>
           
           
 
             <li><a href="/archive">Archive</a></li>
 
           
-            <li class="next"><a href="/2013/06/30/pi-q-a.html" title="玩Pi过程中Q&amp;A(持续更新)">Next &rarr;</a></li>
+            <li class="next"><a href="/2015/02/12/sequel-pro-shortcuts.html" title="sequel pro 快捷键">Next &rarr;</a></li>
           
           
         </ul>
@@ -170,13 +144,13 @@ notify()的线程退出了它自己的同步块。因此，多个线程被notify
   
   <div class="span4">
     <h4>Published</h4>
-    <div class="date"><span>2013-08-30</span></div>
+    <div class="date"><span>2015-05-07</span></div>
     <br>
     <h4>Categories</h4>
     <ul class="tag_box">
     
       <li>
-  <a href="/categories/#java-ref">java <span>14</span></a>
+  <a href="/categories/#%E6%80%A7%E8%83%BD-ref">性能 <span>2</span></a>
 </li>
     
     </ul>

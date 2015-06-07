@@ -93,3 +93,4 @@ Tomcat 6之后classloader 稍微有些改动了，去掉了server 和 shared, �
 [ClassLoader类加载器](http://ieroot.com/2013/05/01/932.html)  
 [Tomcat ClassLoader机制介绍](http://www.goldendoc.org/2010/12/tomcat_classloader/)  
 [深入探讨Java的类加载机制](http://www.blogjava.net/William/archive/2006/08/25/65804.html)  
+[](http://www.atatech.org/articles/33671)  
