@@ -115,6 +115,21 @@
 <li><code>svn checkout -r r974 URL</code>checkout指定版本代码</li>
 </ul>
 
+<h3>回滚</h3>
+
+<p><strong>改动没有被commit</strong>:</p>
+
+<ul>
+<li><code>svn revert [-R] path/file</code> 放弃没有commit的修改，没法恢复。</li>
+</ul>
+
+<p><strong>改动已经被commit</strong>:</p>
+
+<pre><code class="bash">svn merge -r 28:25 path/file # 从最新版本28回滚到25版本
+svn diff path/file # 确认差异
+svn commit -m &quot;comment&quot; # 提交回滚，版本升级到29
+</code></pre>
+
 <h3>配置</h3>
 
 <h4>排除</h4>

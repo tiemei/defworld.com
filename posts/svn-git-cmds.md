@@ -36,6 +36,21 @@ tags:
 * `svn update -r version`更新到指定版本
 * `svn checkout -r r974 URL`checkout指定版本代码
 
+### 回滚
+
+**改动没有被commit**:  
+
+* `svn revert [-R] path/file` 放弃没有commit的修改，没法恢复。
+
+**改动已经被commit**:  
+
+```bash
+svn merge -r 28:25 path/file # 从最新版本28回滚到25版本
+svn diff path/file # 确认差异
+svn commit -m "comment" # 提交回滚，版本升级到29
+```
+
+
 ### 配置
 #### 排除
 **全局排除**  
