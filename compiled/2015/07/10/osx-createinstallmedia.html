@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>笔记 - java annotation</title>
+    <title>osx-制作USA安装盘，并迁移老MAC</title>
   
     <meta name="author" content="tiemei">
 
@@ -76,109 +76,64 @@
 
       <div class="content">
         <div class="page-header">
-  <h1>笔记 - java annotation </h1>
+  <h1>osx-制作USA安装盘，并迁移老MAC </h1>
 </div>
 
 <div class="row">
   <div class="span8">
-    <h1><a style="display: block;" name="分类" href="#分类"></a>分类</h1>
+    <h1><a style="display: block;" name="制作安装盘并重装系统" href="#制作安装盘并重装系统"></a>制作安装盘并重装系统</h1>
 
-<p>java annotation主要分为以下几类：</p>
+<ol>
+<li>直接到app store下载最新版的osx系统：https://itunes.apple.com/cn/app/os-x-yosemite/id915041082?mt=12</li>
+<li>命令行执行下面的命令，制作安装盘，注意将U盘路径替换成自己，系统路径也需要匹配。这一步需要比较长时间，耐心等待。<code>sudo /Applications/Install\ OS\ X\ Yosemite.app/Contents/Resources/createinstallmedia --volume /Volumes/QY --applicationpath /Applications/Install\ OS\ X\ Yosemite.app</code></li>
+<li>插上U盘，按下Option键重启电脑，选择重新安装系统。</li>
+</ol>
 
-<ul>
-<li>Compiler instructions</li>
-<li>Build-time instructions</li>
-<li>Runtime instructions</li>
-</ul>
+<h1><a style="display: block;" name="从老电脑将内容迁移过来" href="#从老电脑将内容迁移过来"></a>从老电脑将内容迁移过来</h1>
 
-<p>Compiler instructions比如Java&rsquo;s Builtin Annotations，give instructions to the Java compiler：</p>
+<p>官网说的两台mac连在同一wifi上就能成功，试了没成功。后来找到一个方式：</p>
 
-<ul>
-<li>@Deprecated</li>
-<li>@Override</li>
-<li>@SuppressWarnings</li>
-</ul>
+<ol>
+<li>老mac创建一个network，并连上这个网络<br />
+<img src="https://farm1.staticflickr.com/328/19577943046_2f1a554344.jpg" alt="" />
+<br /></li>
+</ol>
 
-<p>The build process includes generating source code, compiling the source, generating XML files (e.g. deployment descriptors), packaging the compiled code and files into a JAR file etc. Building the software is typically done by an automatic build tool like Apache Ant or Apache Maven. Build tools may scan your Java code for specific annotations and generate source code or other files based on these annotations. Build-time instructions比如</p>
+<p><img src="https://farm1.staticflickr.com/487/19577980266_0cf6d9ea45.jpg" alt="" />
+</p>
 
-<h1><a style="display: block;" name="构成" href="#构成"></a>构成</h1>
+<ol>
+<li>老mac设置网络共享，注意这里可能需要选择Share your connection from : ThunderBolt Ethernet，To computers using: Wi-Fi。并注意打开防火墙<br /></li>
+</ol>
 
-<p>java annotation主要构成：</p>
+<p><img src="https://farm4.staticflickr.com/3803/18981584834_c24a7b9168.jpg" alt="" />
+</p>
 
-<ul>
-<li><p>Annotation Elements</p>
+<ol>
+<li>新mac连上老mac的网络<br /></li>
+<li>两者打开Migration Assitant传递数据</li>
+<li>等待好几个小时直到完成。</li>
+</ol>
 
-<pre><code>You can use all primitive data types as element data types. You can 
-also use arrays as data type. You cannot use complex objects as data type.
-</code></pre></li>
+<p>因为无线是在太慢，如果有ThunderBolt to ThunderBolt转接线，就不用这么麻烦了。</p>
 
-<li><p>Annotation Placement,@Target:</p>
-
-<pre><code>You can put Java annotations above classes, interfaces, methods, 
-method parameters, fields and local variables.
-</code></pre></li>
-
-<li><p>Java Annotation Purposes,@Retention:</p>
-
-<pre><code>/**
- * Annotations are to be discarded by the compiler.
- * (If you create your own annotations for use with build tools that scan the code, you can use this retention policy.)
- */
-SOURCE,
-
-
-/**
-* Annotations are to be recorded in the class file by the compiler
-* but need not be retained by the VM at run time.  This is the default
-* behavior.
-*/
-CLASS,
-
-
-/**
-* Annotations are to be recorded in the class file by the compiler and
-* retained by the VM at run time, so they may be read reflectively.
-*
-* @see java.lang.reflect.AnnotatedElement
-*/
-RUNTIME
-</code></pre></li>
-
-<li><p>@Inherited 可以被subclasses继承，只能用在class上</p></li>
-
-<li><p>@Documented 标识javaDoc中可以见这个annotation</p></li>
-</ul>
-
-<h1><a style="display: block;" name="难点：理解class、runtime区别" href="#难点：理解class、runtime区别"></a>难点：理解CLASS、RUNTIME区别</h1>
-
-<p><a href="http://stackoverflow.com/questions/3107970/annotations-retention-policy">这个stackoverflow</a>提到RetentionPolicy.CLASS实际上 &ldquo;Discard during class load.Useful when doing bytecode-level post-processing. &ldquo;，而RetentionPolicy.RUNTIME: Do not discard. 我们进一步看什么叫做bytecode-level post-processing。<a href="http://stackoverflow.com/questions/15268057/where-does-bytecode-injection-happen">这个stackoverflow</a>提到，我们可以借助一些工具在多个阶段对bytecode进行处理。例如 Javassist / ASM这两个工具可以做到的。可以参考fastjson的源码，来理解这两个个工具如何使用。</p>
-
-<p>但是，似乎还是不能解释，因为我遇到过一个case，用CLASS级别，同样可以通过反射库拿到这些标签。<a href="http://stackoverflow.com/questions/21167610/does-reflections-library-ignore-the-retentionpolicy?rq=1">这个stackoverflow</a>解释这个事情是&rdquo;Though “need not be retained” does not sound like a strong requirement.&ldquo;，说明并不是严格限制，如果你用第三方反射库或者自定义annotation，结果不一定如此。</p>
-
-<h2><a style="display: block;" name="fastjson如何使用反射" href="#fastjson如何使用反射"></a>fastjson如何使用反射</h2>
-
-<p>待续</p>
-
-<p>参考：</p>
-
-<p><a href="http://ifeve.com/java-reflection-8-annotation/">Java Reflection(八):注解</a><br />
-<a href="http://tutorials.jenkov.com/java/annotations.html">Java Annotations</a><br />
-<a href="http://docs.oracle.com/javase/tutorial/java/annotations/">Lesson: Annotations</a><br />
-<a href="http://en.wikipedia.org/wiki/Java_annotation#Processing">Java annotation wiki</a></p>
+<p>参考：<br />
+<a href="https://support.apple.com/en-us/HT204350">Move your content to a new Mac</a><br />
+<a href="http://marcushesse.com/2012/use-migration-assistant-with-macbook-air-over-airport-wifi/">use-migration-assistant-with-macbook-air-over-airport-wifi</a></p>
 
     <hr>
     <div class="pagination">
       <ul>
         <ul>
           
-            <li class="prev"><a href="/2014/12/19/computer-noun-explanation.html" title="计算机、编程术语解释">&larr; Previous</a></li>
           
+            <li class="prev disabled"><a>&larr; Previous</a></li>
           
 
             <li><a href="/archive">Archive</a></li>
 
           
-            <li class="next"><a href="/2014/12/18/concurrent-programming-lock.html" title="并发编程 - 锁">Next &rarr;</a></li>
+            <li class="next"><a href="/2015/07/08/jvm-gc.html" title="jvm——gc">Next &rarr;</a></li>
           
           
         </ul>
@@ -204,13 +159,13 @@ RUNTIME
   
   <div class="span4">
     <h4>Published</h4>
-    <div class="date"><span>2014-12-18</span></div>
+    <div class="date"><span>2015-07-10</span></div>
     <br>
     <h4>Categories</h4>
     <ul class="tag_box">
     
       <li>
-  <a href="/categories/#java-ref">java <span>15</span></a>
+  <a href="/categories/#osx-ref">osx <span>1</span></a>
 </li>
     
     </ul>

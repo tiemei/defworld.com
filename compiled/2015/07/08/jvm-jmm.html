@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>笔记 - java annotation</title>
+    <title>JVM——JMM，java内存模型</title>
   
     <meta name="author" content="tiemei">
 
@@ -76,109 +76,42 @@
 
       <div class="content">
         <div class="page-header">
-  <h1>笔记 - java annotation </h1>
+  <h1>JVM——JMM，java内存模型 </h1>
 </div>
 
 <div class="row">
   <div class="span8">
-    <h1><a style="display: block;" name="分类" href="#分类"></a>分类</h1>
+    <h2><a style="display: block;" name="简介jmm与硬件内存架构的关系" href="#简介jmm与硬件内存架构的关系"></a>简介JMM与硬件内存架构的关系</h2>
 
-<p>java annotation主要分为以下几类：</p>
+<p>java虚拟机包含一个完整的计算机模型，java内存模型跟硬件内存架构之间的关系是：</p>
 
-<ul>
-<li>Compiler instructions</li>
-<li>Build-time instructions</li>
-<li>Runtime instructions</li>
-</ul>
+<p><img src="https://farm1.staticflickr.com/328/19329026068_2c37a4027e.jpg" alt="jmm-cpu" />
+</p>
 
-<p>Compiler instructions比如Java&rsquo;s Builtin Annotations，give instructions to the Java compiler：</p>
-
-<ul>
-<li>@Deprecated</li>
-<li>@Override</li>
-<li>@SuppressWarnings</li>
-</ul>
-
-<p>The build process includes generating source code, compiling the source, generating XML files (e.g. deployment descriptors), packaging the compiled code and files into a JAR file etc. Building the software is typically done by an automatic build tool like Apache Ant or Apache Maven. Build tools may scan your Java code for specific annotations and generate source code or other files based on these annotations. Build-time instructions比如</p>
-
-<h1><a style="display: block;" name="构成" href="#构成"></a>构成</h1>
-
-<p>java annotation主要构成：</p>
-
-<ul>
-<li><p>Annotation Elements</p>
-
-<pre><code>You can use all primitive data types as element data types. You can 
-also use arrays as data type. You cannot use complex objects as data type.
-</code></pre></li>
-
-<li><p>Annotation Placement,@Target:</p>
-
-<pre><code>You can put Java annotations above classes, interfaces, methods, 
-method parameters, fields and local variables.
-</code></pre></li>
-
-<li><p>Java Annotation Purposes,@Retention:</p>
-
-<pre><code>/**
- * Annotations are to be discarded by the compiler.
- * (If you create your own annotations for use with build tools that scan the code, you can use this retention policy.)
- */
-SOURCE,
-
-
-/**
-* Annotations are to be recorded in the class file by the compiler
-* but need not be retained by the VM at run time.  This is the default
-* behavior.
-*/
-CLASS,
-
-
-/**
-* Annotations are to be recorded in the class file by the compiler and
-* retained by the VM at run time, so they may be read reflectively.
-*
-* @see java.lang.reflect.AnnotatedElement
-*/
-RUNTIME
-</code></pre></li>
-
-<li><p>@Inherited 可以被subclasses继承，只能用在class上</p></li>
-
-<li><p>@Documented 标识javaDoc中可以见这个annotation</p></li>
-</ul>
-
-<h1><a style="display: block;" name="难点：理解class、runtime区别" href="#难点：理解class、runtime区别"></a>难点：理解CLASS、RUNTIME区别</h1>
-
-<p><a href="http://stackoverflow.com/questions/3107970/annotations-retention-policy">这个stackoverflow</a>提到RetentionPolicy.CLASS实际上 &ldquo;Discard during class load.Useful when doing bytecode-level post-processing. &ldquo;，而RetentionPolicy.RUNTIME: Do not discard. 我们进一步看什么叫做bytecode-level post-processing。<a href="http://stackoverflow.com/questions/15268057/where-does-bytecode-injection-happen">这个stackoverflow</a>提到，我们可以借助一些工具在多个阶段对bytecode进行处理。例如 Javassist / ASM这两个工具可以做到的。可以参考fastjson的源码，来理解这两个个工具如何使用。</p>
-
-<p>但是，似乎还是不能解释，因为我遇到过一个case，用CLASS级别，同样可以通过反射库拿到这些标签。<a href="http://stackoverflow.com/questions/21167610/does-reflections-library-ignore-the-retentionpolicy?rq=1">这个stackoverflow</a>解释这个事情是&rdquo;Though “need not be retained” does not sound like a strong requirement.&ldquo;，说明并不是严格限制，如果你用第三方反射库或者自定义annotation，结果不一定如此。</p>
-
-<h2><a style="display: block;" name="fastjson如何使用反射" href="#fastjson如何使用反射"></a>fastjson如何使用反射</h2>
-
-<p>待续</p>
+<p>stack、heap有可能出现在寄存器、cpu缓存层、主内存中，也因此可能出现可见性（某个线程对一个对象的修改，不被另一个线程看见）、race conditions（竞争状态，修改同一个对象时可能会出现问题）。</p>
 
 <p>参考：</p>
 
-<p><a href="http://ifeve.com/java-reflection-8-annotation/">Java Reflection(八):注解</a><br />
-<a href="http://tutorials.jenkov.com/java/annotations.html">Java Annotations</a><br />
-<a href="http://docs.oracle.com/javase/tutorial/java/annotations/">Lesson: Annotations</a><br />
-<a href="http://en.wikipedia.org/wiki/Java_annotation#Processing">Java annotation wiki</a></p>
+<p><a href="http://ifeve.com/java-memory-model-6/">Java内存模型</a><br />
+<a href="http://ifeve.com/java-memory-model-0/">深入理解java内存模型系列文章</a><br />
+<a href="http://ifeve.com/jmm-faq/">Java内存模型FAQ</a><br />
+<a href="http://ifeve.com/syn-jmm/">同步和Java内存模型</a><br />
+<a href="http://it.deepinmind.com/jvm/2015/02/13/jvm-having-access-to-less-memory-than-xmx.html">遗失的java堆内存</a><br />
+<a href="http://coderbee.net/index.php/java/20140811/979">java对象内存布局</a></p>
 
     <hr>
     <div class="pagination">
       <ul>
         <ul>
           
-            <li class="prev"><a href="/2014/12/19/computer-noun-explanation.html" title="计算机、编程术语解释">&larr; Previous</a></li>
+            <li class="prev"><a href="/2015/07/08/jvm-gc.html" title="jvm——gc">&larr; Previous</a></li>
           
           
 
             <li><a href="/archive">Archive</a></li>
 
           
-            <li class="next"><a href="/2014/12/18/concurrent-programming-lock.html" title="并发编程 - 锁">Next &rarr;</a></li>
+            <li class="next"><a href="/2015/06/07/https.html" title="https加密与证书">Next &rarr;</a></li>
           
           
         </ul>
@@ -204,7 +137,7 @@ RUNTIME
   
   <div class="span4">
     <h4>Published</h4>
-    <div class="date"><span>2014-12-18</span></div>
+    <div class="date"><span>2015-07-08</span></div>
     <br>
     <h4>Categories</h4>
     <ul class="tag_box">
