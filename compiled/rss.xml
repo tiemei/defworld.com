@@ -3,7 +3,7 @@
   <channel>
     <title>顽固的卡夫卡</title>
     <link>http://defworld.com</link>
-    <pubDate>2015-07-15 07:33:40 +0800</pubDate>
+    <pubDate>2015-07-15 08:28:48 +0800</pubDate>
     <item>
       <title>【摘抄】garmin-重置</title>
       <link>http://defworld.com/2015/07/11/garmin-reset.html</link>
@@ -74,6 +74,29 @@ DO IT AT YOUR OWN RISK.. THER IS ALWAYS SOMETHING THAT MIGHT GO WRONG!&lt;/p&gt;
 &lt;p&gt;参考：&lt;br /&gt;
 &lt;a href=&#34;https://support.apple.com/en-us/HT204350&#34;&gt;Move your content to a new Mac&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&#34;http://marcushesse.com/2012/use-migration-assistant-with-macbook-air-over-airport-wifi/&#34;&gt;use-migration-assistant-with-macbook-air-over-airport-wifi&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>JVM——JMM，java内存模型</title>
+      <link>http://defworld.com/2015/07/08/jvm-jmm.html</link>
+      <pubDate>2015-07-08 12:00:00 +0800</pubDate>
+      <description>&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;简介jmm与硬件内存架构的关系&#34; href=&#34;#简介jmm与硬件内存架构的关系&#34;&gt;&lt;/a&gt;简介JMM与硬件内存架构的关系&lt;/h2&gt;
+
+&lt;p&gt;java虚拟机包含一个完整的计算机模型，java内存模型跟硬件内存架构之间的关系是：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://farm1.staticflickr.com/328/19329026068_2c37a4027e.jpg&#34; alt=&#34;jmm-cpu&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;stack、heap有可能出现在寄存器、cpu缓存层、主内存中，也因此可能出现可见性（某个线程对一个对象的修改，不被另一个线程看见）、race conditions（竞争状态，修改同一个对象时可能会出现问题）。&lt;/p&gt;
+
+&lt;p&gt;参考：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://ifeve.com/java-memory-model-6/&#34;&gt;Java内存模型&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/java-memory-model-0/&#34;&gt;深入理解java内存模型系列文章&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/jmm-faq/&#34;&gt;Java内存模型FAQ&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/syn-jmm/&#34;&gt;同步和Java内存模型&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://it.deepinmind.com/jvm/2015/02/13/jvm-having-access-to-less-memory-than-xmx.html&#34;&gt;遗失的java堆内存&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://coderbee.net/index.php/java/20140811/979&#34;&gt;java对象内存布局&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -341,7 +364,7 @@ age1，gc过一次对象占大小19321624 byte，后面一个是各age累加值�
 
 &lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;gc日志实例分析&#34; href=&#34;#gc日志实例分析&#34;&gt;&lt;/a&gt;gc日志实例分析&lt;/h2&gt;
 
-&lt;h3&gt;Throughput垃圾收集器在young generation中生成的日志&lt;/h3&gt;
+&lt;h3&gt;Throughput垃圾收集器在young generation中生成的日志例子&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code&gt;[GC [PSYoungGen: 142816K-&amp;gt;10752K(142848K)] 246648K-&amp;gt;243136K(375296K), 0.0935090 secs] [Times: user=0.55 sys=0.10, real=0.09 secs]
 &lt;/code&gt;&lt;/pre&gt;
@@ -351,7 +374,7 @@ age1，gc过一次对象占大小19321624 byte，后面一个是各age累加值�
 整个对空间从246648K变成243136K，总容量375296K。&lt;br /&gt;
 cpu使用时间0.55 + 0.10 &amp;gt; 0.09的原因，是因为多线程执行。&lt;/p&gt;
 
-&lt;h3&gt;Throughput垃圾收集器 full gc日志&lt;/h3&gt;
+&lt;h3&gt;Throughput垃圾收集器 full gc日志例子&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code&gt;[Full GC
  [PSYoungGen: 10752K-&amp;gt;9707K(142848K)]
@@ -363,7 +386,7 @@ cpu使用时间0.55 + 0.10 &amp;gt; 0.09的原因，是因为多线程执行。&
 &lt;p&gt;对于Serial垃圾收集器，详细的GC日志和Throughput垃圾收集器是非常相似的。&lt;br /&gt;
 CMS垃圾收集器 full gc日志不太一样，见下面的例子。&lt;/p&gt;
 
-&lt;h3&gt;典型CMS gc日志&lt;/h3&gt;
+&lt;h3&gt;典型CMS gc日志例子&lt;/h3&gt;
 
 &lt;p&gt;&lt;code&gt;39.910: [GC 39.910: [ParNew: 261760K-&amp;gt;0K(261952K), 0.2314667 secs] 262017K-&amp;gt;26386K(1048384K), 0.2318679 secs]&lt;/code&gt;&lt;/p&gt;
 
@@ -399,17 +422,49 @@ Stop-the-world phase.&lt;/p&gt;
 有时年老代有足够空间也会触发concurrent mode failure，以为年老代堆空间碎片化严重。而我们知道CMS收集器根本是一个non-compaction的收集器。&lt;br /&gt;
 从java 1.5版本开始，不再是基于最坏情况下存活的年轻代对象，老年代是否有足够的空间，来判断是否要触发concurrent mode failure了；而是基于历史数据给出一个估计值，而这个估计值往往比最坏情况小很多。使用UseSerialGC要获得同样的效果，需要打开XX:+HandlePromotionFailure。&lt;/p&gt;
 
-&lt;h3&gt;incremental mode (i-cms)&lt;/h3&gt;
+&lt;h3&gt;另一种触发full gc的情况(没看懂&amp;hellip;)&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;283.736: [Full GC 283.736: [ParNew: 261599K-&amp;gt;261599K(261952K), 0.0000615 secs] 826554K-&amp;gt;826554K(1048384K), 0.0003259 secs]
+GC locker: Trying a full collection because scavenge failed
+283.736: [Full GC 283.736: [ParNew: 261599K-&amp;gt;261599K(261952K), 0.0000288 secs]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Stop-the-world GC happening when a JNI Critical section is released. Here again the young generation collection failed due to “full promotion guarantee failure” and then the Full GC is being invoked.&lt;/p&gt;
+
+&lt;h3&gt;incremental mode (i-cms)例子&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code&gt;2803.125: [GC 2803.125: [ParNew: 408832K-&amp;gt;0K(409216K), 0.5371950 secs] 611130K-&amp;gt;206985K(1048192K) icms_dc=4 , 0.5373720 secs]
 2824.209: [GC 2824.209: [ParNew: 408832K-&amp;gt;0K(409216K), 0.6755540 secs] 615806K-&amp;gt;211897K(1048192K) icms_dc=4 , 0.6757740 secs]
 &lt;/code&gt;&lt;/pre&gt;
 
+&lt;p&gt;需要开启-XX:+CMSIncrementalMode。&lt;br /&gt;
+上面例子两个scavenges分别花费537ms和675ms。这两个阶段中间，CMS收集器运行了一个切分后的小段任务（icms_dc，dc即duty-cycle）。简单可以计算 iCMS incremental step持续了4 * (2824.209 - 2803.125 - 0.537) / 100 = 821ms。&lt;/p&gt;
+
+&lt;h3&gt;CMS的concurrent abortable preclean例子&lt;/h3&gt;
+
+&lt;p&gt;从java 1.5开始，多了这个阶段，会将一个scavenges拆分成两个，在一次CMS remark前后分别执行，且运行在cocurrent preclean之后。这个阶段的存在有两个原因：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;为了避免 a scavenge closely followed by a CMS remark pause，导致连续两个过长的中断，只要scavenge做到一半，能够让Eden区有足够的空间来用就停止，去做CMS remark。&lt;/li&gt;
+&lt;li&gt;为了避免CSM remark阶段有过多的grey objects（未被标记对象）需要rescan，加上这个阶段，减轻CMS reamrk的负担&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;跟remark阶段有关的有两个参数，CMSScheduleRemarkEdenSizeThreshold和CMSScheduleRemarkEdenPenetration，分别默认2m、50%。如果Eden区小于CMSScheduleRemarkEdenSizeThreshold，考虑掉CMS remark开销较小，会直接到CMS remark阶段，不触发CMS-concurrent-abortable-preclean；如果大于CMSScheduleRemarkEdenSizeThreshold，会触发一次CMS-concurrent-abortable-preclean，直到Eden占用降到CMSScheduleRemarkEdenPenetration以下。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;7688.150: [CMS-concurrent-preclean-start]
+7688.186: [CMS-concurrent-preclean: 0.034/0.035 secs]
+7688.186: [CMS-concurrent-abortable-preclean-start]
+7688.465: [GC 7688.465: [ParNew: 1040940K-&amp;gt;1464K(1044544K), 0.0165840 secs] 1343593K-&amp;gt;304365K(2093120K), 0.0167509 secs]
+7690.093: [CMS-concurrent-abortable-preclean: 1.012/1.907 secs]
+7690.095: [GC[YG occupancy: 522484 K (1044544 K)]7690.095: [Rescan (parallel) , 0.3665541 secs]7690.462: [weak refs processing, 0.0003850 secs] [1 CMS-remark: 302901K(1048576K)] 825385K(2093120K), 0.3670690 secs]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面的例子在启动remark之前，插入了一条ygc，当ygc使得年轻代容量降到CMSScheduleRemarkEdenPenetration以下时，ygc中断，执行remark。&lt;/p&gt;
+
 &lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;待解决问题&#34; href=&#34;#待解决问题&#34;&gt;&lt;/a&gt;待解决问题&lt;/h2&gt;
 
 &lt;ol&gt;
 &lt;li&gt;新生代触发young gc的条件？&lt;/li&gt;
-&lt;li&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;p&gt;参考：&lt;br /&gt;
@@ -443,29 +498,6 @@ Stop-the-world phase.&lt;/p&gt;
 &lt;p&gt;系列文章：&lt;br /&gt;
 &lt;a href=&#34;http://it.deepinmind.com/categories.html#GC-ref&#34;&gt;http://it.deepinmind.com/categories.html#GC-ref&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&#34;https://plumbr.eu/handbook/gc-tuning#tuning-for-latency&#34;&gt;Garbage Collection Handbook&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    <item>
-      <title>JVM——JMM，java内存模型</title>
-      <link>http://defworld.com/2015/07/08/jvm-jmm.html</link>
-      <pubDate>2015-07-08 12:00:00 +0800</pubDate>
-      <description>&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;简介jmm与硬件内存架构的关系&#34; href=&#34;#简介jmm与硬件内存架构的关系&#34;&gt;&lt;/a&gt;简介JMM与硬件内存架构的关系&lt;/h2&gt;
-
-&lt;p&gt;java虚拟机包含一个完整的计算机模型，java内存模型跟硬件内存架构之间的关系是：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://farm1.staticflickr.com/328/19329026068_2c37a4027e.jpg&#34; alt=&#34;jmm-cpu&#34; /&gt;
-&lt;/p&gt;
-
-&lt;p&gt;stack、heap有可能出现在寄存器、cpu缓存层、主内存中，也因此可能出现可见性（某个线程对一个对象的修改，不被另一个线程看见）、race conditions（竞争状态，修改同一个对象时可能会出现问题）。&lt;/p&gt;
-
-&lt;p&gt;参考：&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://ifeve.com/java-memory-model-6/&#34;&gt;Java内存模型&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/java-memory-model-0/&#34;&gt;深入理解java内存模型系列文章&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/jmm-faq/&#34;&gt;Java内存模型FAQ&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/syn-jmm/&#34;&gt;同步和Java内存模型&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://it.deepinmind.com/jvm/2015/02/13/jvm-having-access-to-less-memory-than-xmx.html&#34;&gt;遗失的java堆内存&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://coderbee.net/index.php/java/20140811/979&#34;&gt;java对象内存布局&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -706,38 +738,6 @@ http.request.method == &amp;quot;GET&amp;quot; &amp;amp;&amp;amp; http.request.f
 </description>
     </item>
     <item>
-      <title>并发编程 - 锁</title>
-      <link>http://defworld.com/2014/12/18/concurrent-programming-lock.html</link>
-      <pubDate>2014-12-18 12:00:00 +0800</pubDate>
-      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;饥饿和公平&#34; href=&#34;#饥饿和公平&#34;&gt;&lt;/a&gt;饥饿和公平&lt;/h1&gt;
-
-&lt;p&gt;饥饿是说某个线程总是被其他线程抢走CPU运行时间，而公平指所有的线程都能公平的获得运行机会。&lt;br /&gt;
-如果是使用synchronized同步块，不能保证某个线程一定获得运行机会，所以需要使用锁。锁的实现里可以自己控制唤醒时的机会分配。理论上Java不能实现100%公平。&lt;/p&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;自旋锁&#34; href=&#34;#自旋锁&#34;&gt;&lt;/a&gt;自旋锁&lt;/h1&gt;
-
-&lt;p&gt;自旋锁是采用让当前线程不停地在循环体内执行实现的。&lt;/p&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;阻塞锁&#34; href=&#34;#阻塞锁&#34;&gt;&lt;/a&gt;阻塞锁&lt;/h1&gt;
-
-&lt;p&gt;阻塞锁，与自旋锁不同，改变了线程的运行状态。&lt;br /&gt;
-阻塞锁的优势在于，阻塞的线程不会占用cpu时间，不会导致。CPU占用率过高，但进入时间以及恢复时间都要比自旋锁略慢。在竞争激烈的情况下 阻塞锁的性能要明显高于 自旋锁。&lt;br /&gt;
-理想的情况则是; 在线程竞争不激烈的情况下，使用自旋锁，竞争激烈的情况下使用，阻塞锁。&lt;/p&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;可重入锁&#34; href=&#34;#可重入锁&#34;&gt;&lt;/a&gt;可重入锁&lt;/h1&gt;
-
-&lt;p&gt;可重入锁，也叫做递归锁，指的是同一线程外层函数获得锁之后，内层递归函数仍然有获取该锁的代码，等到其他线程unlock时，这个线程能够从这个锁里出来。&lt;/p&gt;
-
-&lt;p&gt;参考：&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://ifeve.com/starvation-and-fairness/&#34;&gt;饥饿和公平&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/java_lock_see1/&#34;&gt;java锁的种类以及辨析（一）：自旋锁&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/java_lock_see2/&#34;&gt;Java锁的种类以及辨析（二）：自旋锁的其他种类&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/java_lock_see3/&#34;&gt;Java锁的种类以及辨析（三）：阻塞锁&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/java_lock_see4/&#34;&gt;Java锁的种类以及辨析（四）：可重入锁&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    <item>
       <title>笔记 - java annotation</title>
       <link>http://defworld.com/2014/12/18/java-annotation.html</link>
       <pubDate>2014-12-18 12:00:00 +0800</pubDate>
@@ -825,6 +825,38 @@ RUNTIME
 &lt;a href=&#34;http://tutorials.jenkov.com/java/annotations.html&#34;&gt;Java Annotations&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&#34;http://docs.oracle.com/javase/tutorial/java/annotations/&#34;&gt;Lesson: Annotations&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&#34;http://en.wikipedia.org/wiki/Java_annotation#Processing&#34;&gt;Java annotation wiki&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>并发编程 - 锁</title>
+      <link>http://defworld.com/2014/12/18/concurrent-programming-lock.html</link>
+      <pubDate>2014-12-18 12:00:00 +0800</pubDate>
+      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;饥饿和公平&#34; href=&#34;#饥饿和公平&#34;&gt;&lt;/a&gt;饥饿和公平&lt;/h1&gt;
+
+&lt;p&gt;饥饿是说某个线程总是被其他线程抢走CPU运行时间，而公平指所有的线程都能公平的获得运行机会。&lt;br /&gt;
+如果是使用synchronized同步块，不能保证某个线程一定获得运行机会，所以需要使用锁。锁的实现里可以自己控制唤醒时的机会分配。理论上Java不能实现100%公平。&lt;/p&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;自旋锁&#34; href=&#34;#自旋锁&#34;&gt;&lt;/a&gt;自旋锁&lt;/h1&gt;
+
+&lt;p&gt;自旋锁是采用让当前线程不停地在循环体内执行实现的。&lt;/p&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;阻塞锁&#34; href=&#34;#阻塞锁&#34;&gt;&lt;/a&gt;阻塞锁&lt;/h1&gt;
+
+&lt;p&gt;阻塞锁，与自旋锁不同，改变了线程的运行状态。&lt;br /&gt;
+阻塞锁的优势在于，阻塞的线程不会占用cpu时间，不会导致。CPU占用率过高，但进入时间以及恢复时间都要比自旋锁略慢。在竞争激烈的情况下 阻塞锁的性能要明显高于 自旋锁。&lt;br /&gt;
+理想的情况则是; 在线程竞争不激烈的情况下，使用自旋锁，竞争激烈的情况下使用，阻塞锁。&lt;/p&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;可重入锁&#34; href=&#34;#可重入锁&#34;&gt;&lt;/a&gt;可重入锁&lt;/h1&gt;
+
+&lt;p&gt;可重入锁，也叫做递归锁，指的是同一线程外层函数获得锁之后，内层递归函数仍然有获取该锁的代码，等到其他线程unlock时，这个线程能够从这个锁里出来。&lt;/p&gt;
+
+&lt;p&gt;参考：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://ifeve.com/starvation-and-fairness/&#34;&gt;饥饿和公平&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/java_lock_see1/&#34;&gt;java锁的种类以及辨析（一）：自旋锁&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/java_lock_see2/&#34;&gt;Java锁的种类以及辨析（二）：自旋锁的其他种类&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/java_lock_see3/&#34;&gt;Java锁的种类以及辨析（三）：阻塞锁&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/java_lock_see4/&#34;&gt;Java锁的种类以及辨析（四）：可重入锁&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -1821,38 +1853,6 @@ if (maybeComputer.isPresent()) { // 这里只有present/absent两种状态，pre
 </description>
     </item>
     <item>
-      <title>压力测试 - 关注那些点</title>
-      <link>http://defworld.com/2014/08/08/load-test-3.html</link>
-      <pubDate>2014-08-08 12:00:00 +0800</pubDate>
-      <description>&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;jvm&#34; href=&#34;#jvm&#34;&gt;&lt;/a&gt;jvm&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code&gt;a. 启动参数
-b. gc
-c. 关闭即时编译
-d. 启动加载问题
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;nginx&#34; href=&#34;#nginx&#34;&gt;&lt;/a&gt;nginx&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;磁盘I/O是阻塞的&lt;/li&gt;
-&lt;li&gt;CPU Affinity&lt;/li&gt;
-&lt;li&gt;Keep Alive&lt;/li&gt;
-&lt;li&gt;tcp_nodelay and tcp_nopush&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;系统层面&#34; href=&#34;#系统层面&#34;&gt;&lt;/a&gt;系统层面&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;cpu&lt;/li&gt;
-&lt;li&gt;mem&lt;/li&gt;
-&lt;li&gt;I/O&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;java代码层面&#34; href=&#34;#java代码层面&#34;&gt;&lt;/a&gt;java代码层面&lt;/h2&gt;
-</description>
-    </item>
-    <item>
       <title>压力测试小结 - 工具</title>
       <link>http://defworld.com/2014/08/08/load-test-1.html</link>
       <pubDate>2014-08-08 12:00:00 +0800</pubDate>
@@ -2048,6 +2048,38 @@ lsof -i[46] [protocol][@hostname|hostaddr][:service|port]
 </description>
     </item>
     <item>
+      <title>压力测试 - 关注那些点</title>
+      <link>http://defworld.com/2014/08/08/load-test-3.html</link>
+      <pubDate>2014-08-08 12:00:00 +0800</pubDate>
+      <description>&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;jvm&#34; href=&#34;#jvm&#34;&gt;&lt;/a&gt;jvm&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;a. 启动参数
+b. gc
+c. 关闭即时编译
+d. 启动加载问题
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;nginx&#34; href=&#34;#nginx&#34;&gt;&lt;/a&gt;nginx&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;磁盘I/O是阻塞的&lt;/li&gt;
+&lt;li&gt;CPU Affinity&lt;/li&gt;
+&lt;li&gt;Keep Alive&lt;/li&gt;
+&lt;li&gt;tcp_nodelay and tcp_nopush&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;系统层面&#34; href=&#34;#系统层面&#34;&gt;&lt;/a&gt;系统层面&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;cpu&lt;/li&gt;
+&lt;li&gt;mem&lt;/li&gt;
+&lt;li&gt;I/O&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;java代码层面&#34; href=&#34;#java代码层面&#34;&gt;&lt;/a&gt;java代码层面&lt;/h2&gt;
+</description>
+    </item>
+    <item>
       <title>js入门笔记（三）</title>
       <link>http://defworld.com/2014/06/15/notes-js-3.html</link>
       <pubDate>2014-06-15 12:00:00 +0800</pubDate>
@@ -2097,140 +2129,6 @@ var Record = function(data) {
 
 &lt;p&gt;参考:&lt;br /&gt;
 &lt;a href=&#34;http://stackoverflow.com/questions/10453725/weird-behavior-with-javascript-getter-setters&#34;&gt;Weird behavior with Javascript getter/setters&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    <item>
-      <title>js入门笔记（一）——基础</title>
-      <link>http://defworld.com/2014/06/13/notes-js-1.html</link>
-      <pubDate>2014-06-13 12:00:00 +0800</pubDate>
-      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;js函数有啥特点&#34; href=&#34;#js函数有啥特点&#34;&gt;&lt;/a&gt;js函数有啥特点&lt;/h1&gt;
-
-&lt;ul&gt;
-&lt;li&gt;函数的参数实际上在内部是用一个数组表示的，在函数体内可以通过&lt;code&gt;arguments&lt;/code&gt;对象访问。arguments只是跟数组类型可以通过方括号访问每一个元素，实际不是Array实例&lt;/li&gt;
-&lt;li&gt;函数定义的参数与实际传递的参数没有个数相等的限制，不像Java语言会编译校验这个&lt;/li&gt;
-&lt;li&gt;因为函数参数是由包含另零个或多个值的数组来表示的，没有函数签名，故&lt;code&gt;没有重载&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;js基本类型和引用类型&#34; href=&#34;#js基本类型和引用类型&#34;&gt;&lt;/a&gt;js基本类型和引用类型&lt;/h1&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;基本数据类型&lt;/code&gt;：Undefined 、 Null 、 Boolean 、 Number 、 String&lt;/li&gt;
-&lt;li&gt;不能给基本数据类型添加属性，添加以后访问也是undifined&lt;/li&gt;
-&lt;li&gt;因为String在js不同于其他语言是基本类型，所以赋值的时候会将值拷贝一份&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3&gt;检测类型&lt;/h3&gt;
-
-&lt;p&gt;&lt;strong&gt;&lt;code&gt;typeof&lt;/code&gt;区分是基本类型还是应用类型&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;var s = &#39;Nicholas&#39;;
-var b = true;
-var i = 22;
-var u;
-var n = null;
-var o = new Object();
-
-alert(typeof s); // string
-alert(typeof i); // number
-alert(typeof b); // boolean
-alert(typeof u); // undefined
-alert(typeof n); // object
-alert(typeof o); // object
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;&lt;code&gt;instanceof&lt;/code&gt;检测对象是啥基本类型&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;所有引用类型都是Object的实例&lt;/li&gt;
-&lt;li&gt;对基本类型使用都会返回false&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;函数也是对象。&lt;/p&gt;
-
-&lt;h3&gt;基本包装类型Boolean Number String&lt;/h3&gt;
-
-&lt;p&gt;不建议在代码中使用包装类型。&lt;br /&gt;
-之所以基本类型上有方法可以访问，是因为执行的瞬间后台创建了一个包装类型，例如：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;var s1 = &#39;some text&#39;;
-var s2 = s1.substring(2);
-
-// 上面的实际上再后台是这么运行的
-
-var s1 = new String(&#39;some text&#39;);
-var s2 = s1.substring(2);
-s1 = null; // 使用new操作符创建的引用类型实例作用域内一直存在，而这里只是存在于一行代码的执行瞬间
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ol&gt;
-&lt;li&gt;创建String类型的一个实例&lt;/li&gt;
-&lt;li&gt;在实例上调用指定的方法&lt;/li&gt;
-&lt;li&gt;销毁这个实例&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;// 两种创建包装类型的方式
-
-var obj = new Object(&#39;some text&#39;);
-
-// 等价于
-
-var str = new String(&#39;some text&#39;);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code&gt;// 转型函数与包装类型
-
-var value = &#39;25&#39;;
-var number = Number(value); // 转型函数
-alert(typeof number); // &#39;number&#39;
-
-var obj = new Number(value); // 构造函数
-alert(typeof obj); // &#39;object&#39;
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;布尔表达式中所有对象都会被转换成true&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;var falseObj = new Boolean(false);
-var result = falseObj &amp;amp;&amp;amp; true;
-alert(result); // true
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;js执行环境及作用域&#34; href=&#34;#js执行环境及作用域&#34;&gt;&lt;/a&gt;js执行环境及作用域&lt;/h1&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;执行环境与作用域链&#34; href=&#34;#执行环境与作用域链&#34;&gt;&lt;/a&gt;执行环境与作用域链&lt;/h2&gt;
-
-&lt;p&gt;每个&lt;code&gt;执行环境&lt;/code&gt;都有一个与之关联的&lt;strong&gt;变量对象（variable object）&lt;/strong&gt;，环境中定义的所有变量和函数都保存在这个对象中，虽然我们编写的代码无法访问这个对象，但解析器在处理数据时会在后台使用它。&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;每个函数有自己的执行环境&lt;/li&gt;
-&lt;li&gt;代码在一个环境中执行时，会创建变量对象的一个&lt;code&gt;作用域链（scope chain）&lt;/code&gt;，超找对象也按此链形成一个优先级&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;延长作用域链&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;function buildUrl() {
-    var qs = &#39;?debug=true&#39;;
-
-    with(location) {
-        var url = herf + qs; // herf实际上是location.herf
-    }
-
-    return url;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;try-catch&lt;/code&gt;的catch块也是类似&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;没有块级作用域&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;所有控制语句的代码块内部声明的变量都会逸出到外部，不同于Java语言。&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;函数中的声明的var变量作用域仅限于函数内部&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;参考:&lt;/p&gt;
-
-&lt;p&gt;JavaScript高级程序设计（第2版）》&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -2767,6 +2665,140 @@ SubType.prototype.sayAge = function() {
 &lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;js闭包&#34; href=&#34;#js闭包&#34;&gt;&lt;/a&gt;js闭包&lt;/h1&gt;
 
 &lt;p&gt;待续&lt;/p&gt;
+
+&lt;p&gt;参考:&lt;/p&gt;
+
+&lt;p&gt;JavaScript高级程序设计（第2版）》&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>js入门笔记（一）——基础</title>
+      <link>http://defworld.com/2014/06/13/notes-js-1.html</link>
+      <pubDate>2014-06-13 12:00:00 +0800</pubDate>
+      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;js函数有啥特点&#34; href=&#34;#js函数有啥特点&#34;&gt;&lt;/a&gt;js函数有啥特点&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;函数的参数实际上在内部是用一个数组表示的，在函数体内可以通过&lt;code&gt;arguments&lt;/code&gt;对象访问。arguments只是跟数组类型可以通过方括号访问每一个元素，实际不是Array实例&lt;/li&gt;
+&lt;li&gt;函数定义的参数与实际传递的参数没有个数相等的限制，不像Java语言会编译校验这个&lt;/li&gt;
+&lt;li&gt;因为函数参数是由包含另零个或多个值的数组来表示的，没有函数签名，故&lt;code&gt;没有重载&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;js基本类型和引用类型&#34; href=&#34;#js基本类型和引用类型&#34;&gt;&lt;/a&gt;js基本类型和引用类型&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;基本数据类型&lt;/code&gt;：Undefined 、 Null 、 Boolean 、 Number 、 String&lt;/li&gt;
+&lt;li&gt;不能给基本数据类型添加属性，添加以后访问也是undifined&lt;/li&gt;
+&lt;li&gt;因为String在js不同于其他语言是基本类型，所以赋值的时候会将值拷贝一份&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;检测类型&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;typeof&lt;/code&gt;区分是基本类型还是应用类型&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;var s = &#39;Nicholas&#39;;
+var b = true;
+var i = 22;
+var u;
+var n = null;
+var o = new Object();
+
+alert(typeof s); // string
+alert(typeof i); // number
+alert(typeof b); // boolean
+alert(typeof u); // undefined
+alert(typeof n); // object
+alert(typeof o); // object
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;instanceof&lt;/code&gt;检测对象是啥基本类型&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;所有引用类型都是Object的实例&lt;/li&gt;
+&lt;li&gt;对基本类型使用都会返回false&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;函数也是对象。&lt;/p&gt;
+
+&lt;h3&gt;基本包装类型Boolean Number String&lt;/h3&gt;
+
+&lt;p&gt;不建议在代码中使用包装类型。&lt;br /&gt;
+之所以基本类型上有方法可以访问，是因为执行的瞬间后台创建了一个包装类型，例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;var s1 = &#39;some text&#39;;
+var s2 = s1.substring(2);
+
+// 上面的实际上再后台是这么运行的
+
+var s1 = new String(&#39;some text&#39;);
+var s2 = s1.substring(2);
+s1 = null; // 使用new操作符创建的引用类型实例作用域内一直存在，而这里只是存在于一行代码的执行瞬间
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;创建String类型的一个实例&lt;/li&gt;
+&lt;li&gt;在实例上调用指定的方法&lt;/li&gt;
+&lt;li&gt;销毁这个实例&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;// 两种创建包装类型的方式
+
+var obj = new Object(&#39;some text&#39;);
+
+// 等价于
+
+var str = new String(&#39;some text&#39;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;// 转型函数与包装类型
+
+var value = &#39;25&#39;;
+var number = Number(value); // 转型函数
+alert(typeof number); // &#39;number&#39;
+
+var obj = new Number(value); // 构造函数
+alert(typeof obj); // &#39;object&#39;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;布尔表达式中所有对象都会被转换成true&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;var falseObj = new Boolean(false);
+var result = falseObj &amp;amp;&amp;amp; true;
+alert(result); // true
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;js执行环境及作用域&#34; href=&#34;#js执行环境及作用域&#34;&gt;&lt;/a&gt;js执行环境及作用域&lt;/h1&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;执行环境与作用域链&#34; href=&#34;#执行环境与作用域链&#34;&gt;&lt;/a&gt;执行环境与作用域链&lt;/h2&gt;
+
+&lt;p&gt;每个&lt;code&gt;执行环境&lt;/code&gt;都有一个与之关联的&lt;strong&gt;变量对象（variable object）&lt;/strong&gt;，环境中定义的所有变量和函数都保存在这个对象中，虽然我们编写的代码无法访问这个对象，但解析器在处理数据时会在后台使用它。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;每个函数有自己的执行环境&lt;/li&gt;
+&lt;li&gt;代码在一个环境中执行时，会创建变量对象的一个&lt;code&gt;作用域链（scope chain）&lt;/code&gt;，超找对象也按此链形成一个优先级&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;延长作用域链&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;function buildUrl() {
+    var qs = &#39;?debug=true&#39;;
+
+    with(location) {
+        var url = herf + qs; // herf实际上是location.herf
+    }
+
+    return url;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;try-catch&lt;/code&gt;的catch块也是类似&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;没有块级作用域&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;所有控制语句的代码块内部声明的变量都会逸出到外部，不同于Java语言。&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;函数中的声明的var变量作用域仅限于函数内部&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;参考:&lt;/p&gt;
 
@@ -3712,6 +3744,62 @@ mvn clean deploy 只发布calss jar包
 </description>
     </item>
     <item>
+      <title>java锁笔记</title>
+      <link>http://defworld.com/2013/08/30/java-locks.html</link>
+      <pubDate>2013-08-30 12:00:00 +0800</pubDate>
+      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;线程通信&#34; href=&#34;#线程通信&#34;&gt;&lt;/a&gt;线程通信&lt;/h1&gt;
+
+&lt;p&gt;通信遇到的问题包括：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;共享对象：需要做同步处理&lt;/li&gt;
+&lt;li&gt;忙等待：循环等待另一个线程发来信号，可sleep&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;wait(),notify()&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1. 遇到mobj.wait()，让线程进入非运行状态，直到另一个线程mobj.nitify
+2. 这几个方法必须在获得mobj锁的前提下调用，否则IllegalMonitorStateException
+3. 一个线程调用了wait()，即释放mobj上的锁
+4. 一旦一个线程被唤醒，不能立刻就退出wait()的方法调用，直到调用
+notify()的线程退出了它自己的同步块。因此，多个线程被notifyAll唤醒，只有一个
+线程可以最终退出wait()方法，因为必须获得mobj的锁
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;丢失的信号（Missed Signal）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;线程A先调用了mobj.notify()，线程B后调用mobj.wait()，通知信号发送过了就被丢弃，
+线程B就可能永远不能醒来。
+这就需要一个额外的变量来保存‘是否被通知过’的信息。
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;假唤醒（spurious wakeups）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;没有调用过notify()和notifyAll()的情况下醒来，原因未知
+需要加个自旋锁，即将wait()方法放到while循环中
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;不要在字符串常量或全局对象中调用wait()。mobj与信号常量不是一一对应。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;mobj: 管程 (英语：Monitors，也称为监视器)&lt;/p&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;锁&#34; href=&#34;#锁&#34;&gt;&lt;/a&gt;锁&lt;/h1&gt;
+
+&lt;p&gt;锁由synchronized实现，有以下几个特性:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;同一时刻只能有一个线程穿过临界区，进入同步块&lt;/li&gt;
+&lt;li&gt;锁的可重入性：synchronized同步块可重入，相应也有可重入锁&lt;/li&gt;
+&lt;li&gt;锁的公平性：多个线程不断竞争访问相同的synchronized同步块，可能存在某个
+线程一直竞争不到。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;参考&lt;/strong&gt;:&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/locks/&#34;&gt;Java中的锁&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/thread-signaling/&#34;&gt;线程通信&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    <item>
       <title>jdk自带工具</title>
       <link>http://defworld.com/2013/08/30/jdk-tools.html</link>
       <pubDate>2013-08-30 12:00:00 +0800</pubDate>
@@ -3805,62 +3893,6 @@ runnable - 线程状态
 &lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;jvm-pid文件&#34; href=&#34;#jvm-pid文件&#34;&gt;&lt;/a&gt;JVM pid文件&lt;/h2&gt;
 
 &lt;p&gt;jvm运行时会生成一个目录hsperfdata&lt;em&gt;$USER(linux默认在/tmp/hsperfdata&lt;/em&gt;$USER)，存放Pid文件(/etc/cron.daily/tmpwatch会240h移除这个目录)。jstack等工具读取这个文件获取pid。（&lt;a href=&#34;http://windows9834.blog.163.com/blog/static/273450042012919101435608/&#34;&gt;参考&lt;/a&gt;）从Java 6 update 21 ~ 24，会优先&lt;code&gt;-Djava.io.tmpdir&lt;/code&gt;，这样jstack等文件可可能找不到pid文件。&lt;/p&gt;
-</description>
-    </item>
-    <item>
-      <title>java锁笔记</title>
-      <link>http://defworld.com/2013/08/30/java-locks.html</link>
-      <pubDate>2013-08-30 12:00:00 +0800</pubDate>
-      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;线程通信&#34; href=&#34;#线程通信&#34;&gt;&lt;/a&gt;线程通信&lt;/h1&gt;
-
-&lt;p&gt;通信遇到的问题包括：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;共享对象：需要做同步处理&lt;/li&gt;
-&lt;li&gt;忙等待：循环等待另一个线程发来信号，可sleep&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;wait(),notify()&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;1. 遇到mobj.wait()，让线程进入非运行状态，直到另一个线程mobj.nitify
-2. 这几个方法必须在获得mobj锁的前提下调用，否则IllegalMonitorStateException
-3. 一个线程调用了wait()，即释放mobj上的锁
-4. 一旦一个线程被唤醒，不能立刻就退出wait()的方法调用，直到调用
-notify()的线程退出了它自己的同步块。因此，多个线程被notifyAll唤醒，只有一个
-线程可以最终退出wait()方法，因为必须获得mobj的锁
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;丢失的信号（Missed Signal）&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;线程A先调用了mobj.notify()，线程B后调用mobj.wait()，通知信号发送过了就被丢弃，
-线程B就可能永远不能醒来。
-这就需要一个额外的变量来保存‘是否被通知过’的信息。
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;假唤醒（spurious wakeups）&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;没有调用过notify()和notifyAll()的情况下醒来，原因未知
-需要加个自旋锁，即将wait()方法放到while循环中
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;不要在字符串常量或全局对象中调用wait()。mobj与信号常量不是一一对应。&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;mobj: 管程 (英语：Monitors，也称为监视器)&lt;/p&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;锁&#34; href=&#34;#锁&#34;&gt;&lt;/a&gt;锁&lt;/h1&gt;
-
-&lt;p&gt;锁由synchronized实现，有以下几个特性:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;同一时刻只能有一个线程穿过临界区，进入同步块&lt;/li&gt;
-&lt;li&gt;锁的可重入性：synchronized同步块可重入，相应也有可重入锁&lt;/li&gt;
-&lt;li&gt;锁的公平性：多个线程不断竞争访问相同的synchronized同步块，可能存在某个
-线程一直竞争不到。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;strong&gt;参考&lt;/strong&gt;:&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/locks/&#34;&gt;Java中的锁&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/thread-signaling/&#34;&gt;线程通信&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -6368,129 +6400,6 @@ MappingJacksonJsonView)。同样的问题，你不仅需要控制error page，�
 </description>
     </item>
     <item>
-      <title>java语言基础细节</title>
-      <link>http://defworld.com/2013/05/18/a-little-things-abount-java-language.html</link>
-      <pubDate>2013-05-18 12:00:00 +0800</pubDate>
-      <description>&lt;p&gt;2011年的笔记，当时是在看《细说 Java》，算是一个入门书。&lt;br /&gt;
-虽然基础，但是平时工作中并不一定注意到这些细节，现在这些零碎的东西都整理起来。&lt;br /&gt;
-只挑选目前看还有些价值的&lt;/p&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;java基本数据类型&#34; href=&#34;#java基本数据类型&#34;&gt;&lt;/a&gt;java基本数据类型&lt;/h2&gt;
-
-&lt;p&gt;基本数据类型由低到高排序：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;byte(1) short(2) ---&amp;gt;
-                     int(4) long(8) float(4) double(8)
-        char (2) ---&amp;gt;
-boolean(1)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;由低到高隐式转换，高到底必须显示申明，因为数据会失真。&lt;br /&gt;
-char是无符号类型，所以char short&lt;br /&gt;
-boolean不能和其他类型进行相互转换&lt;br /&gt;
-必要时使用BigInteger &amp;amp; BigDecimal&lt;/p&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;值传递与引用传递&#34; href=&#34;#值传递与引用传递&#34;&gt;&lt;/a&gt;值传递与引用传递&lt;/h2&gt;
-
-&lt;p&gt;两者其实都是值传递&lt;/p&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;私有属性的优势&#34; href=&#34;#私有属性的优势&#34;&gt;&lt;/a&gt;私有属性的优势&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;对外暴露get/set，可实现额外的校验或其他逻辑控制&lt;/li&gt;
-&lt;li&gt;隐藏内部细节，对外屏蔽内部变化&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;类加载及对象初始化时动作&#34; href=&#34;#类加载及对象初始化时动作&#34;&gt;&lt;/a&gt;类加载及对象初始化时动作&lt;/h2&gt;
-
-&lt;ol&gt;
-&lt;li&gt;在类加载时（第一次使用类是），为类中的静态成员变量分配内存空间，并赋予默认值&lt;/li&gt;
-&lt;li&gt;执行静态成员变量的初始化操作。前面已经指出，静态成员的初始化有两种：在声明时直接初始化与静态初始化块。两种方式会按照在类中出现的顺序（声明的顺序）来执行。A，B步只会在类加载时执行一次。&lt;/li&gt;
-&lt;li&gt;如果创建了类的对象，便在堆中为类的实例分配内存空间，实例变量被初始化为默认值&lt;/li&gt;
-&lt;li&gt;执行实例化变量的初始化操作。实例变量的前两种初始化方式：声明时直接初始化与初始化块，这两种初始化方法会按照在类中出现的顺序（声明的顺序）来执行。&lt;/li&gt;
-&lt;li&gt;执行类的构造器。C~E在每次创建类的对象时都会执行。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;重载/重写/隐藏&#34; href=&#34;#重载/重写/隐藏&#34;&gt;&lt;/a&gt;重载/重写/隐藏&lt;/h2&gt;
-
-&lt;h3&gt;重载&lt;/h3&gt;
-
-&lt;p&gt;方法的重载就是方法具有相同的名称不同的参数列表，在编译期间确定，编译器可以根据参数的类型与个数加以区分，而方法的返回类型与方法抛出异常等因素的不同不作为重载的标准，因为其不能提供足够的信息。如果参数已引用传递，那么硬系那个调用的因素时引用的类型，而与引用所指向的对象类型无关。&lt;br /&gt;
-编译器选择重载方法时顺序时：&lt;br /&gt;
-A选择形参类型与制定的实参列表完全一致的方法&lt;br /&gt;
-B如果A中的方法不存在，选择形参列表的参数类型能够兼容对应的实参列表的参数类型。&lt;br /&gt;
-  如果满足这一条件的方法不止一个，那么如果A方法参数类表在类型上可以兼容对应的B方法参数列表的类型，那么将排除B方法，按照这种方法排除，如果排除以后仍然剩下多于一个的方法，那么编译器会给出错误信息，指出引用类型不明确。&lt;br /&gt;
-C如果B中的方法不存在，自动封箱与拆箱操作将会执行，然后按照B继续寻找。&lt;br /&gt;
-D如果C中的方法不存在，则选择具有可变形参的方法，如果方法存在，调用该方法，否则给出错误信息，指出方法不存在。&lt;/p&gt;
-
-&lt;h3&gt;重写&lt;/h3&gt;
-
-&lt;p&gt;方法重写的条件：&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;子类与父类的方法必须都是实例方法。如果父类是实例方法而子类是静态方法，或者相反，则编译器会报错。如果子类与父类都是静态方法，那么子类隐藏父类的方法，而不是重写父类的方法。&lt;/li&gt;
-&lt;li&gt;子类与父类的方法需要具有相同的方法名称、参数列表，并且子类的返回类型与父类相同或者是父类的子类。如果方法名称相同而参数列表不同（返回类型可相同也可不相同），那么只是方法的重载。如果方法名称与参数列表相同而返回类型不同（并且子类方法的返回类型不是父类的子类型），那么编译器将会报错。&lt;/li&gt;
-&lt;li&gt;子类方法的访问权限不能小于父类的访问权限。&lt;/li&gt;
-&lt;li&gt;子类方法不能比父类方法抛出更多的已检测异常（也称编译时异常）。&lt;/li&gt;
-&lt;li&gt;父类的方法在子类中必须可见。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3&gt;隐藏&lt;/h3&gt;
-
-&lt;p&gt;静态方法隐藏的条件:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;静态（required)&lt;/li&gt;
-&lt;li&gt;相同的方法名称、参数列表、子类的返回类型和父类相同或者是父类的子类型&lt;/li&gt;
-&lt;li&gt;子类方法的访问权限不能小于父类方法&lt;/li&gt;
-&lt;li&gt;子类方法不恩能够比父类方法抛出更多的已检测异常&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;成员变量隐藏：&lt;br /&gt;
-与静态方法类似，子类不能重写类中的成员变量，只能隐藏父类的成员变量（不论静态变量还是实例变量）。只要求子类与父类的成员变量的名字相同即可，与变量类型无关。&lt;br /&gt;
-注意成员变量的继承，如果子类继承了父类的成员变量，则子类与父类共享同一个成员变量。如果是实例变量，在对象内部共享，如果是静态成员变量，在父类与子类之间共享。&lt;/p&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;变量和方法的搜索顺序&#34; href=&#34;#变量和方法的搜索顺序&#34;&gt;&lt;/a&gt;变量和方法的搜索顺序&lt;/h2&gt;
-
-&lt;p&gt;遵循由近及远的原则&lt;/p&gt;
-
-&lt;h3&gt;变量的搜索顺序&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;从访问某变量所在的语句块中（最小语句块）搜索变量的声明&lt;/li&gt;
-&lt;li&gt;访问该语句块的外围语句块，知道整个方法所在的语句块，方法的参数也作为搜索的对象。&lt;/li&gt;
-&lt;li&gt;搜索类中声明的成员变量，如果不存在其声明，搜索从父类型中集成的成员变量。&lt;/li&gt;
-&lt;li&gt;如果该类是一个内部类，那么对外围类返回步骤3进行搜索，知道顶层类为止。&lt;/li&gt;
-&lt;li&gt;搜索明确静态导入的成员（即单一静态导入的成员）&lt;/li&gt;
-&lt;li&gt;搜索使用星号静态导入的成员&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3&gt;方法的搜索顺序&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;当前类的类型&lt;/li&gt;
-&lt;li&gt;内部类的类型&lt;/li&gt;
-&lt;li&gt;明确导入的类型&lt;/li&gt;
-&lt;li&gt;与当前类处在同一个包中的其他类型&lt;/li&gt;
-&lt;li&gt;使用带星号导入的类型&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;泛型&#34; href=&#34;#泛型&#34;&gt;&lt;/a&gt;泛型&lt;/h2&gt;
-
-&lt;p&gt;使用Object需要在运行时强制转型，而泛型编译期间就能确定类型，运行截断参数类型的信息将被擦除。&lt;br /&gt;
-List&amp;lt;Super&amp;gt;只能接收List&amp;lt;Super&amp;gt;类型的参数，不能接收List&amp;lt;Sub&amp;gt;。用List&amp;lt;?&amp;gt;/List&amp;lt;? extends Super&amp;gt;/List&amp;lt;? super Number&amp;gt;&lt;/p&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;引用类型&#34; href=&#34;#引用类型&#34;&gt;&lt;/a&gt;引用类型&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;强引用存在永远不会回收&lt;/li&gt;
-&lt;li&gt;soft引用存在只有在内存满是才有可能被回收（看GC算法）&lt;/li&gt;
-&lt;li&gt;weak reference 对象与soft引用对象不同点是：后者在GC回收时要通过算法检查是否会后，对前者总是回收，但是复杂关系的weak对象群要好几次GC的运行才会被回收。只要勇于map&lt;/li&gt;
-&lt;li&gt;虚引用一般适用于执行完了finalize函数，并且为不可到达对象，但是还没有被GC回收的对象。辅助finalize进行后期回收工作。&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-    </item>
-    <item>
       <title>markdown所用图片上传自动化脚本</title>
       <link>http://defworld.com/2013/05/18/auto-up-img-to-filikr-and-get-shareurl.html</link>
       <pubDate>2013-05-18 12:00:00 +0800</pubDate>
@@ -6629,6 +6538,129 @@ sudo make install
 &lt;/ul&gt;
 
 &lt;p&gt;ok ! enjoy it !&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>java语言基础细节</title>
+      <link>http://defworld.com/2013/05/18/a-little-things-abount-java-language.html</link>
+      <pubDate>2013-05-18 12:00:00 +0800</pubDate>
+      <description>&lt;p&gt;2011年的笔记，当时是在看《细说 Java》，算是一个入门书。&lt;br /&gt;
+虽然基础，但是平时工作中并不一定注意到这些细节，现在这些零碎的东西都整理起来。&lt;br /&gt;
+只挑选目前看还有些价值的&lt;/p&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;java基本数据类型&#34; href=&#34;#java基本数据类型&#34;&gt;&lt;/a&gt;java基本数据类型&lt;/h2&gt;
+
+&lt;p&gt;基本数据类型由低到高排序：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;byte(1) short(2) ---&amp;gt;
+                     int(4) long(8) float(4) double(8)
+        char (2) ---&amp;gt;
+boolean(1)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;由低到高隐式转换，高到底必须显示申明，因为数据会失真。&lt;br /&gt;
+char是无符号类型，所以char short&lt;br /&gt;
+boolean不能和其他类型进行相互转换&lt;br /&gt;
+必要时使用BigInteger &amp;amp; BigDecimal&lt;/p&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;值传递与引用传递&#34; href=&#34;#值传递与引用传递&#34;&gt;&lt;/a&gt;值传递与引用传递&lt;/h2&gt;
+
+&lt;p&gt;两者其实都是值传递&lt;/p&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;私有属性的优势&#34; href=&#34;#私有属性的优势&#34;&gt;&lt;/a&gt;私有属性的优势&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;对外暴露get/set，可实现额外的校验或其他逻辑控制&lt;/li&gt;
+&lt;li&gt;隐藏内部细节，对外屏蔽内部变化&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;类加载及对象初始化时动作&#34; href=&#34;#类加载及对象初始化时动作&#34;&gt;&lt;/a&gt;类加载及对象初始化时动作&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;在类加载时（第一次使用类是），为类中的静态成员变量分配内存空间，并赋予默认值&lt;/li&gt;
+&lt;li&gt;执行静态成员变量的初始化操作。前面已经指出，静态成员的初始化有两种：在声明时直接初始化与静态初始化块。两种方式会按照在类中出现的顺序（声明的顺序）来执行。A，B步只会在类加载时执行一次。&lt;/li&gt;
+&lt;li&gt;如果创建了类的对象，便在堆中为类的实例分配内存空间，实例变量被初始化为默认值&lt;/li&gt;
+&lt;li&gt;执行实例化变量的初始化操作。实例变量的前两种初始化方式：声明时直接初始化与初始化块，这两种初始化方法会按照在类中出现的顺序（声明的顺序）来执行。&lt;/li&gt;
+&lt;li&gt;执行类的构造器。C~E在每次创建类的对象时都会执行。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;重载/重写/隐藏&#34; href=&#34;#重载/重写/隐藏&#34;&gt;&lt;/a&gt;重载/重写/隐藏&lt;/h2&gt;
+
+&lt;h3&gt;重载&lt;/h3&gt;
+
+&lt;p&gt;方法的重载就是方法具有相同的名称不同的参数列表，在编译期间确定，编译器可以根据参数的类型与个数加以区分，而方法的返回类型与方法抛出异常等因素的不同不作为重载的标准，因为其不能提供足够的信息。如果参数已引用传递，那么硬系那个调用的因素时引用的类型，而与引用所指向的对象类型无关。&lt;br /&gt;
+编译器选择重载方法时顺序时：&lt;br /&gt;
+A选择形参类型与制定的实参列表完全一致的方法&lt;br /&gt;
+B如果A中的方法不存在，选择形参列表的参数类型能够兼容对应的实参列表的参数类型。&lt;br /&gt;
+  如果满足这一条件的方法不止一个，那么如果A方法参数类表在类型上可以兼容对应的B方法参数列表的类型，那么将排除B方法，按照这种方法排除，如果排除以后仍然剩下多于一个的方法，那么编译器会给出错误信息，指出引用类型不明确。&lt;br /&gt;
+C如果B中的方法不存在，自动封箱与拆箱操作将会执行，然后按照B继续寻找。&lt;br /&gt;
+D如果C中的方法不存在，则选择具有可变形参的方法，如果方法存在，调用该方法，否则给出错误信息，指出方法不存在。&lt;/p&gt;
+
+&lt;h3&gt;重写&lt;/h3&gt;
+
+&lt;p&gt;方法重写的条件：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;子类与父类的方法必须都是实例方法。如果父类是实例方法而子类是静态方法，或者相反，则编译器会报错。如果子类与父类都是静态方法，那么子类隐藏父类的方法，而不是重写父类的方法。&lt;/li&gt;
+&lt;li&gt;子类与父类的方法需要具有相同的方法名称、参数列表，并且子类的返回类型与父类相同或者是父类的子类。如果方法名称相同而参数列表不同（返回类型可相同也可不相同），那么只是方法的重载。如果方法名称与参数列表相同而返回类型不同（并且子类方法的返回类型不是父类的子类型），那么编译器将会报错。&lt;/li&gt;
+&lt;li&gt;子类方法的访问权限不能小于父类的访问权限。&lt;/li&gt;
+&lt;li&gt;子类方法不能比父类方法抛出更多的已检测异常（也称编译时异常）。&lt;/li&gt;
+&lt;li&gt;父类的方法在子类中必须可见。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;隐藏&lt;/h3&gt;
+
+&lt;p&gt;静态方法隐藏的条件:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;静态（required)&lt;/li&gt;
+&lt;li&gt;相同的方法名称、参数列表、子类的返回类型和父类相同或者是父类的子类型&lt;/li&gt;
+&lt;li&gt;子类方法的访问权限不能小于父类方法&lt;/li&gt;
+&lt;li&gt;子类方法不恩能够比父类方法抛出更多的已检测异常&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;成员变量隐藏：&lt;br /&gt;
+与静态方法类似，子类不能重写类中的成员变量，只能隐藏父类的成员变量（不论静态变量还是实例变量）。只要求子类与父类的成员变量的名字相同即可，与变量类型无关。&lt;br /&gt;
+注意成员变量的继承，如果子类继承了父类的成员变量，则子类与父类共享同一个成员变量。如果是实例变量，在对象内部共享，如果是静态成员变量，在父类与子类之间共享。&lt;/p&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;变量和方法的搜索顺序&#34; href=&#34;#变量和方法的搜索顺序&#34;&gt;&lt;/a&gt;变量和方法的搜索顺序&lt;/h2&gt;
+
+&lt;p&gt;遵循由近及远的原则&lt;/p&gt;
+
+&lt;h3&gt;变量的搜索顺序&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;从访问某变量所在的语句块中（最小语句块）搜索变量的声明&lt;/li&gt;
+&lt;li&gt;访问该语句块的外围语句块，知道整个方法所在的语句块，方法的参数也作为搜索的对象。&lt;/li&gt;
+&lt;li&gt;搜索类中声明的成员变量，如果不存在其声明，搜索从父类型中集成的成员变量。&lt;/li&gt;
+&lt;li&gt;如果该类是一个内部类，那么对外围类返回步骤3进行搜索，知道顶层类为止。&lt;/li&gt;
+&lt;li&gt;搜索明确静态导入的成员（即单一静态导入的成员）&lt;/li&gt;
+&lt;li&gt;搜索使用星号静态导入的成员&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;方法的搜索顺序&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;当前类的类型&lt;/li&gt;
+&lt;li&gt;内部类的类型&lt;/li&gt;
+&lt;li&gt;明确导入的类型&lt;/li&gt;
+&lt;li&gt;与当前类处在同一个包中的其他类型&lt;/li&gt;
+&lt;li&gt;使用带星号导入的类型&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;泛型&#34; href=&#34;#泛型&#34;&gt;&lt;/a&gt;泛型&lt;/h2&gt;
+
+&lt;p&gt;使用Object需要在运行时强制转型，而泛型编译期间就能确定类型，运行截断参数类型的信息将被擦除。&lt;br /&gt;
+List&amp;lt;Super&amp;gt;只能接收List&amp;lt;Super&amp;gt;类型的参数，不能接收List&amp;lt;Sub&amp;gt;。用List&amp;lt;?&amp;gt;/List&amp;lt;? extends Super&amp;gt;/List&amp;lt;? super Number&amp;gt;&lt;/p&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;引用类型&#34; href=&#34;#引用类型&#34;&gt;&lt;/a&gt;引用类型&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;强引用存在永远不会回收&lt;/li&gt;
+&lt;li&gt;soft引用存在只有在内存满是才有可能被回收（看GC算法）&lt;/li&gt;
+&lt;li&gt;weak reference 对象与soft引用对象不同点是：后者在GC回收时要通过算法检查是否会后，对前者总是回收，但是复杂关系的weak对象群要好几次GC的运行才会被回收。只要勇于map&lt;/li&gt;
+&lt;li&gt;虚引用一般适用于执行完了finalize函数，并且为不可到达对象，但是还没有被GC回收的对象。辅助finalize进行后期回收工作。&lt;/li&gt;
+&lt;/ul&gt;
 </description>
     </item>
     <item>

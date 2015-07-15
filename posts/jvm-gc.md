@@ -257,7 +257,7 @@ HotSpot JVM的并发标记清理收集器(CMS收集器)的主要目标就是：�
 
 ## gc日志实例分析
 
-### Throughput垃圾收集器在young generation中生成的日志
+### Throughput垃圾收集器在young generation中生成的日志例子
 
 ```
 [GC [PSYoungGen: 142816K->10752K(142848K)] 246648K->243136K(375296K), 0.0935090 secs] [Times: user=0.55 sys=0.10, real=0.09 secs]
@@ -268,7 +268,7 @@ HotSpot JVM的并发标记清理收集器(CMS收集器)的主要目标就是：�
 整个对空间从246648K变成243136K，总容量375296K。  
 cpu使用时间0.55 + 0.10 > 0.09的原因，是因为多线程执行。  
 
-### Throughput垃圾收集器 full gc日志
+### Throughput垃圾收集器 full gc日志例子
 
 ```
 [Full GC
@@ -281,7 +281,7 @@ cpu使用时间0.55 + 0.10 > 0.09的原因，是因为多线程执行。
 对于Serial垃圾收集器，详细的GC日志和Throughput垃圾收集器是非常相似的。  
 CMS垃圾收集器 full gc日志不太一样，见下面的例子。  
 
-### 典型CMS gc日志
+### 典型CMS gc日志例子
 
 `39.910: [GC 39.910: [ParNew: 261760K->0K(261952K), 0.2314667 secs] 262017K->26386K(1048384K), 0.2318679 secs]`  
 
@@ -318,24 +318,49 @@ Stop-the-world phase.
 有时年老代有足够空间也会触发concurrent mode failure，以为年老代堆空间碎片化严重。而我们知道CMS收集器根本是一个non-compaction的收集器。  
 从java 1.5版本开始，不再是基于最坏情况下存活的年轻代对象，老年代是否有足够的空间，来判断是否要触发concurrent mode failure了；而是基于历史数据给出一个估计值，而这个估计值往往比最坏情况小很多。使用UseSerialGC要获得同样的效果，需要打开XX:+HandlePromotionFailure。  
   
-###      
+### 另一种触发full gc的情况(没看懂...)
 
+```
+283.736: [Full GC 283.736: [ParNew: 261599K->261599K(261952K), 0.0000615 secs] 826554K->826554K(1048384K), 0.0003259 secs]
+GC locker: Trying a full collection because scavenge failed
+283.736: [Full GC 283.736: [ParNew: 261599K->261599K(261952K), 0.0000288 secs]
+```
+Stop-the-world GC happening when a JNI Critical section is released. Here again the young generation collection failed due to “full promotion guarantee failure” and then the Full GC is being invoked.       
 
-### incremental mode (i-cms)
+### incremental mode (i-cms)例子
 
 ```
 2803.125: [GC 2803.125: [ParNew: 408832K->0K(409216K), 0.5371950 secs] 611130K->206985K(1048192K) icms_dc=4 , 0.5373720 secs]
 2824.209: [GC 2824.209: [ParNew: 408832K->0K(409216K), 0.6755540 secs] 615806K->211897K(1048192K) icms_dc=4 , 0.6757740 secs]
 ```
 
+需要开启-XX:+CMSIncrementalMode。  
+上面例子两个scavenges分别花费537ms和675ms。这两个阶段中间，CMS收集器运行了一个切分后的小段任务（icms_dc，dc即duty-cycle）。简单可以计算 iCMS incremental step持续了4 * (2824.209 - 2803.125 - 0.537) / 100 = 821ms。  
+
+### CMS的concurrent abortable preclean例子  
+
+从java 1.5开始，多了这个阶段，会将一个scavenges拆分成两个，在一次CMS remark前后分别执行，且运行在cocurrent preclean之后。这个阶段的存在有两个原因：  
+
+1. 为了避免 a scavenge closely followed by a CMS remark pause，导致连续两个过长的中断，只要scavenge做到一半，能够让Eden区有足够的空间来用就停止，去做CMS remark。
+2. 为了避免CSM remark阶段有过多的grey objects（未被标记对象）需要rescan，加上这个阶段，减轻CMS reamrk的负担
+
+跟remark阶段有关的有两个参数，CMSScheduleRemarkEdenSizeThreshold和CMSScheduleRemarkEdenPenetration，分别默认2m、50%。如果Eden区小于CMSScheduleRemarkEdenSizeThreshold，考虑掉CMS remark开销较小，会直接到CMS remark阶段，不触发CMS-concurrent-abortable-preclean；如果大于CMSScheduleRemarkEdenSizeThreshold，会触发一次CMS-concurrent-abortable-preclean，直到Eden占用降到CMSScheduleRemarkEdenPenetration以下。  
 
 
+```
+7688.150: [CMS-concurrent-preclean-start]
+7688.186: [CMS-concurrent-preclean: 0.034/0.035 secs]
+7688.186: [CMS-concurrent-abortable-preclean-start]
+7688.465: [GC 7688.465: [ParNew: 1040940K->1464K(1044544K), 0.0165840 secs] 1343593K->304365K(2093120K), 0.0167509 secs]
+7690.093: [CMS-concurrent-abortable-preclean: 1.012/1.907 secs]
+7690.095: [GC[YG occupancy: 522484 K (1044544 K)]7690.095: [Rescan (parallel) , 0.3665541 secs]7690.462: [weak refs processing, 0.0003850 secs] [1 CMS-remark: 302901K(1048576K)] 825385K(2093120K), 0.3670690 secs]
+```
 
+上面的例子在启动remark之前，插入了一条ygc，当ygc使得年轻代容量降到CMSScheduleRemarkEdenPenetration以下时，ygc中断，执行remark。  
 
 ## 待解决问题
 
 1. 新生代触发young gc的条件？
-2. 
 
 
 参考：  
