@@ -44,46 +44,333 @@ java中可作为GC Root的对象有：
 
 > gc种类  
 > Young GC (Minor GC/ygc)  
-> Full GC (Major GC/fgc)  
+> Full GC (Major GC/fgc)  ，CMS gc跟full gc不同，full gc会使用并行收集器，整个过程stop the world，收集年轻代、年老代、永生代所有空间。所以应当避免full gc。  
 
-大部分对象在Eden区生成，ygc将Eden区可达对象复制到survivor0，并清空Eden区。当survivor0满了，ygc时将Eden区、survivor0区可达对象复制到
+新生代跟老生代位于java heap中，而永生代等价于method area。  
+大部分对象在Eden区生成（如果新对象过大，会直接分配在老年代中），ygc将Eden区可达对象复制到survivor0，并清空Eden区。当survivor0满了，ygc时将Eden区、survivor0区可达对象复制到survivor1区，然后清空Eden区、survivor0区。如此往复。如果survivor1区不足以存放存活对象，则直接将存活对象移到老年代。如果老年代也满了就会触发full gc。survivor1区足够时，对象在年轻代经历的ygc次数达到临界值，也会被移到年老代。一般年老代时年轻代容量的两倍。  
+
+持久代存放静态文件，如java类，方法等。有些应用可能动态生成或调用一些class，如hibernate，这时候需要需要设置一个比较大的持久代。  
+
+新生代存在的唯一理由是优化垃圾回收(GC)的性能。更具体说，把堆划分为新生代和老年代有2个好处：简化了新对象的分配(只在新生代分配内存),可以更有效的清除不再需要的对象(即死对象)(新生代和老年代使用不同的GC算法)。
+
+现在应该能理解为什么新生代大小非常重要了(译者,有另外一种说法：新生代大小并不重要，影响GC的因素主要是幸存对象的数量)，如果新生代过小，会导致新生对象很快就晋升到老年代中，在老年代中对象很难被回收。如果新生代过大，会发生过多的复制过程。我们需要找到一个合适大小。  
 
 
 ## 几种常见垃圾收集器
 
+年轻代、年老代的垃圾收集器如下：  
+
+![垃圾收集器](https://farm1.staticflickr.com/497/19518252208_ef711304e9.jpg)  
+
+各种gc评价评价标准有两个：  
+
+吞吐量(throughput)和暂停时间(pause times)。吞吐量：用户线程时间/(用户线程时间+GC线程时间)。这两者一定程度上是矛盾的，仅仅偶尔运行gc意味着每当gc需要做更多工作，这样暂停时间就会上去。    
+
+
+```
+Serial收集器（复制算法)
+
+　　新生代单线程收集器，标记和清理都是单线程，优点是简单高效。
+
+Serial Old收集器(标记-整理算法)
+
+　　老年代单线程收集器，Serial收集器的老年代版本。
+
+ParNew收集器(停止-复制算法)　
+
+　　新生代收集器，可以认为是Serial收集器的多线程版本,在多核CPU环境下有着比Serial更好的表现。
+
+Parallel Scavenge收集器(停止-复制算法)
+
+　　并行收集器，追求高吞吐量，高效利用CPU。吞吐量一般为99%， 吞吐量= 用户线程时间/(用户线程时间+GC线程时间)。适合后台应用等对交互相应要求不高的场景。
+
+Parallel Old收集器(停止-复制算法)
+
+　　Parallel Scavenge收集器的老年代版本，并行收集器，吞吐量优先
+
+CMS(Concurrent Mark Sweep)收集器（标记-清理算法）
+
+　　高并发、低停顿，追求最短GC回收停顿时间，cpu占用比较高，响应时间快，停顿时间短，多核cpu 追求高响应时间的选择
+```
+
+这些收集器分为两种gc类型：  
+
+* scavenge gc
+
+        新对象在Eden区申请空间失败，会触发scavenge gc。
+
+* full gc
+    
+        对整个堆进行整理，有如下原因可能导致full gc：
+        1.年老代（Tenured）被写满
+        2.持久代（Perm）被写满 
+        3.System.gc()被显示调用 
+        4.上一次GC之后Heap的各域分配策略动态变化
+
+## 内存泄露
+
+1. 静态集合类像HashMap、Vector等的使用最容易出现内存泄露，这些静态变量的生命周期和应用程序一致，所有的对象Object也不能被释放，因为他们也将一直被Vector等应用着。
+2.各种连接，数据库连接，网络连接，IO连接等没有显示调用close关闭，不被GC回收导致内存泄露。
+3.监听器的使用，在释放对象的同时没有相应删除监听器的时候也可能导致内存泄露。
+
+
+## jstat
+
+`sudo -u ads /opt/taobao/java/bin/jstat -gcutil 18363 1000` 输出使用比例：    
+
+```
+  S0     S1     E      O      P     YGC     YGCT    FGC    FGCT     GCT
+  0.00  20.22  31.45  36.26  59.96   8003   77.605     8    0.380   77.985
+  0.00  20.22  51.98  36.26  59.96   8003   77.605     8    0.380   77.985
+  0.00  20.22  72.82  36.26  59.96   8003   77.605     8    0.380   77.985
+  0.00  20.22  96.69  36.26  59.96   8003   77.605     8    0.380   77.985
+ 16.21   0.00  14.75  36.28  59.96   8004   77.615     8    0.380   77.995
+ 16.21   0.00  32.26  36.28  59.96   8004   77.615     8    0.380   77.995
+```
+
+`sudo -u ads /opt/taobao/java/bin/jstat -gc 18363 1000` 输出使用数量：  
+
+```
+ S0C    S1C    S0U    S1U      EC       EU        OC         OU       PC     PU    YGC     YGCT    FGC    FGCT     GCT
+209664.0 209664.0  0.0   37289.4 1677824.0 972546.5 2097152.0   914699.5  127408.0 76391.8   8153   79.224   8      0.380   79.604
+209664.0 209664.0  0.0   37289.4 1677824.0 1241357.4 2097152.0   914699.5  127408.0 76391.8   8153   79.224   8      0.380   79.604
+209664.0 209664.0  0.0   37289.4 1677824.0 1518926.2 2097152.0   914699.5  127408.0 76391.8   8153   79.224   8      0.380   79.604
+209664.0 209664.0 26608.1  0.0   1677824.0 222777.0 2097152.0   915137.6  127408.0 76391.8   8154   79.234   8      0.380   79.614
+```
+
+后缀，容量(C:Capacity)/使用量（U:Used)。  
+
+## JVM参数调优
+
+### 基本参数
+
+```
+Xmx 最大堆容量，包含新生代、老生代
+Xms 最小堆容量，跟Xmx一样，避免申请空间时的对扩展
+Xmn 新生代容量
+
+-XX:NewSize and -XX:MaxNewSize  新生代大小  
+-XX:NewRatio 老年代/新生代比值。如果同时设置绝对值、相对值，会尝试分配比值对应的大小，但在绝对值范围之内。  
+-XX:SurvivorRatio  新生代中eden的比例，如果设置为8，意味着新生代中eden占据80%的空间，两个survivor分别占据10%
+
+-XX:+PrintGC（或者-verbose:gc） 打开记录简单的gc信息 
+-XX:+PrintGCDetails 打开记录详细的gc信息  
+  
+-XX:+PrintGCTimeStamps gc log有JVM启动至今的时间戳
+-XX:+PrintGCDateStamps gc log有绝对日期  
+
+-Xloggc 指定gc log路径  
+```
+
+所有参数以及以“PrintGC”开头的参数都是可管理的参数。这样在任何时候我们都可以开启或是关闭GC日志。比如我们可以使用JDK自带的jinfo工具来设置这些参数，或者是通过JMX客户端调用HotSpotDiagnostic MXBean的setVMOption方法来设置这些参数。  
+我们希望最小化短命对象晋升到老年代的数量，同时也希望最小化新生代GC 的次数和持续时间。  
+
+### 高级参数
+
+####  新生代相关
+
+`-XX:+PrintTenuringDistribution` 指定JVM 在每次新生代GC时，输出幸存区中对象的年龄分布  
+
+```
+Desired survivor size 75497472 bytes, new threshold 15 (max 15)
+- age 1: 19321624 bytes, 19321624 total
+- age 2: 79376 bytes, 19401000 total
+- age 3: 2904256 bytes, 22305256 total
+```
+
+第一行说明幸存区To大小为 75 MB，老年代阀值(tenuring threshold)为15，经过15次gc晋升到老年代。  
+age1，gc过一次对象占大小19321624 byte，后面一个是各age累加值。  
+
+预测下次gc的情况是：  
+
+```
+Desired survivor size 75497472 bytes, new threshold 2 (max 15)
+- age 1: 68407384 bytes, 68407384 total
+- age 2: 12494576 bytes, 80901960 total
+- age 3: 79376 bytes, 80981336 total
+- age 4: 2904256 bytes, 83885592 total
+```
+
+本次GC 幸存区占用总大小 84 MB -大于75 MB. 结果,JVM 把老年代阀值从15降低到2，在下次GC时，一部分对象会强制离开幸存区。  
+
+伴随这个JVM参数，可以设置：  
+
+* `-XX:InitialTenuringThreshold, -XX:MaxTenuringThreshold` 老年代阀值初始值、最大值
+* `-XX:TargetSurvivorRatio` 幸存区的目标使用率
+
+`-XX:+NeverTenure and -XX:+AlwaysTenure` 总是不晋升到老年代（不用老年代堆空间），总是晋升到老年代（不用幸存区）。  
+
+#### 老年代相关及其他
+
+HotSpot虚拟机提供两类垃圾收集算法(除了新的G1垃圾收集算法)，第一类算法试图最大限度地提高吞吐量(throughput-oriented)（又叫并行收集器），而第二类算法试图最小化暂停时间（例如CMS）。   
+
+`-XX:+UseSerialGC`  主要用于单CPU JVM，避免多线程争用。  
+`-XX:+UseParallelGC`  使用多线程并行执行年轻代垃圾收集。java 6中如此，但java 7同时有-XX:+UseParallelOldGC的语义。  
+`-XX:+UseParallelOldGC`  同时激活年轻代、年老代并行算法。  
+`-XX:ParallelGCThreads`  如果没有指定，决定因素是由Java Runtime。availableProcessors()方法的返回值N，如果N<=8，并行垃圾收集器将使用N个垃圾收集线程，如果N>8个可用处理器，垃圾收集线程数量应为3+5N/8。  
+`-XX:-UseAdaptiveSizePolicy`   自适应。通过人体工程学，垃圾收集器能将堆大小动态变动像GC设置一样应用到不同的堆区域，只要有证据表明这些变动将能提高GC性能。 “提高GC性能”的确切含义可以由用户通过-XX:GCTimeRatio和-XX:MaxGCPauseMillis来指定。默认开启。  
+`-XX:GCTimeRatio=N` 吞吐量目标值，计算方式N/(N+1)。  
+`-XX:MaxGCPauseMillis`  最大暂停时间的目标值(以毫秒为单位)。需要注意的是，年轻代和年老代垃圾收集的统计数据是分开计算的，还要注意，默认情况下，最大暂停时间没有被设置。
+如果最大暂停时间和最小吞吐量同时设置了目标值，实现最大暂停时间目标具有更高的优先级。为了保持低暂停时间，JVM需要增加GC次数，那样可能会严重影响可达到的吞吐量。 这就是为什么对于要求低暂停时间作为主要目标的应用程序(大多数是Web应用程序)，我会建议不要使用吞吐量收集器，而是选择CMS收集器。 CMS收集器是本系列下一部分的主题。  
+
+#### CMS收集器
+
+HotSpot JVM的并发标记清理收集器(CMS收集器)的主要目标就是：低应用停顿时间。该目标对于大多数交互式应用很重要，比如web应用。  
+吞吐量收集器总是暂停应用程序线程，并且可能是相当长的一段时间，然而这能够使该算法安全地忽略应用程序。相比之下，CMS收集器被设计成在大多数时间能与应用程序线程并行执行，仅仅会有一点(短暂的)停顿时间。GC与应用程序并行的缺点就是，可能会出现各种同步和数据不一致的问题。为了实现安全且正确的并发执行，CMS收集器的GC周期被分为了好几个连续的阶段:  
+
+1. CMS-initial-mark：**Stop all application threads**, identify the set of objects reachable from roots, and then resume all application threads.
+2. CMS-concurrent-mark：Concurrently trace the reachable object graph, using one or more processors, while the application threads are executing.
+3. CMS-concurrent-preclean：Concurrently retrace sections of the object graph that were modified since the tracing in the previous step, using one processor.
+4. CMS-remark：**Stop all application threads** and retrace sections of the roots and object graph that may have been modified since they were last examined, and then resume all application threads.
+5. CMS-concurrent-sweep：Concurrently sweep up the unreachable objects to the free lists used for allocation, using one processor.
+6. CMS-concurrent-reset：Concurrently resize the heap and prepare the support data structures for the next collection cycle, using one processor.
+
+**挑战**  
+
+当我们在真实的应用中使用CMS收集器时，我们会面临两个主要的挑战，可能需要进行调优：  
+
+* 堆碎片
+* 对象分配率高
+
+堆碎片是有可能的，不像吞吐量收集器，CMS收集器并没有任何碎片整理的机制。因此，万不得已JVM会触发Full GC。回想一下，Full GC 将运行吞吐量收集器的算法。  
+
+**Concurrent Mode Failure**：However, if the CMS collector is unable to finish reclaiming the unreachable objects before the tenured generation fills up, or if an allocation cannot be satisfied with the available free space blocks in the tenured generation, then the application is paused and the collection is completed with all the application threads stopped. The inability to complete a collection concurrently is referred to as concurrent mode failure and indicates the need to adjust the CMS collector parameters. If a concurrent collection is interrupted by an explicit garbage collection (System.gc()) or for a garbage collection needed to provide information for diagnostic tools, then a concurrent mode interruption is reported.  
+
+`-XX：+UseConcMarkSweepGC` 该标志首先是激活CMS收集器。默认HotSpot JVM使用的是并行收集器。  
+
+`-XX+UseParNewGC` 并行收集器中使用该参数无意义，因为年老代、年轻代使用的算法一样。而CMS收集器不同，年老代、年轻代使用的算法不一致。注意最新的JVM版本，当使用-XX：+UseConcMarkSweepGC时，-XX：UseParNewGC会自动开启。因此，如果年轻代的并行GC不想开启，可以通过设置-XX：-UseParNewGC来关掉。  
+
+`-XX：+CMSConcurrentMTEnabled` 默认开启，并发CMS阶段以多线程执行。 
+
+`-XX：ConcGCThreads=N`(早期JVM版本也叫-XX:ParallelCMSThreads)定义并发CMS过程运行时的线程数。JVM会根据并行收集器中的-XX：ParallelGCThreads参数的值来计算出默认的并行CMS线程数。该公式是ConcGCThreads = (ParallelGCThreads + 3)/4。因此，对于CMS收集器， -XX:ParallelGCThreads标志不仅影响“stop-the-world”垃圾收集阶段，还影响并发阶段。  
+  
+`-XX:CMSInitiatingOccupancyFraction`  alue=75意味着第一次CMS垃圾收集会在老年代被占用75%时被触发。默认68。  
+
+`-XX：+UseCMSInitiatingOccupancyOnly`  开启时，JVM通过CMSInitiatingOccupancyFraction的值进行每一次CMS收集，而不仅仅是第一次。  
+`-XX:+CMSClassUnloadingEnabled`相对于并行收集器，CMS收集器默认不会对永久代进行垃圾回收。如果希望对永久代进行垃圾回收，可用设置标志-XX:+CMSClassUnloadingEnabled。在早期JVM版本中，要求设置额外的标志-XX:+CMSPermGenSweepingEnabled。注意，即使没有设置这个标志，一旦永久代耗尽空间也会尝试进行垃圾回收，但是收集不会是并行的，而再一次进行Full GC。  
+
+`-XX:+CMSIncrementalMode`:  增量模式经常暂停CMS过程，以便对应用程序线程作出完全的让步。因此，收集器将花更长的时间完成整个收集周期。  
+
+`-XX:+ExplicitGCInvokesConcurrent and -XX:+ExplicitGCInvokesConcurrentAndUnloadsClasses`  system.gc()在CMS收集器下，会触发一次full gc。加了第一个参数，表示无论什么时候调用系统gc，都执行cms gc。第二个参数表示，但有系统gc时，永久代也被包括进去。  
+
+`-XX:+DisableExplicitGC`  完全忽略系统gc，这个参数推荐默认开启。  
+
 ## gc日志实例分析
+
+### Throughput垃圾收集器在young generation中生成的日志
+
+```
+[GC [PSYoungGen: 142816K->10752K(142848K)] 246648K->243136K(375296K), 0.0935090 secs] [Times: user=0.55 sys=0.10, real=0.09 secs]
+```
+
+垃圾收集器： PSYoungGen  
+年轻代从142816K减少到10752K，容量142848K。  
+整个对空间从246648K变成243136K，总容量375296K。  
+cpu使用时间0.55 + 0.10 > 0.09的原因，是因为多线程执行。  
+
+### Throughput垃圾收集器 full gc日志
+
+```
+[Full GC
+ [PSYoungGen: 10752K->9707K(142848K)]
+ [ParOldGen: 232384K->232244K(485888K)] 243136K->241951K(628736K)
+ [PSPermGen: 3162K->3161K(21504K)], 1.5265450 secs
+]
+```
+
+对于Serial垃圾收集器，详细的GC日志和Throughput垃圾收集器是非常相似的。  
+CMS垃圾收集器 full gc日志不太一样，见下面的例子。  
+
+### 典型CMS gc日志
+
+`39.910: [GC 39.910: [ParNew: 261760K->0K(261952K), 0.2314667 secs] 262017K->26386K(1048384K), 0.2318679 secs]`  
+
+发生了一次ygc，使用算法ParNew。  
+
+`40.146: [GC [1 CMS-initial-mark: 26386K(786432K)] 26404K(1048384K), 0.0074495 secs]`  
+在年老代占用26386K时，一次CMS gc的CMS-initial-mark阶段。此时会暂停所以应用线程。  
+
+`40.154: [CMS-concurrent-mark-start]`  
+
+`40.683: [CMS-concurrent-mark: 0.521/0.529 secs]`  
+CMS-concurrent-mark阶段完成。  
+
+`40.683: [CMS-concurrent-preclean-start]`  
+再一次收集，已减少remark阶段时间。  
+
+`40.701: [CMS-concurrent-preclean: 0.017/0.018 secs]`  
+
+`40.704: [GC40.704: [Rescan (parallel) , 0.1790103 secs]40.883: [weak refs processing, 0.0100966 secs] [1 CMS-remark: 26386K(786432K)] 52644K(1048384K), 0.1897792 secs]`  
+Stop-the-world phase.  
+
+`40.894: [CMS-concurrent-sweep-start]`  
+`41.020: [CMS-concurrent-reset-start]`  
+`41.147: [CMS-concurrent-reset: 0.127/0.127 secs]`  
+
+### CMS `concurrent mode failure` 例子
+
+```
+197.976: [GC 197.976: [ParNew: 260872K->260872K(261952K), 0.0000688   secs]197.976: [CMS197.981: [CMS-concurrent-sweep: 0.516/0.531 secs]  
+(concurrent mode failure): 402978K->248977K(786432K), 2.3728734 secs]   663850K->248977K(1048384K), 2.3733725 secs]  
+```
+
+发生ygc时，因为估计到老年代容不下最坏情况下存活的年轻代对象，所以中断了CMS-concurrent-sweep，一个full gc在197.981被触发了。  
+有时年老代有足够空间也会触发concurrent mode failure，以为年老代堆空间碎片化严重。而我们知道CMS收集器根本是一个non-compaction的收集器。  
+从java 1.5版本开始，不再是基于最坏情况下存活的年轻代对象，老年代是否有足够的空间，来判断是否要触发concurrent mode failure了；而是基于历史数据给出一个估计值，而这个估计值往往比最坏情况小很多。使用UseSerialGC要获得同样的效果，需要打开XX:+HandlePromotionFailure。  
+  
+###      
+
+
+### incremental mode (i-cms)
+
+```
+2803.125: [GC 2803.125: [ParNew: 408832K->0K(409216K), 0.5371950 secs] 611130K->206985K(1048192K) icms_dc=4 , 0.5373720 secs]
+2824.209: [GC 2824.209: [ParNew: 408832K->0K(409216K), 0.6755540 secs] 615806K->211897K(1048192K) icms_dc=4 , 0.6757740 secs]
+```
+
+
+
+
 
 ## 待解决问题
 
 1. 新生代触发young gc的条件？
 2. 
 
-主要参考：  
-[深入理解java垃圾回收机制](http://www.cnblogs.com/sunniest/p/4575144.html)  
-[]()  
 
+参考：  
+入门概览：  
+[深入理解java垃圾回收机制](http://www.cnblogs.com/sunniest/p/4575144.html)   
 [淘宝搜索-JVM GC简介和实例](http://www.searchtb.com/2013/07/jvm-gc-introduction-examples.html)  
-https://blogs.oracle.com/poonam/entry/understanding_cms_gc_logs
-https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/cms.html
+
+JVM参数：  
+[JVM实用参数（八）GC日志](http://ifeve.com/useful-jvm-flags-part-8-gc-logging/)   
+[JVM实用参数（五）新生代垃圾回收](http://ifeve.com/useful-jvm-flags-part-5-young-generation-garbage-collection/)  
+[JVM实用参数（六） 吞吐量收集器](http://ifeve.com/useful-jvm-flags-part-6-throughput-collector/)  
+[JVM实用参数（七）CMS收集器](http://ifeve.com/useful-jvm-flags-part-7-cms-collector/)   
+[8 Concurrent Mark Sweep (CMS) Collector](https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/cms.html)   
+   
+
+日志实例：  
+[Understanding CMS GC Logs](https://blogs.oracle.com/poonam/entry/understanding_cms_gc_logs)  
 
 
+
+其他未看：  
 [gc日志分析](http://coderbee.net/index.php/jvm/20131216/646) 
-[JVM实用参数（八）GC日志](http://ifeve.com/useful-jvm-flags-part-8-gc-logging/) 
+[java垃圾回收调优实战](http://www.importnew.com/16223.html)  
+[一次CMS GC的调优工作](http://blog.hesey.net/2013/11/cms-gc-optimize.html)  
 
 [不同的垃圾回收器的比较](http://it.deepinmind.com/gc/2014/09/12/garbage-collectors-serial-vs-parallel-vs-cms-vs-the-g1-and-whats-new-in-java-8.html)  
 [Swap对响应时间敏感应用的影响](http://blog.hesey.net/2014/05/swap-impact-on-rt-sensitive-apps.html?utm_source=rss&utm_medium=rss&utm_campaign=swap-impact-on-rt-sensitive-apps)  
 [full gc是否真的存在](http://it.deepinmind.com/gc/2015/03/03/minor-gc-vs-major-gc-vs-full-gc.html)  
 [JVM的GC简介和实例](http://www.searchtb.com/2013/07/jvm-gc-introduction-examples.html)  
-[一次CMS GC的调优工作](http://blog.hesey.net/2013/11/cms-gc-optimize.html) 
+
 [聊聊JVM（四）深入理解Major GC, Full GC, CMS](http://blog.csdn.net/iter_zc/article/details/41825395)   
 [《JVM故障诊断指南》之4 —— Java 8:从持久代到metaspace](http://ifeve.com/jvm-troubleshooting-guide-4/)  
-[JVM实用参数（八）GC日志](http://ifeve.com/useful-jvm-flags-part-8-gc-logging/) 
-
- 
-  
-
 
 系列文章：  
-http://it.deepinmind.com/categories.html#GC-ref
+http://it.deepinmind.com/categories.html#GC-ref  
+[Garbage Collection Handbook](https://plumbr.eu/handbook/gc-tuning#tuning-for-latency)    
 
 

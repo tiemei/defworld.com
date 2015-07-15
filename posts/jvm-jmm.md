@@ -23,5 +23,6 @@ stack、heap有可能出现在寄存器、cpu缓存层、主内存中，也因�
 [同步和Java内存模型](http://ifeve.com/syn-jmm/)  
 [遗失的java堆内存](http://it.deepinmind.com/jvm/2015/02/13/jvm-having-access-to-less-memory-than-xmx.html)  
 [java对象内存布局](http://coderbee.net/index.php/java/20140811/979)  
+ 
 
 

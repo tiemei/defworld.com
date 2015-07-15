@@ -3,7 +3,34 @@
   <channel>
     <title>顽固的卡夫卡</title>
     <link>http://defworld.com</link>
-    <pubDate>2015-07-11 09:49:12 +0800</pubDate>
+    <pubDate>2015-07-15 07:33:40 +0800</pubDate>
+    <item>
+      <title>【摘抄】garmin-重置</title>
+      <link>http://defworld.com/2015/07/11/garmin-reset.html</link>
+      <pubDate>2015-07-11 12:00:00 +0800</pubDate>
+      <description>&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;重置garmin-fenix-3&#34; href=&#34;#重置garmin-fenix-3&#34;&gt;&lt;/a&gt;重置garmin fenix 3&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;Switch off&lt;/strong&gt; (if hanged): hold LIGHT button for at least 25 seconds&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Hard reset&lt;/strong&gt; - method 1 (restore to factory settings): Switch off and wait for couple seconds. While holding BACK/LAP button press LIGHT button until Garmin logo appears, then let go LIGHT button still holding the BACK/LAP button until question about clearing user data appears. Answer yes.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Hard reset&lt;/strong&gt; - method 2 (a more &amp;lsquo;bullet proof&amp;rsquo; method described by Ticka below):&lt;br /&gt;
+Power off the fenix 3 and wait for couple seconds
+Press and release the Power button
+Once the Garmin Logo appears Press and hold the Start and Back buttons.
+When you hear the first beep (after ca. 60s) let the start button go
+When you hear the second beep (couple seconds after first beep) let the back button go
+The device will boot back up and you will be prompted to enter your profile information.&lt;/p&gt;
+
+&lt;p&gt;WARNING: It clears ALL user made settings,apps and current activities! So backup data first!
+TIP: If you want to do a TOTAL hard reset you can erase ALL data from the watch (GARMIN directory also), and even you can FORMAT it. After disconnecting the watch from you PC it will take relatively longer to restart but it will rebuild the data structure. Only English language then, you have to download other language files through Webuupdater/Garmin Express
+DO IT AT YOUR OWN RISK.. THER IS ALWAYS SOMETHING THAT MIGHT GO WRONG!&lt;/p&gt;
+
+&lt;p&gt;参考：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://forums.garmin.com/showthread.php?227684-Hard-reset-Service-menu-Data-Backup&#34;&gt;garmin reset&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
     <item>
       <title>osx-制作USA安装盘，并迁移老MAC</title>
       <link>http://defworld.com/2015/07/10/osx-createinstallmedia.html</link>
@@ -96,14 +123,287 @@ Permanent Generation&lt;/p&gt;
 
 &lt;p&gt;gc种类&lt;br /&gt;
 Young GC (Minor GC/ygc)&lt;br /&gt;
-Full GC (Major GC/fgc)&lt;/p&gt;
+Full GC (Major GC/fgc)  ，CMS gc跟full gc不同，full gc会使用并行收集器，整个过程stop the world，收集年轻代、年老代、永生代所有空间。所以应当避免full gc。&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;大部分对象在Eden区生成，ygc将Eden区可达对象复制到survivor0，并清空Eden区。当survivor0满了，ygc时将Eden区、survivor0区可达对象复制到&lt;/p&gt;
+&lt;p&gt;新生代跟老生代位于java heap中，而永生代等价于method area。&lt;br /&gt;
+大部分对象在Eden区生成（如果新对象过大，会直接分配在老年代中），ygc将Eden区可达对象复制到survivor0，并清空Eden区。当survivor0满了，ygc时将Eden区、survivor0区可达对象复制到survivor1区，然后清空Eden区、survivor0区。如此往复。如果survivor1区不足以存放存活对象，则直接将存活对象移到老年代。如果老年代也满了就会触发full gc。survivor1区足够时，对象在年轻代经历的ygc次数达到临界值，也会被移到年老代。一般年老代时年轻代容量的两倍。&lt;/p&gt;
+
+&lt;p&gt;持久代存放静态文件，如java类，方法等。有些应用可能动态生成或调用一些class，如hibernate，这时候需要需要设置一个比较大的持久代。&lt;/p&gt;
+
+&lt;p&gt;新生代存在的唯一理由是优化垃圾回收(GC)的性能。更具体说，把堆划分为新生代和老年代有2个好处：简化了新对象的分配(只在新生代分配内存),可以更有效的清除不再需要的对象(即死对象)(新生代和老年代使用不同的GC算法)。&lt;/p&gt;
+
+&lt;p&gt;现在应该能理解为什么新生代大小非常重要了(译者,有另外一种说法：新生代大小并不重要，影响GC的因素主要是幸存对象的数量)，如果新生代过小，会导致新生对象很快就晋升到老年代中，在老年代中对象很难被回收。如果新生代过大，会发生过多的复制过程。我们需要找到一个合适大小。&lt;/p&gt;
 
 &lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;几种常见垃圾收集器&#34; href=&#34;#几种常见垃圾收集器&#34;&gt;&lt;/a&gt;几种常见垃圾收集器&lt;/h2&gt;
 
+&lt;p&gt;年轻代、年老代的垃圾收集器如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://farm1.staticflickr.com/497/19518252208_ef711304e9.jpg&#34; alt=&#34;垃圾收集器&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;各种gc评价评价标准有两个：&lt;/p&gt;
+
+&lt;p&gt;吞吐量(throughput)和暂停时间(pause times)。吞吐量：用户线程时间/(用户线程时间+GC线程时间)。这两者一定程度上是矛盾的，仅仅偶尔运行gc意味着每当gc需要做更多工作，这样暂停时间就会上去。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Serial收集器（复制算法)
+
+　　新生代单线程收集器，标记和清理都是单线程，优点是简单高效。
+
+Serial Old收集器(标记-整理算法)
+
+　　老年代单线程收集器，Serial收集器的老年代版本。
+
+ParNew收集器(停止-复制算法)　
+
+　　新生代收集器，可以认为是Serial收集器的多线程版本,在多核CPU环境下有着比Serial更好的表现。
+
+Parallel Scavenge收集器(停止-复制算法)
+
+　　并行收集器，追求高吞吐量，高效利用CPU。吞吐量一般为99%， 吞吐量= 用户线程时间/(用户线程时间+GC线程时间)。适合后台应用等对交互相应要求不高的场景。
+
+Parallel Old收集器(停止-复制算法)
+
+　　Parallel Scavenge收集器的老年代版本，并行收集器，吞吐量优先
+
+CMS(Concurrent Mark Sweep)收集器（标记-清理算法）
+
+　　高并发、低停顿，追求最短GC回收停顿时间，cpu占用比较高，响应时间快，停顿时间短，多核cpu 追求高响应时间的选择
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这些收集器分为两种gc类型：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;scavenge gc&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;新对象在Eden区申请空间失败，会触发scavenge gc。
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;full gc&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;对整个堆进行整理，有如下原因可能导致full gc：
+1.年老代（Tenured）被写满
+2.持久代（Perm）被写满 
+3.System.gc()被显示调用 
+4.上一次GC之后Heap的各域分配策略动态变化
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;内存泄露&#34; href=&#34;#内存泄露&#34;&gt;&lt;/a&gt;内存泄露&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;静态集合类像HashMap、Vector等的使用最容易出现内存泄露，这些静态变量的生命周期和应用程序一致，所有的对象Object也不能被释放，因为他们也将一直被Vector等应用着。
+2.各种连接，数据库连接，网络连接，IO连接等没有显示调用close关闭，不被GC回收导致内存泄露。
+3.监听器的使用，在释放对象的同时没有相应删除监听器的时候也可能导致内存泄露。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;jstat&#34; href=&#34;#jstat&#34;&gt;&lt;/a&gt;jstat&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;sudo -u ads /opt/taobao/java/bin/jstat -gcutil 18363 1000&lt;/code&gt; 输出使用比例：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  S0     S1     E      O      P     YGC     YGCT    FGC    FGCT     GCT
+  0.00  20.22  31.45  36.26  59.96   8003   77.605     8    0.380   77.985
+  0.00  20.22  51.98  36.26  59.96   8003   77.605     8    0.380   77.985
+  0.00  20.22  72.82  36.26  59.96   8003   77.605     8    0.380   77.985
+  0.00  20.22  96.69  36.26  59.96   8003   77.605     8    0.380   77.985
+ 16.21   0.00  14.75  36.28  59.96   8004   77.615     8    0.380   77.995
+ 16.21   0.00  32.26  36.28  59.96   8004   77.615     8    0.380   77.995
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;sudo -u ads /opt/taobao/java/bin/jstat -gc 18363 1000&lt;/code&gt; 输出使用数量：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; S0C    S1C    S0U    S1U      EC       EU        OC         OU       PC     PU    YGC     YGCT    FGC    FGCT     GCT
+209664.0 209664.0  0.0   37289.4 1677824.0 972546.5 2097152.0   914699.5  127408.0 76391.8   8153   79.224   8      0.380   79.604
+209664.0 209664.0  0.0   37289.4 1677824.0 1241357.4 2097152.0   914699.5  127408.0 76391.8   8153   79.224   8      0.380   79.604
+209664.0 209664.0  0.0   37289.4 1677824.0 1518926.2 2097152.0   914699.5  127408.0 76391.8   8153   79.224   8      0.380   79.604
+209664.0 209664.0 26608.1  0.0   1677824.0 222777.0 2097152.0   915137.6  127408.0 76391.8   8154   79.234   8      0.380   79.614
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;后缀，容量(C:Capacity)/使用量（U:Used)。&lt;/p&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;jvm参数调优&#34; href=&#34;#jvm参数调优&#34;&gt;&lt;/a&gt;JVM参数调优&lt;/h2&gt;
+
+&lt;h3&gt;基本参数&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;Xmx 最大堆容量，包含新生代、老生代
+Xms 最小堆容量，跟Xmx一样，避免申请空间时的对扩展
+Xmn 新生代容量
+
+-XX:NewSize and -XX:MaxNewSize  新生代大小  
+-XX:NewRatio 老年代/新生代比值。如果同时设置绝对值、相对值，会尝试分配比值对应的大小，但在绝对值范围之内。  
+-XX:SurvivorRatio  新生代中eden的比例，如果设置为8，意味着新生代中eden占据80%的空间，两个survivor分别占据10%
+
+-XX:+PrintGC（或者-verbose:gc） 打开记录简单的gc信息 
+-XX:+PrintGCDetails 打开记录详细的gc信息  
+  
+-XX:+PrintGCTimeStamps gc log有JVM启动至今的时间戳
+-XX:+PrintGCDateStamps gc log有绝对日期  
+
+-Xloggc 指定gc log路径  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;所有参数以及以“PrintGC”开头的参数都是可管理的参数。这样在任何时候我们都可以开启或是关闭GC日志。比如我们可以使用JDK自带的jinfo工具来设置这些参数，或者是通过JMX客户端调用HotSpotDiagnostic MXBean的setVMOption方法来设置这些参数。&lt;br /&gt;
+我们希望最小化短命对象晋升到老年代的数量，同时也希望最小化新生代GC 的次数和持续时间。&lt;/p&gt;
+
+&lt;h3&gt;高级参数&lt;/h3&gt;
+
+&lt;h4&gt;新生代相关&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;-XX:+PrintTenuringDistribution&lt;/code&gt; 指定JVM 在每次新生代GC时，输出幸存区中对象的年龄分布&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Desired survivor size 75497472 bytes, new threshold 15 (max 15)
+- age 1: 19321624 bytes, 19321624 total
+- age 2: 79376 bytes, 19401000 total
+- age 3: 2904256 bytes, 22305256 total
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;第一行说明幸存区To大小为 75 MB，老年代阀值(tenuring threshold)为15，经过15次gc晋升到老年代。&lt;br /&gt;
+age1，gc过一次对象占大小19321624 byte，后面一个是各age累加值。&lt;/p&gt;
+
+&lt;p&gt;预测下次gc的情况是：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Desired survivor size 75497472 bytes, new threshold 2 (max 15)
+- age 1: 68407384 bytes, 68407384 total
+- age 2: 12494576 bytes, 80901960 total
+- age 3: 79376 bytes, 80981336 total
+- age 4: 2904256 bytes, 83885592 total
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;本次GC 幸存区占用总大小 84 MB -大于75 MB. 结果,JVM 把老年代阀值从15降低到2，在下次GC时，一部分对象会强制离开幸存区。&lt;/p&gt;
+
+&lt;p&gt;伴随这个JVM参数，可以设置：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;-XX:InitialTenuringThreshold, -XX:MaxTenuringThreshold&lt;/code&gt; 老年代阀值初始值、最大值&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-XX:TargetSurvivorRatio&lt;/code&gt; 幸存区的目标使用率&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;code&gt;-XX:+NeverTenure and -XX:+AlwaysTenure&lt;/code&gt; 总是不晋升到老年代（不用老年代堆空间），总是晋升到老年代（不用幸存区）。&lt;/p&gt;
+
+&lt;h4&gt;老年代相关及其他&lt;/h4&gt;
+
+&lt;p&gt;HotSpot虚拟机提供两类垃圾收集算法(除了新的G1垃圾收集算法)，第一类算法试图最大限度地提高吞吐量(throughput-oriented)（又叫并行收集器），而第二类算法试图最小化暂停时间（例如CMS）。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;-XX:+UseSerialGC&lt;/code&gt;  主要用于单CPU JVM，避免多线程争用。&lt;br /&gt;
+&lt;code&gt;-XX:+UseParallelGC&lt;/code&gt;  使用多线程并行执行年轻代垃圾收集。java 6中如此，但java 7同时有-XX:+UseParallelOldGC的语义。&lt;br /&gt;
+&lt;code&gt;-XX:+UseParallelOldGC&lt;/code&gt;  同时激活年轻代、年老代并行算法。&lt;br /&gt;
+&lt;code&gt;-XX:ParallelGCThreads&lt;/code&gt;  如果没有指定，决定因素是由Java Runtime。availableProcessors()方法的返回值N，如果N&amp;lt;=8，并行垃圾收集器将使用N个垃圾收集线程，如果N&amp;gt;8个可用处理器，垃圾收集线程数量应为3+5N/8。&lt;br /&gt;
+&lt;code&gt;-XX:-UseAdaptiveSizePolicy&lt;/code&gt;   自适应。通过人体工程学，垃圾收集器能将堆大小动态变动像GC设置一样应用到不同的堆区域，只要有证据表明这些变动将能提高GC性能。 “提高GC性能”的确切含义可以由用户通过-XX:GCTimeRatio和-XX:MaxGCPauseMillis来指定。默认开启。&lt;br /&gt;
+&lt;code&gt;-XX:GCTimeRatio=N&lt;/code&gt; 吞吐量目标值，计算方式N/(N+1)。&lt;br /&gt;
+&lt;code&gt;-XX:MaxGCPauseMillis&lt;/code&gt;  最大暂停时间的目标值(以毫秒为单位)。需要注意的是，年轻代和年老代垃圾收集的统计数据是分开计算的，还要注意，默认情况下，最大暂停时间没有被设置。
+如果最大暂停时间和最小吞吐量同时设置了目标值，实现最大暂停时间目标具有更高的优先级。为了保持低暂停时间，JVM需要增加GC次数，那样可能会严重影响可达到的吞吐量。 这就是为什么对于要求低暂停时间作为主要目标的应用程序(大多数是Web应用程序)，我会建议不要使用吞吐量收集器，而是选择CMS收集器。 CMS收集器是本系列下一部分的主题。&lt;/p&gt;
+
+&lt;h4&gt;CMS收集器&lt;/h4&gt;
+
+&lt;p&gt;HotSpot JVM的并发标记清理收集器(CMS收集器)的主要目标就是：低应用停顿时间。该目标对于大多数交互式应用很重要，比如web应用。&lt;br /&gt;
+吞吐量收集器总是暂停应用程序线程，并且可能是相当长的一段时间，然而这能够使该算法安全地忽略应用程序。相比之下，CMS收集器被设计成在大多数时间能与应用程序线程并行执行，仅仅会有一点(短暂的)停顿时间。GC与应用程序并行的缺点就是，可能会出现各种同步和数据不一致的问题。为了实现安全且正确的并发执行，CMS收集器的GC周期被分为了好几个连续的阶段:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;CMS-initial-mark：&lt;strong&gt;Stop all application threads&lt;/strong&gt;, identify the set of objects reachable from roots, and then resume all application threads.&lt;/li&gt;
+&lt;li&gt;CMS-concurrent-mark：Concurrently trace the reachable object graph, using one or more processors, while the application threads are executing.&lt;/li&gt;
+&lt;li&gt;CMS-concurrent-preclean：Concurrently retrace sections of the object graph that were modified since the tracing in the previous step, using one processor.&lt;/li&gt;
+&lt;li&gt;CMS-remark：&lt;strong&gt;Stop all application threads&lt;/strong&gt; and retrace sections of the roots and object graph that may have been modified since they were last examined, and then resume all application threads.&lt;/li&gt;
+&lt;li&gt;CMS-concurrent-sweep：Concurrently sweep up the unreachable objects to the free lists used for allocation, using one processor.&lt;/li&gt;
+&lt;li&gt;CMS-concurrent-reset：Concurrently resize the heap and prepare the support data structures for the next collection cycle, using one processor.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;挑战&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;当我们在真实的应用中使用CMS收集器时，我们会面临两个主要的挑战，可能需要进行调优：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;堆碎片&lt;/li&gt;
+&lt;li&gt;对象分配率高&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;堆碎片是有可能的，不像吞吐量收集器，CMS收集器并没有任何碎片整理的机制。因此，万不得已JVM会触发Full GC。回想一下，Full GC 将运行吞吐量收集器的算法。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Concurrent Mode Failure&lt;/strong&gt;：However, if the CMS collector is unable to finish reclaiming the unreachable objects before the tenured generation fills up, or if an allocation cannot be satisfied with the available free space blocks in the tenured generation, then the application is paused and the collection is completed with all the application threads stopped. The inability to complete a collection concurrently is referred to as concurrent mode failure and indicates the need to adjust the CMS collector parameters. If a concurrent collection is interrupted by an explicit garbage collection (System.gc()) or for a garbage collection needed to provide information for diagnostic tools, then a concurrent mode interruption is reported.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;-XX：+UseConcMarkSweepGC&lt;/code&gt; 该标志首先是激活CMS收集器。默认HotSpot JVM使用的是并行收集器。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;-XX+UseParNewGC&lt;/code&gt; 并行收集器中使用该参数无意义，因为年老代、年轻代使用的算法一样。而CMS收集器不同，年老代、年轻代使用的算法不一致。注意最新的JVM版本，当使用-XX：+UseConcMarkSweepGC时，-XX：UseParNewGC会自动开启。因此，如果年轻代的并行GC不想开启，可以通过设置-XX：-UseParNewGC来关掉。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;-XX：+CMSConcurrentMTEnabled&lt;/code&gt; 默认开启，并发CMS阶段以多线程执行。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;-XX：ConcGCThreads=N&lt;/code&gt;(早期JVM版本也叫-XX:ParallelCMSThreads)定义并发CMS过程运行时的线程数。JVM会根据并行收集器中的-XX：ParallelGCThreads参数的值来计算出默认的并行CMS线程数。该公式是ConcGCThreads = (ParallelGCThreads + 3)/4。因此，对于CMS收集器， -XX:ParallelGCThreads标志不仅影响“stop-the-world”垃圾收集阶段，还影响并发阶段。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;-XX:CMSInitiatingOccupancyFraction&lt;/code&gt;  alue=75意味着第一次CMS垃圾收集会在老年代被占用75%时被触发。默认68。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;-XX：+UseCMSInitiatingOccupancyOnly&lt;/code&gt;  开启时，JVM通过CMSInitiatingOccupancyFraction的值进行每一次CMS收集，而不仅仅是第一次。&lt;br /&gt;
+&lt;code&gt;-XX:+CMSClassUnloadingEnabled&lt;/code&gt;相对于并行收集器，CMS收集器默认不会对永久代进行垃圾回收。如果希望对永久代进行垃圾回收，可用设置标志-XX:+CMSClassUnloadingEnabled。在早期JVM版本中，要求设置额外的标志-XX:+CMSPermGenSweepingEnabled。注意，即使没有设置这个标志，一旦永久代耗尽空间也会尝试进行垃圾回收，但是收集不会是并行的，而再一次进行Full GC。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;-XX:+CMSIncrementalMode&lt;/code&gt;:  增量模式经常暂停CMS过程，以便对应用程序线程作出完全的让步。因此，收集器将花更长的时间完成整个收集周期。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;-XX:+ExplicitGCInvokesConcurrent and -XX:+ExplicitGCInvokesConcurrentAndUnloadsClasses&lt;/code&gt;  system.gc()在CMS收集器下，会触发一次full gc。加了第一个参数，表示无论什么时候调用系统gc，都执行cms gc。第二个参数表示，但有系统gc时，永久代也被包括进去。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;-XX:+DisableExplicitGC&lt;/code&gt;  完全忽略系统gc，这个参数推荐默认开启。&lt;/p&gt;
+
 &lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;gc日志实例分析&#34; href=&#34;#gc日志实例分析&#34;&gt;&lt;/a&gt;gc日志实例分析&lt;/h2&gt;
+
+&lt;h3&gt;Throughput垃圾收集器在young generation中生成的日志&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;[GC [PSYoungGen: 142816K-&amp;gt;10752K(142848K)] 246648K-&amp;gt;243136K(375296K), 0.0935090 secs] [Times: user=0.55 sys=0.10, real=0.09 secs]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;垃圾收集器： PSYoungGen&lt;br /&gt;
+年轻代从142816K减少到10752K，容量142848K。&lt;br /&gt;
+整个对空间从246648K变成243136K，总容量375296K。&lt;br /&gt;
+cpu使用时间0.55 + 0.10 &amp;gt; 0.09的原因，是因为多线程执行。&lt;/p&gt;
+
+&lt;h3&gt;Throughput垃圾收集器 full gc日志&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;[Full GC
+ [PSYoungGen: 10752K-&amp;gt;9707K(142848K)]
+ [ParOldGen: 232384K-&amp;gt;232244K(485888K)] 243136K-&amp;gt;241951K(628736K)
+ [PSPermGen: 3162K-&amp;gt;3161K(21504K)], 1.5265450 secs
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;对于Serial垃圾收集器，详细的GC日志和Throughput垃圾收集器是非常相似的。&lt;br /&gt;
+CMS垃圾收集器 full gc日志不太一样，见下面的例子。&lt;/p&gt;
+
+&lt;h3&gt;典型CMS gc日志&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;39.910: [GC 39.910: [ParNew: 261760K-&amp;gt;0K(261952K), 0.2314667 secs] 262017K-&amp;gt;26386K(1048384K), 0.2318679 secs]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;发生了一次ygc，使用算法ParNew。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;40.146: [GC [1 CMS-initial-mark: 26386K(786432K)] 26404K(1048384K), 0.0074495 secs]&lt;/code&gt;&lt;br /&gt;
+在年老代占用26386K时，一次CMS gc的CMS-initial-mark阶段。此时会暂停所以应用线程。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;40.154: [CMS-concurrent-mark-start]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;40.683: [CMS-concurrent-mark: 0.521/0.529 secs]&lt;/code&gt;&lt;br /&gt;
+CMS-concurrent-mark阶段完成。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;40.683: [CMS-concurrent-preclean-start]&lt;/code&gt;&lt;br /&gt;
+再一次收集，已减少remark阶段时间。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;40.701: [CMS-concurrent-preclean: 0.017/0.018 secs]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;40.704: [GC40.704: [Rescan (parallel) , 0.1790103 secs]40.883: [weak refs processing, 0.0100966 secs] [1 CMS-remark: 26386K(786432K)] 52644K(1048384K), 0.1897792 secs]&lt;/code&gt;&lt;br /&gt;
+Stop-the-world phase.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;40.894: [CMS-concurrent-sweep-start]&lt;/code&gt;&lt;br /&gt;
+&lt;code&gt;41.020: [CMS-concurrent-reset-start]&lt;/code&gt;&lt;br /&gt;
+&lt;code&gt;41.147: [CMS-concurrent-reset: 0.127/0.127 secs]&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3&gt;CMS &lt;code&gt;concurrent mode failure&lt;/code&gt; 例子&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;197.976: [GC 197.976: [ParNew: 260872K-&amp;gt;260872K(261952K), 0.0000688   secs]197.976: [CMS197.981: [CMS-concurrent-sweep: 0.516/0.531 secs]  
+(concurrent mode failure): 402978K-&amp;gt;248977K(786432K), 2.3728734 secs]   663850K-&amp;gt;248977K(1048384K), 2.3733725 secs]  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;发生ygc时，因为估计到老年代容不下最坏情况下存活的年轻代对象，所以中断了CMS-concurrent-sweep，一个full gc在197.981被触发了。&lt;br /&gt;
+有时年老代有足够空间也会触发concurrent mode failure，以为年老代堆空间碎片化严重。而我们知道CMS收集器根本是一个non-compaction的收集器。&lt;br /&gt;
+从java 1.5版本开始，不再是基于最坏情况下存活的年轻代对象，老年代是否有足够的空间，来判断是否要触发concurrent mode failure了；而是基于历史数据给出一个估计值，而这个估计值往往比最坏情况小很多。使用UseSerialGC要获得同样的效果，需要打开XX:+HandlePromotionFailure。&lt;/p&gt;
+
+&lt;h3&gt;incremental mode (i-cms)&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;2803.125: [GC 2803.125: [ParNew: 408832K-&amp;gt;0K(409216K), 0.5371950 secs] 611130K-&amp;gt;206985K(1048192K) icms_dc=4 , 0.5373720 secs]
+2824.209: [GC 2824.209: [ParNew: 408832K-&amp;gt;0K(409216K), 0.6755540 secs] 615806K-&amp;gt;211897K(1048192K) icms_dc=4 , 0.6757740 secs]
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;待解决问题&#34; href=&#34;#待解决问题&#34;&gt;&lt;/a&gt;待解决问题&lt;/h2&gt;
 
@@ -112,28 +412,37 @@ Full GC (Major GC/fgc)&lt;/p&gt;
 &lt;li&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;主要参考：&lt;br /&gt;
+&lt;p&gt;参考：&lt;br /&gt;
+入门概览：&lt;br /&gt;
 &lt;a href=&#34;http://www.cnblogs.com/sunniest/p/4575144.html&#34;&gt;深入理解java垃圾回收机制&lt;/a&gt;&lt;br /&gt;
-[]()&lt;/p&gt;
+&lt;a href=&#34;http://www.searchtb.com/2013/07/jvm-gc-introduction-examples.html&#34;&gt;淘宝搜索-JVM GC简介和实例&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;http://www.searchtb.com/2013/07/jvm-gc-introduction-examples.html&#34;&gt;淘宝搜索-JVM GC简介和实例&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;https://blogs.oracle.com/poonam/entry/understanding_cms_gc_logs&#34;&gt;https://blogs.oracle.com/poonam/entry/understanding_cms_gc_logs&lt;/a&gt;
-&lt;a href=&#34;https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/cms.html&#34;&gt;https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/cms.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;JVM参数：&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/useful-jvm-flags-part-8-gc-logging/&#34;&gt;JVM实用参数（八）GC日志&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/useful-jvm-flags-part-5-young-generation-garbage-collection/&#34;&gt;JVM实用参数（五）新生代垃圾回收&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/useful-jvm-flags-part-6-throughput-collector/&#34;&gt;JVM实用参数（六） 吞吐量收集器&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/useful-jvm-flags-part-7-cms-collector/&#34;&gt;JVM实用参数（七）CMS收集器&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/cms.html&#34;&gt;8 Concurrent Mark Sweep (CMS) Collector&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;http://coderbee.net/index.php/jvm/20131216/646&#34;&gt;gc日志分析&lt;/a&gt;
-&lt;a href=&#34;http://ifeve.com/useful-jvm-flags-part-8-gc-logging/&#34;&gt;JVM实用参数（八）GC日志&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;日志实例：&lt;br /&gt;
+&lt;a href=&#34;https://blogs.oracle.com/poonam/entry/understanding_cms_gc_logs&#34;&gt;Understanding CMS GC Logs&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;其他未看：&lt;br /&gt;
+&lt;a href=&#34;http://coderbee.net/index.php/jvm/20131216/646&#34;&gt;gc日志分析&lt;/a&gt;
+&lt;a href=&#34;http://www.importnew.com/16223.html&#34;&gt;java垃圾回收调优实战&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://blog.hesey.net/2013/11/cms-gc-optimize.html&#34;&gt;一次CMS GC的调优工作&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://it.deepinmind.com/gc/2014/09/12/garbage-collectors-serial-vs-parallel-vs-cms-vs-the-g1-and-whats-new-in-java-8.html&#34;&gt;不同的垃圾回收器的比较&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&#34;http://blog.hesey.net/2014/05/swap-impact-on-rt-sensitive-apps.html?utm_source=rss&amp;amp;utm_medium=rss&amp;amp;utm_campaign=swap-impact-on-rt-sensitive-apps&#34;&gt;Swap对响应时间敏感应用的影响&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&#34;http://it.deepinmind.com/gc/2015/03/03/minor-gc-vs-major-gc-vs-full-gc.html&#34;&gt;full gc是否真的存在&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://www.searchtb.com/2013/07/jvm-gc-introduction-examples.html&#34;&gt;JVM的GC简介和实例&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://blog.hesey.net/2013/11/cms-gc-optimize.html&#34;&gt;一次CMS GC的调优工作&lt;/a&gt;
-&lt;a href=&#34;http://blog.csdn.net/iter_zc/article/details/41825395&#34;&gt;聊聊JVM（四）深入理解Major GC, Full GC, CMS&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/jvm-troubleshooting-guide-4/&#34;&gt;《JVM故障诊断指南》之4 —— Java 8:从持久代到metaspace&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/useful-jvm-flags-part-8-gc-logging/&#34;&gt;JVM实用参数（八）GC日志&lt;/a&gt;&lt;/p&gt;
+&lt;a href=&#34;http://www.searchtb.com/2013/07/jvm-gc-introduction-examples.html&#34;&gt;JVM的GC简介和实例&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://blog.csdn.net/iter_zc/article/details/41825395&#34;&gt;聊聊JVM（四）深入理解Major GC, Full GC, CMS&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/jvm-troubleshooting-guide-4/&#34;&gt;《JVM故障诊断指南》之4 —— Java 8:从持久代到metaspace&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;系列文章：&lt;br /&gt;
-&lt;a href=&#34;http://it.deepinmind.com/categories.html#GC-ref&#34;&gt;http://it.deepinmind.com/categories.html#GC-ref&lt;/a&gt;&lt;/p&gt;
+&lt;a href=&#34;http://it.deepinmind.com/categories.html#GC-ref&#34;&gt;http://it.deepinmind.com/categories.html#GC-ref&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;https://plumbr.eu/handbook/gc-tuning#tuning-for-latency&#34;&gt;Garbage Collection Handbook&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -397,6 +706,38 @@ http.request.method == &amp;quot;GET&amp;quot; &amp;amp;&amp;amp; http.request.f
 </description>
     </item>
     <item>
+      <title>并发编程 - 锁</title>
+      <link>http://defworld.com/2014/12/18/concurrent-programming-lock.html</link>
+      <pubDate>2014-12-18 12:00:00 +0800</pubDate>
+      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;饥饿和公平&#34; href=&#34;#饥饿和公平&#34;&gt;&lt;/a&gt;饥饿和公平&lt;/h1&gt;
+
+&lt;p&gt;饥饿是说某个线程总是被其他线程抢走CPU运行时间，而公平指所有的线程都能公平的获得运行机会。&lt;br /&gt;
+如果是使用synchronized同步块，不能保证某个线程一定获得运行机会，所以需要使用锁。锁的实现里可以自己控制唤醒时的机会分配。理论上Java不能实现100%公平。&lt;/p&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;自旋锁&#34; href=&#34;#自旋锁&#34;&gt;&lt;/a&gt;自旋锁&lt;/h1&gt;
+
+&lt;p&gt;自旋锁是采用让当前线程不停地在循环体内执行实现的。&lt;/p&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;阻塞锁&#34; href=&#34;#阻塞锁&#34;&gt;&lt;/a&gt;阻塞锁&lt;/h1&gt;
+
+&lt;p&gt;阻塞锁，与自旋锁不同，改变了线程的运行状态。&lt;br /&gt;
+阻塞锁的优势在于，阻塞的线程不会占用cpu时间，不会导致。CPU占用率过高，但进入时间以及恢复时间都要比自旋锁略慢。在竞争激烈的情况下 阻塞锁的性能要明显高于 自旋锁。&lt;br /&gt;
+理想的情况则是; 在线程竞争不激烈的情况下，使用自旋锁，竞争激烈的情况下使用，阻塞锁。&lt;/p&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;可重入锁&#34; href=&#34;#可重入锁&#34;&gt;&lt;/a&gt;可重入锁&lt;/h1&gt;
+
+&lt;p&gt;可重入锁，也叫做递归锁，指的是同一线程外层函数获得锁之后，内层递归函数仍然有获取该锁的代码，等到其他线程unlock时，这个线程能够从这个锁里出来。&lt;/p&gt;
+
+&lt;p&gt;参考：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://ifeve.com/starvation-and-fairness/&#34;&gt;饥饿和公平&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/java_lock_see1/&#34;&gt;java锁的种类以及辨析（一）：自旋锁&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/java_lock_see2/&#34;&gt;Java锁的种类以及辨析（二）：自旋锁的其他种类&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/java_lock_see3/&#34;&gt;Java锁的种类以及辨析（三）：阻塞锁&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/java_lock_see4/&#34;&gt;Java锁的种类以及辨析（四）：可重入锁&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    <item>
       <title>笔记 - java annotation</title>
       <link>http://defworld.com/2014/12/18/java-annotation.html</link>
       <pubDate>2014-12-18 12:00:00 +0800</pubDate>
@@ -484,38 +825,6 @@ RUNTIME
 &lt;a href=&#34;http://tutorials.jenkov.com/java/annotations.html&#34;&gt;Java Annotations&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&#34;http://docs.oracle.com/javase/tutorial/java/annotations/&#34;&gt;Lesson: Annotations&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&#34;http://en.wikipedia.org/wiki/Java_annotation#Processing&#34;&gt;Java annotation wiki&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    <item>
-      <title>并发编程 - 锁</title>
-      <link>http://defworld.com/2014/12/18/concurrent-programming-lock.html</link>
-      <pubDate>2014-12-18 12:00:00 +0800</pubDate>
-      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;饥饿和公平&#34; href=&#34;#饥饿和公平&#34;&gt;&lt;/a&gt;饥饿和公平&lt;/h1&gt;
-
-&lt;p&gt;饥饿是说某个线程总是被其他线程抢走CPU运行时间，而公平指所有的线程都能公平的获得运行机会。&lt;br /&gt;
-如果是使用synchronized同步块，不能保证某个线程一定获得运行机会，所以需要使用锁。锁的实现里可以自己控制唤醒时的机会分配。理论上Java不能实现100%公平。&lt;/p&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;自旋锁&#34; href=&#34;#自旋锁&#34;&gt;&lt;/a&gt;自旋锁&lt;/h1&gt;
-
-&lt;p&gt;自旋锁是采用让当前线程不停地在循环体内执行实现的。&lt;/p&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;阻塞锁&#34; href=&#34;#阻塞锁&#34;&gt;&lt;/a&gt;阻塞锁&lt;/h1&gt;
-
-&lt;p&gt;阻塞锁，与自旋锁不同，改变了线程的运行状态。&lt;br /&gt;
-阻塞锁的优势在于，阻塞的线程不会占用cpu时间，不会导致。CPU占用率过高，但进入时间以及恢复时间都要比自旋锁略慢。在竞争激烈的情况下 阻塞锁的性能要明显高于 自旋锁。&lt;br /&gt;
-理想的情况则是; 在线程竞争不激烈的情况下，使用自旋锁，竞争激烈的情况下使用，阻塞锁。&lt;/p&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;可重入锁&#34; href=&#34;#可重入锁&#34;&gt;&lt;/a&gt;可重入锁&lt;/h1&gt;
-
-&lt;p&gt;可重入锁，也叫做递归锁，指的是同一线程外层函数获得锁之后，内层递归函数仍然有获取该锁的代码，等到其他线程unlock时，这个线程能够从这个锁里出来。&lt;/p&gt;
-
-&lt;p&gt;参考：&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://ifeve.com/starvation-and-fairness/&#34;&gt;饥饿和公平&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/java_lock_see1/&#34;&gt;java锁的种类以及辨析（一）：自旋锁&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/java_lock_see2/&#34;&gt;Java锁的种类以及辨析（二）：自旋锁的其他种类&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/java_lock_see3/&#34;&gt;Java锁的种类以及辨析（三）：阻塞锁&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/java_lock_see4/&#34;&gt;Java锁的种类以及辨析（四）：可重入锁&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -1512,6 +1821,38 @@ if (maybeComputer.isPresent()) { // 这里只有present/absent两种状态，pre
 </description>
     </item>
     <item>
+      <title>压力测试 - 关注那些点</title>
+      <link>http://defworld.com/2014/08/08/load-test-3.html</link>
+      <pubDate>2014-08-08 12:00:00 +0800</pubDate>
+      <description>&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;jvm&#34; href=&#34;#jvm&#34;&gt;&lt;/a&gt;jvm&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;a. 启动参数
+b. gc
+c. 关闭即时编译
+d. 启动加载问题
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;nginx&#34; href=&#34;#nginx&#34;&gt;&lt;/a&gt;nginx&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;磁盘I/O是阻塞的&lt;/li&gt;
+&lt;li&gt;CPU Affinity&lt;/li&gt;
+&lt;li&gt;Keep Alive&lt;/li&gt;
+&lt;li&gt;tcp_nodelay and tcp_nopush&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;系统层面&#34; href=&#34;#系统层面&#34;&gt;&lt;/a&gt;系统层面&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;cpu&lt;/li&gt;
+&lt;li&gt;mem&lt;/li&gt;
+&lt;li&gt;I/O&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;java代码层面&#34; href=&#34;#java代码层面&#34;&gt;&lt;/a&gt;java代码层面&lt;/h2&gt;
+</description>
+    </item>
+    <item>
       <title>压力测试小结 - 工具</title>
       <link>http://defworld.com/2014/08/08/load-test-1.html</link>
       <pubDate>2014-08-08 12:00:00 +0800</pubDate>
@@ -1707,38 +2048,6 @@ lsof -i[46] [protocol][@hostname|hostaddr][:service|port]
 </description>
     </item>
     <item>
-      <title>压力测试 - 关注那些点</title>
-      <link>http://defworld.com/2014/08/08/load-test-3.html</link>
-      <pubDate>2014-08-08 12:00:00 +0800</pubDate>
-      <description>&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;jvm&#34; href=&#34;#jvm&#34;&gt;&lt;/a&gt;jvm&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code&gt;a. 启动参数
-b. gc
-c. 关闭即时编译
-d. 启动加载问题
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;nginx&#34; href=&#34;#nginx&#34;&gt;&lt;/a&gt;nginx&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;磁盘I/O是阻塞的&lt;/li&gt;
-&lt;li&gt;CPU Affinity&lt;/li&gt;
-&lt;li&gt;Keep Alive&lt;/li&gt;
-&lt;li&gt;tcp_nodelay and tcp_nopush&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;系统层面&#34; href=&#34;#系统层面&#34;&gt;&lt;/a&gt;系统层面&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;cpu&lt;/li&gt;
-&lt;li&gt;mem&lt;/li&gt;
-&lt;li&gt;I/O&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;java代码层面&#34; href=&#34;#java代码层面&#34;&gt;&lt;/a&gt;java代码层面&lt;/h2&gt;
-</description>
-    </item>
-    <item>
       <title>js入门笔记（三）</title>
       <link>http://defworld.com/2014/06/15/notes-js-3.html</link>
       <pubDate>2014-06-15 12:00:00 +0800</pubDate>
@@ -1788,6 +2097,140 @@ var Record = function(data) {
 
 &lt;p&gt;参考:&lt;br /&gt;
 &lt;a href=&#34;http://stackoverflow.com/questions/10453725/weird-behavior-with-javascript-getter-setters&#34;&gt;Weird behavior with Javascript getter/setters&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>js入门笔记（一）——基础</title>
+      <link>http://defworld.com/2014/06/13/notes-js-1.html</link>
+      <pubDate>2014-06-13 12:00:00 +0800</pubDate>
+      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;js函数有啥特点&#34; href=&#34;#js函数有啥特点&#34;&gt;&lt;/a&gt;js函数有啥特点&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;函数的参数实际上在内部是用一个数组表示的，在函数体内可以通过&lt;code&gt;arguments&lt;/code&gt;对象访问。arguments只是跟数组类型可以通过方括号访问每一个元素，实际不是Array实例&lt;/li&gt;
+&lt;li&gt;函数定义的参数与实际传递的参数没有个数相等的限制，不像Java语言会编译校验这个&lt;/li&gt;
+&lt;li&gt;因为函数参数是由包含另零个或多个值的数组来表示的，没有函数签名，故&lt;code&gt;没有重载&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;js基本类型和引用类型&#34; href=&#34;#js基本类型和引用类型&#34;&gt;&lt;/a&gt;js基本类型和引用类型&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;基本数据类型&lt;/code&gt;：Undefined 、 Null 、 Boolean 、 Number 、 String&lt;/li&gt;
+&lt;li&gt;不能给基本数据类型添加属性，添加以后访问也是undifined&lt;/li&gt;
+&lt;li&gt;因为String在js不同于其他语言是基本类型，所以赋值的时候会将值拷贝一份&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;检测类型&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;typeof&lt;/code&gt;区分是基本类型还是应用类型&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;var s = &#39;Nicholas&#39;;
+var b = true;
+var i = 22;
+var u;
+var n = null;
+var o = new Object();
+
+alert(typeof s); // string
+alert(typeof i); // number
+alert(typeof b); // boolean
+alert(typeof u); // undefined
+alert(typeof n); // object
+alert(typeof o); // object
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;instanceof&lt;/code&gt;检测对象是啥基本类型&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;所有引用类型都是Object的实例&lt;/li&gt;
+&lt;li&gt;对基本类型使用都会返回false&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;函数也是对象。&lt;/p&gt;
+
+&lt;h3&gt;基本包装类型Boolean Number String&lt;/h3&gt;
+
+&lt;p&gt;不建议在代码中使用包装类型。&lt;br /&gt;
+之所以基本类型上有方法可以访问，是因为执行的瞬间后台创建了一个包装类型，例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;var s1 = &#39;some text&#39;;
+var s2 = s1.substring(2);
+
+// 上面的实际上再后台是这么运行的
+
+var s1 = new String(&#39;some text&#39;);
+var s2 = s1.substring(2);
+s1 = null; // 使用new操作符创建的引用类型实例作用域内一直存在，而这里只是存在于一行代码的执行瞬间
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;创建String类型的一个实例&lt;/li&gt;
+&lt;li&gt;在实例上调用指定的方法&lt;/li&gt;
+&lt;li&gt;销毁这个实例&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;// 两种创建包装类型的方式
+
+var obj = new Object(&#39;some text&#39;);
+
+// 等价于
+
+var str = new String(&#39;some text&#39;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;// 转型函数与包装类型
+
+var value = &#39;25&#39;;
+var number = Number(value); // 转型函数
+alert(typeof number); // &#39;number&#39;
+
+var obj = new Number(value); // 构造函数
+alert(typeof obj); // &#39;object&#39;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;布尔表达式中所有对象都会被转换成true&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;var falseObj = new Boolean(false);
+var result = falseObj &amp;amp;&amp;amp; true;
+alert(result); // true
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;js执行环境及作用域&#34; href=&#34;#js执行环境及作用域&#34;&gt;&lt;/a&gt;js执行环境及作用域&lt;/h1&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;执行环境与作用域链&#34; href=&#34;#执行环境与作用域链&#34;&gt;&lt;/a&gt;执行环境与作用域链&lt;/h2&gt;
+
+&lt;p&gt;每个&lt;code&gt;执行环境&lt;/code&gt;都有一个与之关联的&lt;strong&gt;变量对象（variable object）&lt;/strong&gt;，环境中定义的所有变量和函数都保存在这个对象中，虽然我们编写的代码无法访问这个对象，但解析器在处理数据时会在后台使用它。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;每个函数有自己的执行环境&lt;/li&gt;
+&lt;li&gt;代码在一个环境中执行时，会创建变量对象的一个&lt;code&gt;作用域链（scope chain）&lt;/code&gt;，超找对象也按此链形成一个优先级&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;延长作用域链&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;function buildUrl() {
+    var qs = &#39;?debug=true&#39;;
+
+    with(location) {
+        var url = herf + qs; // herf实际上是location.herf
+    }
+
+    return url;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;try-catch&lt;/code&gt;的catch块也是类似&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;没有块级作用域&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;所有控制语句的代码块内部声明的变量都会逸出到外部，不同于Java语言。&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;函数中的声明的var变量作用域仅限于函数内部&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;参考:&lt;/p&gt;
+
+&lt;p&gt;JavaScript高级程序设计（第2版）》&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -2324,140 +2767,6 @@ SubType.prototype.sayAge = function() {
 &lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;js闭包&#34; href=&#34;#js闭包&#34;&gt;&lt;/a&gt;js闭包&lt;/h1&gt;
 
 &lt;p&gt;待续&lt;/p&gt;
-
-&lt;p&gt;参考:&lt;/p&gt;
-
-&lt;p&gt;JavaScript高级程序设计（第2版）》&lt;/p&gt;
-</description>
-    </item>
-    <item>
-      <title>js入门笔记（一）——基础</title>
-      <link>http://defworld.com/2014/06/13/notes-js-1.html</link>
-      <pubDate>2014-06-13 12:00:00 +0800</pubDate>
-      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;js函数有啥特点&#34; href=&#34;#js函数有啥特点&#34;&gt;&lt;/a&gt;js函数有啥特点&lt;/h1&gt;
-
-&lt;ul&gt;
-&lt;li&gt;函数的参数实际上在内部是用一个数组表示的，在函数体内可以通过&lt;code&gt;arguments&lt;/code&gt;对象访问。arguments只是跟数组类型可以通过方括号访问每一个元素，实际不是Array实例&lt;/li&gt;
-&lt;li&gt;函数定义的参数与实际传递的参数没有个数相等的限制，不像Java语言会编译校验这个&lt;/li&gt;
-&lt;li&gt;因为函数参数是由包含另零个或多个值的数组来表示的，没有函数签名，故&lt;code&gt;没有重载&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;js基本类型和引用类型&#34; href=&#34;#js基本类型和引用类型&#34;&gt;&lt;/a&gt;js基本类型和引用类型&lt;/h1&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;基本数据类型&lt;/code&gt;：Undefined 、 Null 、 Boolean 、 Number 、 String&lt;/li&gt;
-&lt;li&gt;不能给基本数据类型添加属性，添加以后访问也是undifined&lt;/li&gt;
-&lt;li&gt;因为String在js不同于其他语言是基本类型，所以赋值的时候会将值拷贝一份&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3&gt;检测类型&lt;/h3&gt;
-
-&lt;p&gt;&lt;strong&gt;&lt;code&gt;typeof&lt;/code&gt;区分是基本类型还是应用类型&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;var s = &#39;Nicholas&#39;;
-var b = true;
-var i = 22;
-var u;
-var n = null;
-var o = new Object();
-
-alert(typeof s); // string
-alert(typeof i); // number
-alert(typeof b); // boolean
-alert(typeof u); // undefined
-alert(typeof n); // object
-alert(typeof o); // object
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;&lt;code&gt;instanceof&lt;/code&gt;检测对象是啥基本类型&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;所有引用类型都是Object的实例&lt;/li&gt;
-&lt;li&gt;对基本类型使用都会返回false&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;函数也是对象。&lt;/p&gt;
-
-&lt;h3&gt;基本包装类型Boolean Number String&lt;/h3&gt;
-
-&lt;p&gt;不建议在代码中使用包装类型。&lt;br /&gt;
-之所以基本类型上有方法可以访问，是因为执行的瞬间后台创建了一个包装类型，例如：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;var s1 = &#39;some text&#39;;
-var s2 = s1.substring(2);
-
-// 上面的实际上再后台是这么运行的
-
-var s1 = new String(&#39;some text&#39;);
-var s2 = s1.substring(2);
-s1 = null; // 使用new操作符创建的引用类型实例作用域内一直存在，而这里只是存在于一行代码的执行瞬间
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ol&gt;
-&lt;li&gt;创建String类型的一个实例&lt;/li&gt;
-&lt;li&gt;在实例上调用指定的方法&lt;/li&gt;
-&lt;li&gt;销毁这个实例&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;// 两种创建包装类型的方式
-
-var obj = new Object(&#39;some text&#39;);
-
-// 等价于
-
-var str = new String(&#39;some text&#39;);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code&gt;// 转型函数与包装类型
-
-var value = &#39;25&#39;;
-var number = Number(value); // 转型函数
-alert(typeof number); // &#39;number&#39;
-
-var obj = new Number(value); // 构造函数
-alert(typeof obj); // &#39;object&#39;
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;布尔表达式中所有对象都会被转换成true&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;var falseObj = new Boolean(false);
-var result = falseObj &amp;amp;&amp;amp; true;
-alert(result); // true
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;js执行环境及作用域&#34; href=&#34;#js执行环境及作用域&#34;&gt;&lt;/a&gt;js执行环境及作用域&lt;/h1&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;执行环境与作用域链&#34; href=&#34;#执行环境与作用域链&#34;&gt;&lt;/a&gt;执行环境与作用域链&lt;/h2&gt;
-
-&lt;p&gt;每个&lt;code&gt;执行环境&lt;/code&gt;都有一个与之关联的&lt;strong&gt;变量对象（variable object）&lt;/strong&gt;，环境中定义的所有变量和函数都保存在这个对象中，虽然我们编写的代码无法访问这个对象，但解析器在处理数据时会在后台使用它。&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;每个函数有自己的执行环境&lt;/li&gt;
-&lt;li&gt;代码在一个环境中执行时，会创建变量对象的一个&lt;code&gt;作用域链（scope chain）&lt;/code&gt;，超找对象也按此链形成一个优先级&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;延长作用域链&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;function buildUrl() {
-    var qs = &#39;?debug=true&#39;;
-
-    with(location) {
-        var url = herf + qs; // herf实际上是location.herf
-    }
-
-    return url;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;try-catch&lt;/code&gt;的catch块也是类似&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;没有块级作用域&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;所有控制语句的代码块内部声明的变量都会逸出到外部，不同于Java语言。&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;函数中的声明的var变量作用域仅限于函数内部&lt;/li&gt;
-&lt;/ul&gt;
 
 &lt;p&gt;参考:&lt;/p&gt;
 
@@ -3555,17 +3864,6 @@ notify()的线程退出了它自己的同步块。因此，多个线程被notify
 </description>
     </item>
     <item>
-      <title>玩Pi过程中Q&amp;A(持续更新)</title>
-      <link>http://defworld.com/2013/06/30/pi-q-a.html</link>
-      <pubDate>2013-06-30 12:00:00 +0800</pubDate>
-      <description>&lt;p&gt;自己玩Pi过程中遇到的问题，有些只是找到解决方案，原理并没有深究&lt;/p&gt;
-
-&lt;h4&gt;执行apt-get install时，报404 Not Found&lt;/h4&gt;
-
-&lt;p&gt;执行&lt;code&gt;sugo apt-get update&lt;/code&gt;解决&lt;/p&gt;
-</description>
-    </item>
-    <item>
       <title>ssh密钥自动登陆+ssh-agent使用+单机多个ssh账号</title>
       <link>http://defworld.com/2013/06/30/ssh.html</link>
       <pubDate>2013-06-30 12:00:00 +0800</pubDate>
@@ -3617,6 +3915,17 @@ Host github
 
 &lt;p&gt;任何使用&lt;code&gt;pi@defworld.com&lt;/code&gt;的地方用&lt;code&gt;pi&lt;/code&gt;代替，例如&lt;code&gt;ssh pi@defworld.com&lt;/code&gt;用&lt;code&gt;ssh pi&lt;/code&gt;代替，
 会自动查找指定的密钥&lt;code&gt;id_rsa&lt;/code&gt;进行权限验证。于是，你可以单机保存多个密钥。&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>玩Pi过程中Q&amp;A(持续更新)</title>
+      <link>http://defworld.com/2013/06/30/pi-q-a.html</link>
+      <pubDate>2013-06-30 12:00:00 +0800</pubDate>
+      <description>&lt;p&gt;自己玩Pi过程中遇到的问题，有些只是找到解决方案，原理并没有深究&lt;/p&gt;
+
+&lt;h4&gt;执行apt-get install时，报404 Not Found&lt;/h4&gt;
+
+&lt;p&gt;执行&lt;code&gt;sugo apt-get update&lt;/code&gt;解决&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -6059,6 +6368,129 @@ MappingJacksonJsonView)。同样的问题，你不仅需要控制error page，�
 </description>
     </item>
     <item>
+      <title>java语言基础细节</title>
+      <link>http://defworld.com/2013/05/18/a-little-things-abount-java-language.html</link>
+      <pubDate>2013-05-18 12:00:00 +0800</pubDate>
+      <description>&lt;p&gt;2011年的笔记，当时是在看《细说 Java》，算是一个入门书。&lt;br /&gt;
+虽然基础，但是平时工作中并不一定注意到这些细节，现在这些零碎的东西都整理起来。&lt;br /&gt;
+只挑选目前看还有些价值的&lt;/p&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;java基本数据类型&#34; href=&#34;#java基本数据类型&#34;&gt;&lt;/a&gt;java基本数据类型&lt;/h2&gt;
+
+&lt;p&gt;基本数据类型由低到高排序：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;byte(1) short(2) ---&amp;gt;
+                     int(4) long(8) float(4) double(8)
+        char (2) ---&amp;gt;
+boolean(1)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;由低到高隐式转换，高到底必须显示申明，因为数据会失真。&lt;br /&gt;
+char是无符号类型，所以char short&lt;br /&gt;
+boolean不能和其他类型进行相互转换&lt;br /&gt;
+必要时使用BigInteger &amp;amp; BigDecimal&lt;/p&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;值传递与引用传递&#34; href=&#34;#值传递与引用传递&#34;&gt;&lt;/a&gt;值传递与引用传递&lt;/h2&gt;
+
+&lt;p&gt;两者其实都是值传递&lt;/p&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;私有属性的优势&#34; href=&#34;#私有属性的优势&#34;&gt;&lt;/a&gt;私有属性的优势&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;对外暴露get/set，可实现额外的校验或其他逻辑控制&lt;/li&gt;
+&lt;li&gt;隐藏内部细节，对外屏蔽内部变化&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;类加载及对象初始化时动作&#34; href=&#34;#类加载及对象初始化时动作&#34;&gt;&lt;/a&gt;类加载及对象初始化时动作&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;在类加载时（第一次使用类是），为类中的静态成员变量分配内存空间，并赋予默认值&lt;/li&gt;
+&lt;li&gt;执行静态成员变量的初始化操作。前面已经指出，静态成员的初始化有两种：在声明时直接初始化与静态初始化块。两种方式会按照在类中出现的顺序（声明的顺序）来执行。A，B步只会在类加载时执行一次。&lt;/li&gt;
+&lt;li&gt;如果创建了类的对象，便在堆中为类的实例分配内存空间，实例变量被初始化为默认值&lt;/li&gt;
+&lt;li&gt;执行实例化变量的初始化操作。实例变量的前两种初始化方式：声明时直接初始化与初始化块，这两种初始化方法会按照在类中出现的顺序（声明的顺序）来执行。&lt;/li&gt;
+&lt;li&gt;执行类的构造器。C~E在每次创建类的对象时都会执行。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;重载/重写/隐藏&#34; href=&#34;#重载/重写/隐藏&#34;&gt;&lt;/a&gt;重载/重写/隐藏&lt;/h2&gt;
+
+&lt;h3&gt;重载&lt;/h3&gt;
+
+&lt;p&gt;方法的重载就是方法具有相同的名称不同的参数列表，在编译期间确定，编译器可以根据参数的类型与个数加以区分，而方法的返回类型与方法抛出异常等因素的不同不作为重载的标准，因为其不能提供足够的信息。如果参数已引用传递，那么硬系那个调用的因素时引用的类型，而与引用所指向的对象类型无关。&lt;br /&gt;
+编译器选择重载方法时顺序时：&lt;br /&gt;
+A选择形参类型与制定的实参列表完全一致的方法&lt;br /&gt;
+B如果A中的方法不存在，选择形参列表的参数类型能够兼容对应的实参列表的参数类型。&lt;br /&gt;
+  如果满足这一条件的方法不止一个，那么如果A方法参数类表在类型上可以兼容对应的B方法参数列表的类型，那么将排除B方法，按照这种方法排除，如果排除以后仍然剩下多于一个的方法，那么编译器会给出错误信息，指出引用类型不明确。&lt;br /&gt;
+C如果B中的方法不存在，自动封箱与拆箱操作将会执行，然后按照B继续寻找。&lt;br /&gt;
+D如果C中的方法不存在，则选择具有可变形参的方法，如果方法存在，调用该方法，否则给出错误信息，指出方法不存在。&lt;/p&gt;
+
+&lt;h3&gt;重写&lt;/h3&gt;
+
+&lt;p&gt;方法重写的条件：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;子类与父类的方法必须都是实例方法。如果父类是实例方法而子类是静态方法，或者相反，则编译器会报错。如果子类与父类都是静态方法，那么子类隐藏父类的方法，而不是重写父类的方法。&lt;/li&gt;
+&lt;li&gt;子类与父类的方法需要具有相同的方法名称、参数列表，并且子类的返回类型与父类相同或者是父类的子类。如果方法名称相同而参数列表不同（返回类型可相同也可不相同），那么只是方法的重载。如果方法名称与参数列表相同而返回类型不同（并且子类方法的返回类型不是父类的子类型），那么编译器将会报错。&lt;/li&gt;
+&lt;li&gt;子类方法的访问权限不能小于父类的访问权限。&lt;/li&gt;
+&lt;li&gt;子类方法不能比父类方法抛出更多的已检测异常（也称编译时异常）。&lt;/li&gt;
+&lt;li&gt;父类的方法在子类中必须可见。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;隐藏&lt;/h3&gt;
+
+&lt;p&gt;静态方法隐藏的条件:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;静态（required)&lt;/li&gt;
+&lt;li&gt;相同的方法名称、参数列表、子类的返回类型和父类相同或者是父类的子类型&lt;/li&gt;
+&lt;li&gt;子类方法的访问权限不能小于父类方法&lt;/li&gt;
+&lt;li&gt;子类方法不恩能够比父类方法抛出更多的已检测异常&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;成员变量隐藏：&lt;br /&gt;
+与静态方法类似，子类不能重写类中的成员变量，只能隐藏父类的成员变量（不论静态变量还是实例变量）。只要求子类与父类的成员变量的名字相同即可，与变量类型无关。&lt;br /&gt;
+注意成员变量的继承，如果子类继承了父类的成员变量，则子类与父类共享同一个成员变量。如果是实例变量，在对象内部共享，如果是静态成员变量，在父类与子类之间共享。&lt;/p&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;变量和方法的搜索顺序&#34; href=&#34;#变量和方法的搜索顺序&#34;&gt;&lt;/a&gt;变量和方法的搜索顺序&lt;/h2&gt;
+
+&lt;p&gt;遵循由近及远的原则&lt;/p&gt;
+
+&lt;h3&gt;变量的搜索顺序&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;从访问某变量所在的语句块中（最小语句块）搜索变量的声明&lt;/li&gt;
+&lt;li&gt;访问该语句块的外围语句块，知道整个方法所在的语句块，方法的参数也作为搜索的对象。&lt;/li&gt;
+&lt;li&gt;搜索类中声明的成员变量，如果不存在其声明，搜索从父类型中集成的成员变量。&lt;/li&gt;
+&lt;li&gt;如果该类是一个内部类，那么对外围类返回步骤3进行搜索，知道顶层类为止。&lt;/li&gt;
+&lt;li&gt;搜索明确静态导入的成员（即单一静态导入的成员）&lt;/li&gt;
+&lt;li&gt;搜索使用星号静态导入的成员&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;方法的搜索顺序&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;当前类的类型&lt;/li&gt;
+&lt;li&gt;内部类的类型&lt;/li&gt;
+&lt;li&gt;明确导入的类型&lt;/li&gt;
+&lt;li&gt;与当前类处在同一个包中的其他类型&lt;/li&gt;
+&lt;li&gt;使用带星号导入的类型&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;泛型&#34; href=&#34;#泛型&#34;&gt;&lt;/a&gt;泛型&lt;/h2&gt;
+
+&lt;p&gt;使用Object需要在运行时强制转型，而泛型编译期间就能确定类型，运行截断参数类型的信息将被擦除。&lt;br /&gt;
+List&amp;lt;Super&amp;gt;只能接收List&amp;lt;Super&amp;gt;类型的参数，不能接收List&amp;lt;Sub&amp;gt;。用List&amp;lt;?&amp;gt;/List&amp;lt;? extends Super&amp;gt;/List&amp;lt;? super Number&amp;gt;&lt;/p&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;引用类型&#34; href=&#34;#引用类型&#34;&gt;&lt;/a&gt;引用类型&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;强引用存在永远不会回收&lt;/li&gt;
+&lt;li&gt;soft引用存在只有在内存满是才有可能被回收（看GC算法）&lt;/li&gt;
+&lt;li&gt;weak reference 对象与soft引用对象不同点是：后者在GC回收时要通过算法检查是否会后，对前者总是回收，但是复杂关系的weak对象群要好几次GC的运行才会被回收。只要勇于map&lt;/li&gt;
+&lt;li&gt;虚引用一般适用于执行完了finalize函数，并且为不可到达对象，但是还没有被GC回收的对象。辅助finalize进行后期回收工作。&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    <item>
       <title>markdown所用图片上传自动化脚本</title>
       <link>http://defworld.com/2013/05/18/auto-up-img-to-filikr-and-get-shareurl.html</link>
       <pubDate>2013-05-18 12:00:00 +0800</pubDate>
@@ -6197,129 +6629,6 @@ sudo make install
 &lt;/ul&gt;
 
 &lt;p&gt;ok ! enjoy it !&lt;/p&gt;
-</description>
-    </item>
-    <item>
-      <title>java语言基础细节</title>
-      <link>http://defworld.com/2013/05/18/a-little-things-abount-java-language.html</link>
-      <pubDate>2013-05-18 12:00:00 +0800</pubDate>
-      <description>&lt;p&gt;2011年的笔记，当时是在看《细说 Java》，算是一个入门书。&lt;br /&gt;
-虽然基础，但是平时工作中并不一定注意到这些细节，现在这些零碎的东西都整理起来。&lt;br /&gt;
-只挑选目前看还有些价值的&lt;/p&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;java基本数据类型&#34; href=&#34;#java基本数据类型&#34;&gt;&lt;/a&gt;java基本数据类型&lt;/h2&gt;
-
-&lt;p&gt;基本数据类型由低到高排序：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;byte(1) short(2) ---&amp;gt;
-                     int(4) long(8) float(4) double(8)
-        char (2) ---&amp;gt;
-boolean(1)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;由低到高隐式转换，高到底必须显示申明，因为数据会失真。&lt;br /&gt;
-char是无符号类型，所以char short&lt;br /&gt;
-boolean不能和其他类型进行相互转换&lt;br /&gt;
-必要时使用BigInteger &amp;amp; BigDecimal&lt;/p&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;值传递与引用传递&#34; href=&#34;#值传递与引用传递&#34;&gt;&lt;/a&gt;值传递与引用传递&lt;/h2&gt;
-
-&lt;p&gt;两者其实都是值传递&lt;/p&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;私有属性的优势&#34; href=&#34;#私有属性的优势&#34;&gt;&lt;/a&gt;私有属性的优势&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;对外暴露get/set，可实现额外的校验或其他逻辑控制&lt;/li&gt;
-&lt;li&gt;隐藏内部细节，对外屏蔽内部变化&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;类加载及对象初始化时动作&#34; href=&#34;#类加载及对象初始化时动作&#34;&gt;&lt;/a&gt;类加载及对象初始化时动作&lt;/h2&gt;
-
-&lt;ol&gt;
-&lt;li&gt;在类加载时（第一次使用类是），为类中的静态成员变量分配内存空间，并赋予默认值&lt;/li&gt;
-&lt;li&gt;执行静态成员变量的初始化操作。前面已经指出，静态成员的初始化有两种：在声明时直接初始化与静态初始化块。两种方式会按照在类中出现的顺序（声明的顺序）来执行。A，B步只会在类加载时执行一次。&lt;/li&gt;
-&lt;li&gt;如果创建了类的对象，便在堆中为类的实例分配内存空间，实例变量被初始化为默认值&lt;/li&gt;
-&lt;li&gt;执行实例化变量的初始化操作。实例变量的前两种初始化方式：声明时直接初始化与初始化块，这两种初始化方法会按照在类中出现的顺序（声明的顺序）来执行。&lt;/li&gt;
-&lt;li&gt;执行类的构造器。C~E在每次创建类的对象时都会执行。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;重载/重写/隐藏&#34; href=&#34;#重载/重写/隐藏&#34;&gt;&lt;/a&gt;重载/重写/隐藏&lt;/h2&gt;
-
-&lt;h3&gt;重载&lt;/h3&gt;
-
-&lt;p&gt;方法的重载就是方法具有相同的名称不同的参数列表，在编译期间确定，编译器可以根据参数的类型与个数加以区分，而方法的返回类型与方法抛出异常等因素的不同不作为重载的标准，因为其不能提供足够的信息。如果参数已引用传递，那么硬系那个调用的因素时引用的类型，而与引用所指向的对象类型无关。&lt;br /&gt;
-编译器选择重载方法时顺序时：&lt;br /&gt;
-A选择形参类型与制定的实参列表完全一致的方法&lt;br /&gt;
-B如果A中的方法不存在，选择形参列表的参数类型能够兼容对应的实参列表的参数类型。&lt;br /&gt;
-  如果满足这一条件的方法不止一个，那么如果A方法参数类表在类型上可以兼容对应的B方法参数列表的类型，那么将排除B方法，按照这种方法排除，如果排除以后仍然剩下多于一个的方法，那么编译器会给出错误信息，指出引用类型不明确。&lt;br /&gt;
-C如果B中的方法不存在，自动封箱与拆箱操作将会执行，然后按照B继续寻找。&lt;br /&gt;
-D如果C中的方法不存在，则选择具有可变形参的方法，如果方法存在，调用该方法，否则给出错误信息，指出方法不存在。&lt;/p&gt;
-
-&lt;h3&gt;重写&lt;/h3&gt;
-
-&lt;p&gt;方法重写的条件：&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;子类与父类的方法必须都是实例方法。如果父类是实例方法而子类是静态方法，或者相反，则编译器会报错。如果子类与父类都是静态方法，那么子类隐藏父类的方法，而不是重写父类的方法。&lt;/li&gt;
-&lt;li&gt;子类与父类的方法需要具有相同的方法名称、参数列表，并且子类的返回类型与父类相同或者是父类的子类。如果方法名称相同而参数列表不同（返回类型可相同也可不相同），那么只是方法的重载。如果方法名称与参数列表相同而返回类型不同（并且子类方法的返回类型不是父类的子类型），那么编译器将会报错。&lt;/li&gt;
-&lt;li&gt;子类方法的访问权限不能小于父类的访问权限。&lt;/li&gt;
-&lt;li&gt;子类方法不能比父类方法抛出更多的已检测异常（也称编译时异常）。&lt;/li&gt;
-&lt;li&gt;父类的方法在子类中必须可见。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3&gt;隐藏&lt;/h3&gt;
-
-&lt;p&gt;静态方法隐藏的条件:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;静态（required)&lt;/li&gt;
-&lt;li&gt;相同的方法名称、参数列表、子类的返回类型和父类相同或者是父类的子类型&lt;/li&gt;
-&lt;li&gt;子类方法的访问权限不能小于父类方法&lt;/li&gt;
-&lt;li&gt;子类方法不恩能够比父类方法抛出更多的已检测异常&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;成员变量隐藏：&lt;br /&gt;
-与静态方法类似，子类不能重写类中的成员变量，只能隐藏父类的成员变量（不论静态变量还是实例变量）。只要求子类与父类的成员变量的名字相同即可，与变量类型无关。&lt;br /&gt;
-注意成员变量的继承，如果子类继承了父类的成员变量，则子类与父类共享同一个成员变量。如果是实例变量，在对象内部共享，如果是静态成员变量，在父类与子类之间共享。&lt;/p&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;变量和方法的搜索顺序&#34; href=&#34;#变量和方法的搜索顺序&#34;&gt;&lt;/a&gt;变量和方法的搜索顺序&lt;/h2&gt;
-
-&lt;p&gt;遵循由近及远的原则&lt;/p&gt;
-
-&lt;h3&gt;变量的搜索顺序&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;从访问某变量所在的语句块中（最小语句块）搜索变量的声明&lt;/li&gt;
-&lt;li&gt;访问该语句块的外围语句块，知道整个方法所在的语句块，方法的参数也作为搜索的对象。&lt;/li&gt;
-&lt;li&gt;搜索类中声明的成员变量，如果不存在其声明，搜索从父类型中集成的成员变量。&lt;/li&gt;
-&lt;li&gt;如果该类是一个内部类，那么对外围类返回步骤3进行搜索，知道顶层类为止。&lt;/li&gt;
-&lt;li&gt;搜索明确静态导入的成员（即单一静态导入的成员）&lt;/li&gt;
-&lt;li&gt;搜索使用星号静态导入的成员&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3&gt;方法的搜索顺序&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;当前类的类型&lt;/li&gt;
-&lt;li&gt;内部类的类型&lt;/li&gt;
-&lt;li&gt;明确导入的类型&lt;/li&gt;
-&lt;li&gt;与当前类处在同一个包中的其他类型&lt;/li&gt;
-&lt;li&gt;使用带星号导入的类型&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;泛型&#34; href=&#34;#泛型&#34;&gt;&lt;/a&gt;泛型&lt;/h2&gt;
-
-&lt;p&gt;使用Object需要在运行时强制转型，而泛型编译期间就能确定类型，运行截断参数类型的信息将被擦除。&lt;br /&gt;
-List&amp;lt;Super&amp;gt;只能接收List&amp;lt;Super&amp;gt;类型的参数，不能接收List&amp;lt;Sub&amp;gt;。用List&amp;lt;?&amp;gt;/List&amp;lt;? extends Super&amp;gt;/List&amp;lt;? super Number&amp;gt;&lt;/p&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;引用类型&#34; href=&#34;#引用类型&#34;&gt;&lt;/a&gt;引用类型&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;强引用存在永远不会回收&lt;/li&gt;
-&lt;li&gt;soft引用存在只有在内存满是才有可能被回收（看GC算法）&lt;/li&gt;
-&lt;li&gt;weak reference 对象与soft引用对象不同点是：后者在GC回收时要通过算法检查是否会后，对前者总是回收，但是复杂关系的weak对象群要好几次GC的运行才会被回收。只要勇于map&lt;/li&gt;
-&lt;li&gt;虚引用一般适用于执行完了finalize函数，并且为不可到达对象，但是还没有被GC回收的对象。辅助finalize进行后期回收工作。&lt;/li&gt;
-&lt;/ul&gt;
 </description>
     </item>
     <item>
