@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>JVM——JMM，java内存模型</title>
+    <title>jvm工具-jstat</title>
   
     <meta name="author" content="tiemei">
 
@@ -76,42 +76,65 @@
 
       <div class="content">
         <div class="page-header">
-  <h1>JVM——JMM，java内存模型 </h1>
+  <h1>jvm工具-jstat </h1>
 </div>
 
 <div class="row">
   <div class="span8">
-    <h2><a style="display: block;" name="简介jmm与硬件内存架构的关系" href="#简介jmm与硬件内存架构的关系"></a>简介JMM与硬件内存架构的关系</h2>
+    <p><code>jstat [ generalOption | outputOptions vmid [interval[s|ms] [count]] ]</code></p>
 
-<p>java虚拟机包含一个完整的计算机模型，java内存模型跟硬件内存架构之间的关系是：</p>
+<p>generalOption只有两个选项，且使用时不能加其他参数及选项：</p>
 
-<p><img src="https://farm1.staticflickr.com/328/19329026068_2c37a4027e.jpg" alt="jmm-cpu" />
-</p>
+<pre><code>-help Display help message
+-options Display list of statistics options. 
+</code></pre>
 
-<p>stack、heap有可能出现在寄存器、cpu缓存层、主内存中，也因此可能出现可见性（某个线程对一个对象的修改，不被另一个线程看见）、race conditions（竞争状态，修改同一个对象时可能会出现问题）。</p>
+<p>outputOptions有多个选项，另外可以加上-h, -t, and -J，接在outputOptions后面:</p>
+
+<pre><code>Option              Displays...
+class               Statistics on the behavior of the class loader.
+compiler            Statistics of the behavior of the HotSpot Just-in-Time compiler.
+gc                  Statistics of the behavior of the garbage collected heap.
+gccapacity          Statistics of the capacities of the generations and their corresponding spaces.
+gccause             Summary of garbage collection statistics (same as -gcutil), with the cause of the last and current (if applicable) garbage collection events.
+gcnew               Statistics of the behavior of the new generation.
+gcnewcapacity       Statistics of the sizes of the new generations and its corresponding spaces.
+gcold               Statistics of the behavior of the old and permanent generations.
+gcoldcapacity       Statistics of the sizes of the old generation.
+gcpermcapacity      Statistics of the sizes of the permanent generation.
+gcutil              Summary of garbage collection statistics.
+printcompilation    HotSpot compilation method statistics.
+</code></pre>
+
+<pre><code>-h n
+Display a column header every n samples (output rows), where n is a positive integer. Default value is 0, which displays the column header above the first row of data.
+
+-t
+Display a timestamp column as the first column of output. The timestamp is the time since the start time of the target JVM.
+
+-JjavaOption
+Pass javaOption to the java application launcher. For example, -J-Xms48m sets the startup memory to 48 megabytes. For a complete list of options, see java - the Java application launcher
+</code></pre>
+
+<p>例子：<code>jstat -gcoldcapacity -t 21891 250 3</code></p>
 
 <p>参考：</p>
 
-<p><a href="http://ifeve.com/java-memory-model-6/">Java内存模型</a><br />
-<a href="http://ifeve.com/java-memory-model-0/">深入理解java内存模型系列文章</a><br />
-<a href="http://ifeve.com/jmm-faq/">Java内存模型FAQ</a><br />
-<a href="http://ifeve.com/syn-jmm/">同步和Java内存模型</a><br />
-<a href="http://it.deepinmind.com/jvm/2015/02/13/jvm-having-access-to-less-memory-than-xmx.html">遗失的java堆内存</a><br />
-<a href="http://coderbee.net/index.php/java/20140811/979">java对象内存布局</a></p>
+<p><a href="http://docs.oracle.com/javase/7/docs/technotes/tools/share/jstat.html">jstat - Java Virtual Machine Statistics Monitoring Tool</a></p>
 
     <hr>
     <div class="pagination">
       <ul>
         <ul>
           
-            <li class="prev"><a href="/2015/07/10/osx-createinstallmedia.html" title="osx-制作USA安装盘，并迁移老MAC">&larr; Previous</a></li>
+            <li class="prev"><a href="/2015/07/16/jvm-tool-jstack%2Cjvisualvm%2Cvisualgc.html" title="jvm工具-jstack,jvisualvm,visualgc">&larr; Previous</a></li>
           
           
 
             <li><a href="/archive">Archive</a></li>
 
           
-            <li class="next"><a href="/2015/07/08/jvm-gc.html" title="jvm——gc">Next &rarr;</a></li>
+            <li class="next"><a href="/2015/07/11/garmin-reset.html" title="【摘抄】garmin-重置">Next &rarr;</a></li>
           
           
         </ul>
@@ -137,7 +160,7 @@
   
   <div class="span4">
     <h4>Published</h4>
-    <div class="date"><span>2015-07-08</span></div>
+    <div class="date"><span>2015-07-16</span></div>
     <br>
     <h4>Categories</h4>
     <ul class="tag_box">

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>JVM——JMM，java内存模型</title>
+    <title>jvm工具-hprof</title>
   
     <meta name="author" content="tiemei">
 
@@ -76,42 +76,87 @@
 
       <div class="content">
         <div class="page-header">
-  <h1>JVM——JMM，java内存模型 </h1>
+  <h1>jvm工具-hprof </h1>
 </div>
 
 <div class="row">
   <div class="span8">
-    <h2><a style="display: block;" name="简介jmm与硬件内存架构的关系" href="#简介jmm与硬件内存架构的关系"></a>简介JMM与硬件内存架构的关系</h2>
+    <p>jvm启动的时候需要指定参数，去加载 JVM native agent library ，这样才能打开hprof记录；在j2se 1.5之后，hprof是基于Java Virtual Machine Tool Interface (<a href="http://docs.oracle.com/javase/7/docs/technotes/guides/jvmti/index.html">JVM TI</a>)实现的。</p>
 
-<p>java虚拟机包含一个完整的计算机模型，java内存模型跟硬件内存架构之间的关系是：</p>
+<p>HPROF is capable of presenting CPU usage, heap allocation statistics, and monitor contention profiles.  In addition, it can also report complete heap dumps and states of all the monitors and threads in the Java virtual machine.<br />
+可查看帮助文档：</p>
 
-<p><img src="https://farm1.staticflickr.com/328/19329026068_2c37a4027e.jpg" alt="jmm-cpu" />
-</p>
+<pre><code>$ java -agentlib:hprof=help
 
-<p>stack、heap有可能出现在寄存器、cpu缓存层、主内存中，也因此可能出现可见性（某个线程对一个对象的修改，不被另一个线程看见）、race conditions（竞争状态，修改同一个对象时可能会出现问题）。</p>
+     HPROF: Heap and CPU Profiling Agent (JVMTI Demonstration Code)
 
-<p>参考：</p>
+hprof usage: java -agentlib:hprof=[help]|[&lt;option&gt;=&lt;value&gt;, ...]
 
-<p><a href="http://ifeve.com/java-memory-model-6/">Java内存模型</a><br />
-<a href="http://ifeve.com/java-memory-model-0/">深入理解java内存模型系列文章</a><br />
-<a href="http://ifeve.com/jmm-faq/">Java内存模型FAQ</a><br />
-<a href="http://ifeve.com/syn-jmm/">同步和Java内存模型</a><br />
-<a href="http://it.deepinmind.com/jvm/2015/02/13/jvm-having-access-to-less-memory-than-xmx.html">遗失的java堆内存</a><br />
-<a href="http://coderbee.net/index.php/java/20140811/979">java对象内存布局</a></p>
+Option Name and Value  Description                    Default
+---------------------  -----------                    -------
+heap=dump|sites|all    heap profiling                 all
+cpu=samples|times|old  CPU usage                      off
+monitor=y|n            monitor contention             n
+format=a|b             text(txt) or binary output     a
+file=&lt;file&gt;            write data to file             java.hprof[{.txt}]
+net=&lt;host&gt;:&lt;port&gt;      send data over a socket        off
+depth=&lt;size&gt;           stack trace depth              4
+interval=&lt;ms&gt;          sample interval in ms          10
+cutoff=&lt;value&gt;         output cutoff point            0.0001
+lineno=y|n             line number in traces?         y
+thread=y|n             thread in traces?              n
+doe=y|n                dump on exit?                  y
+msa=y|n                Solaris micro state accounting n
+force=y|n              force output to &lt;file&gt;         y
+verbose=y|n            print messages about dumps     y
+
+Obsolete Options
+----------------
+gc_okay=y|n
+
+Examples
+--------
+  - Get sample cpu information every 20 millisec, with a stack depth of 3:
+      java -agentlib:hprof=cpu=samples,interval=20,depth=3 classname
+  - Get heap usage information based on the allocation sites:
+      java -agentlib:hprof=heap=sites classname
+
+Notes
+-----
+  - The option format=b cannot be used with monitor=y.
+  - The option format=b cannot be used with cpu=old|times.
+  - Use of the -Xrunhprof interface can still be used, e.g.
+       java -Xrunhprof:[help]|[&lt;option&gt;=&lt;value&gt;, ...]
+    will behave exactly the same as:
+       java -agentlib:hprof=[help]|[&lt;option&gt;=&lt;value&gt;, ...]
+
+Warnings
+--------
+  - This is demonstration code for the JVMTI interface and use of BCI,
+    it is not an official product or formal part of the JDK.
+  - The -Xrunhprof interface will be removed in a future release.
+  - The option format=b is considered experimental, this format may change
+    in a future release.
+</code></pre>
+
+<p>可以使用eclipse插件MAT（http://www.eclipse.org/mat/）分析堆栈；原来的分析工具HAT（Heap Analysis Tool ，http://jovial.com/hat/）从java 1.6开始已经集成到发行版中，成为<a href="https://docs.oracle.com/javase/8/docs/technotes/tools/unix/jhat.html">jhat</a>。这里有jhat使用的<a href="http://zeroturnaround.com/rebellabs/the-6-built-in-jdk-tools-the-average-developer-should-learn-to-use-more/">一个例子</a>。</p>
+
+<p>参考:<br />
+<a href="http://docs.oracle.com/javase/7/docs/technotes/samples/hprof.html">HPROF: A Heap/CPU Profiling Tool</a></p>
 
     <hr>
     <div class="pagination">
       <ul>
         <ul>
           
-            <li class="prev"><a href="/2015/07/10/osx-createinstallmedia.html" title="osx-制作USA安装盘，并迁移老MAC">&larr; Previous</a></li>
           
+            <li class="prev disabled"><a>&larr; Previous</a></li>
           
 
             <li><a href="/archive">Archive</a></li>
 
           
-            <li class="next"><a href="/2015/07/08/jvm-gc.html" title="jvm——gc">Next &rarr;</a></li>
+            <li class="next"><a href="/2015/07/16/jvm-tool-jstack%2Cjvisualvm%2Cvisualgc.html" title="jvm工具-jstack,jvisualvm,visualgc">Next &rarr;</a></li>
           
           
         </ul>
@@ -137,7 +182,7 @@
   
   <div class="span4">
     <h4>Published</h4>
-    <div class="date"><span>2015-07-08</span></div>
+    <div class="date"><span>2015-07-16</span></div>
     <br>
     <h4>Categories</h4>
     <ul class="tag_box">

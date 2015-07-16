@@ -45,6 +45,9 @@ java中可作为GC Root的对象有：
 > gc种类  
 > Young GC (Minor GC/ygc)  
 > Full GC (Major GC/fgc)  ，CMS gc跟full gc不同，full gc会使用并行收集器，整个过程stop the world，收集年轻代、年老代、永生代所有空间。所以应当避免full gc。  
+> 
+> Major GCis cleaning the Old G
+Full GCis cleaning the entire Heap – both Young and Old spaces.
 
 新生代跟老生代位于java heap中，而永生代等价于method area。  
 大部分对象在Eden区生成（如果新对象过大，会直接分配在老年代中），ygc将Eden区可达对象复制到survivor0，并清空Eden区。当survivor0满了，ygc时将Eden区、survivor0区可达对象复制到survivor1区，然后清空Eden区、survivor0区。如此往复。如果survivor1区不足以存放存活对象，则直接将存活对象移到老年代。如果老年代也满了就会触发full gc。survivor1区足够时，对象在年轻代经历的ygc次数达到临界值，也会被移到年老代。一般年老代时年轻代容量的两倍。  
@@ -373,11 +376,15 @@ JVM参数：
 [JVM实用参数（五）新生代垃圾回收](http://ifeve.com/useful-jvm-flags-part-5-young-generation-garbage-collection/)  
 [JVM实用参数（六） 吞吐量收集器](http://ifeve.com/useful-jvm-flags-part-6-throughput-collector/)  
 [JVM实用参数（七）CMS收集器](http://ifeve.com/useful-jvm-flags-part-7-cms-collector/)   
-[8 Concurrent Mark Sweep (CMS) Collector](https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/cms.html)   
+[8 Concurrent Mark Sweep (CMS) Collector，官方文档，各种CMS gc中可能出现的情况讲的比较好](https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/cms.html)   
    
 
 日志实例：  
 [Understanding CMS GC Logs](https://blogs.oracle.com/poonam/entry/understanding_cms_gc_logs)  
+[各种gc算法与对应的例子分析](https://plumbr.eu/handbook/garbage-collection-algorithms-implementations)  
+
+调优实战：  
+[GC Tuning](https://plumbr.eu/handbook/gc-tuning)  
 
 
 
@@ -396,6 +403,6 @@ JVM参数：
 
 系列文章：  
 http://it.deepinmind.com/categories.html#GC-ref  
-[Garbage Collection Handbook](https://plumbr.eu/handbook/gc-tuning#tuning-for-latency)    
+  
 
 

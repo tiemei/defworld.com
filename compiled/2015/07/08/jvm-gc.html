@@ -125,6 +125,9 @@ Permanent Generation</p>
 <p>gc种类<br />
 Young GC (Minor GC/ygc)<br />
 Full GC (Major GC/fgc)  ，CMS gc跟full gc不同，full gc会使用并行收集器，整个过程stop the world，收集年轻代、年老代、永生代所有空间。所以应当避免full gc。</p>
+
+<p>Major GCis cleaning the Old G
+Full GCis cleaning the entire Heap – both Young and Old spaces.</p>
 </blockquote>
 
 <p>新生代跟老生代位于java heap中，而永生代等价于method area。<br />
@@ -455,10 +458,14 @@ GC locker: Trying a full collection because scavenge failed
 <a href="http://ifeve.com/useful-jvm-flags-part-5-young-generation-garbage-collection/">JVM实用参数（五）新生代垃圾回收</a><br />
 <a href="http://ifeve.com/useful-jvm-flags-part-6-throughput-collector/">JVM实用参数（六） 吞吐量收集器</a><br />
 <a href="http://ifeve.com/useful-jvm-flags-part-7-cms-collector/">JVM实用参数（七）CMS收集器</a><br />
-<a href="https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/cms.html">8 Concurrent Mark Sweep (CMS) Collector</a></p>
+<a href="https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/cms.html">8 Concurrent Mark Sweep (CMS) Collector，官方文档，各种CMS gc中可能出现的情况讲的比较好</a></p>
 
 <p>日志实例：<br />
-<a href="https://blogs.oracle.com/poonam/entry/understanding_cms_gc_logs">Understanding CMS GC Logs</a></p>
+<a href="https://blogs.oracle.com/poonam/entry/understanding_cms_gc_logs">Understanding CMS GC Logs</a><br />
+<a href="https://plumbr.eu/handbook/garbage-collection-algorithms-implementations">各种gc算法与对应的例子分析</a></p>
+
+<p>调优实战：<br />
+<a href="https://plumbr.eu/handbook/gc-tuning">GC Tuning</a></p>
 
 <p>其他未看：<br />
 <a href="http://coderbee.net/index.php/jvm/20131216/646">gc日志分析</a>
@@ -474,8 +481,7 @@ GC locker: Trying a full collection because scavenge failed
 <a href="http://ifeve.com/jvm-troubleshooting-guide-4/">《JVM故障诊断指南》之4 —— Java 8:从持久代到metaspace</a></p>
 
 <p>系列文章：<br />
-<a href="http://it.deepinmind.com/categories.html#GC-ref">http://it.deepinmind.com/categories.html#GC-ref</a><br />
-<a href="https://plumbr.eu/handbook/gc-tuning#tuning-for-latency">Garbage Collection Handbook</a></p>
+<a href="http://it.deepinmind.com/categories.html#GC-ref">http://it.deepinmind.com/categories.html#GC-ref</a></p>
 
     <hr>
     <div class="pagination">
@@ -521,7 +527,7 @@ GC locker: Trying a full collection because scavenge failed
     <ul class="tag_box">
     
       <li>
-  <a href="/categories/#java-ref">java <span>15</span></a>
+  <a href="/categories/#java-ref">java <span>17</span></a>
 </li>
     
     </ul>

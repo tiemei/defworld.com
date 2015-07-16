@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>JVM——JMM，java内存模型</title>
+    <title>jvm工具-jstack,jvisualvm,visualgc</title>
   
     <meta name="author" content="tiemei">
 
@@ -76,42 +76,45 @@
 
       <div class="content">
         <div class="page-header">
-  <h1>JVM——JMM，java内存模型 </h1>
+  <h1>jvm工具-jstack,jvisualvm,visualgc </h1>
 </div>
 
 <div class="row">
   <div class="span8">
-    <h2><a style="display: block;" name="简介jmm与硬件内存架构的关系" href="#简介jmm与硬件内存架构的关系"></a>简介JMM与硬件内存架构的关系</h2>
+    <h2><a style="display: block;" name="jstack" href="#jstack"></a>jstack</h2>
 
-<p>java虚拟机包含一个完整的计算机模型，java内存模型跟硬件内存架构之间的关系是：</p>
+<pre><code>Usage:
+    jstack [-l] &lt;pid&gt;
+        (to connect to running process)
+    jstack -F [-m] [-l] &lt;pid&gt;
+        (to connect to a hung process)
+    jstack [-m] [-l] &lt;executable&gt; &lt;core&gt;
+        (to connect to a core file)
+    jstack [-m] [-l] [server_id@]&lt;remote server IP or hostname&gt;
+        (to connect to a remote debug server)
 
-<p><img src="https://farm1.staticflickr.com/328/19329026068_2c37a4027e.jpg" alt="jmm-cpu" />
-</p>
+Options:
+    -F  to force a thread dump. Use when jstack &lt;pid&gt; does not respond (process is hung)
+    -m  to print both java and native frames (mixed mode)
+    -l  long listing. Prints additional information about locks
+    -h or -help to print this help message
+</code></pre>
 
-<p>stack、heap有可能出现在寄存器、cpu缓存层、主内存中，也因此可能出现可见性（某个线程对一个对象的修改，不被另一个线程看见）、race conditions（竞争状态，修改同一个对象时可能会出现问题）。</p>
-
-<p>参考：</p>
-
-<p><a href="http://ifeve.com/java-memory-model-6/">Java内存模型</a><br />
-<a href="http://ifeve.com/java-memory-model-0/">深入理解java内存模型系列文章</a><br />
-<a href="http://ifeve.com/jmm-faq/">Java内存模型FAQ</a><br />
-<a href="http://ifeve.com/syn-jmm/">同步和Java内存模型</a><br />
-<a href="http://it.deepinmind.com/jvm/2015/02/13/jvm-having-access-to-less-memory-than-xmx.html">遗失的java堆内存</a><br />
-<a href="http://coderbee.net/index.php/java/20140811/979">java对象内存布局</a></p>
+<h2><a style="display: block;" name="jvisualvm" href="#jvisualvm"></a>jvisualvm</h2>
 
     <hr>
     <div class="pagination">
       <ul>
         <ul>
           
-            <li class="prev"><a href="/2015/07/10/osx-createinstallmedia.html" title="osx-制作USA安装盘，并迁移老MAC">&larr; Previous</a></li>
+            <li class="prev"><a href="/2015/07/16/jvm-tool-hprof.html" title="jvm工具-hprof">&larr; Previous</a></li>
           
           
 
             <li><a href="/archive">Archive</a></li>
 
           
-            <li class="next"><a href="/2015/07/08/jvm-gc.html" title="jvm——gc">Next &rarr;</a></li>
+            <li class="next"><a href="/2015/07/16/jvm-tool-jstat.html" title="jvm工具-jstat">Next &rarr;</a></li>
           
           
         </ul>
@@ -137,13 +140,13 @@
   
   <div class="span4">
     <h4>Published</h4>
-    <div class="date"><span>2015-07-08</span></div>
+    <div class="date"><span>2015-07-16</span></div>
     <br>
     <h4>Categories</h4>
     <ul class="tag_box">
     
       <li>
-  <a href="/categories/#java-ref">java <span>17</span></a>
+  <a href="/categories/#jvm-ref">jvm <span>1</span></a>
 </li>
     
     </ul>
