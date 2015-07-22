@@ -92,7 +92,12 @@ svn commit -m "comment" # 提交回滚，版本升级到29
 
 ### branche
 ![git branche](http://farm8.staticflickr.com/7384/9150086081_dfe8ef4bce.jpg)  
+这里有一个多个分支创建于切换的典型例子，说的比较详细：https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6    
 
+* `git checkout -b branchname` 新建分支，等价于`git branch branchname; git checkout branchname`
+* `git push origin branchname` 将本地分支推送到远程仓库
+* `git merge branchname` 将另一个分支branchname与当前分支合并，如果有冲突需要手动解决
+* `git branch -d branchname` 删除某个分支
 * `git branche` 查看有几个分支，以及活动分支
 * `git branch -r` 列出服务器仓库所有分支
 * `git branche <name> <commit>` commit指定新branche的起始点，默认最新一次commit
