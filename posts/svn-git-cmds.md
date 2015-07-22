@@ -96,6 +96,7 @@ svn commit -m "comment" # 提交回滚，版本升级到29
 
 * `git checkout -b branchname` 新建分支，等价于`git branch branchname; git checkout branchname`
 * `git push origin branchname` 将本地分支推送到远程仓库
+* `git push origin -d branchname` 删除远程分支
 * `git merge branchname` 将另一个分支branchname与当前分支合并，如果有冲突需要手动解决
 * `git branch -d branchname` 删除某个分支
 * `git branche` 查看有几个分支，以及活动分支
