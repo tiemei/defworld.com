@@ -3,75 +3,7 @@
   <channel>
     <title>顽固的卡夫卡</title>
     <link>http://defworld.com</link>
-    <pubDate>2015-07-22 05:33:00 +0800</pubDate>
-    <item>
-      <title>jvm工具-hprof</title>
-      <link>http://defworld.com/2015/07/16/jvm-tool-hprof.html</link>
-      <pubDate>2015-07-16 12:00:00 +0800</pubDate>
-      <description>&lt;p&gt;jvm启动的时候需要指定参数，去加载 JVM native agent library ，这样才能打开hprof记录；在j2se 1.5之后，hprof是基于Java Virtual Machine Tool Interface (&lt;a href=&#34;http://docs.oracle.com/javase/7/docs/technotes/guides/jvmti/index.html&#34;&gt;JVM TI&lt;/a&gt;)实现的。&lt;/p&gt;
-
-&lt;p&gt;HPROF is capable of presenting CPU usage, heap allocation statistics, and monitor contention profiles.  In addition, it can also report complete heap dumps and states of all the monitors and threads in the Java virtual machine.&lt;br /&gt;
-可查看帮助文档：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ java -agentlib:hprof=help
-
-     HPROF: Heap and CPU Profiling Agent (JVMTI Demonstration Code)
-
-hprof usage: java -agentlib:hprof=[help]|[&amp;lt;option&amp;gt;=&amp;lt;value&amp;gt;, ...]
-
-Option Name and Value  Description                    Default
----------------------  -----------                    -------
-heap=dump|sites|all    heap profiling                 all
-cpu=samples|times|old  CPU usage                      off
-monitor=y|n            monitor contention             n
-format=a|b             text(txt) or binary output     a
-file=&amp;lt;file&amp;gt;            write data to file             java.hprof[{.txt}]
-net=&amp;lt;host&amp;gt;:&amp;lt;port&amp;gt;      send data over a socket        off
-depth=&amp;lt;size&amp;gt;           stack trace depth              4
-interval=&amp;lt;ms&amp;gt;          sample interval in ms          10
-cutoff=&amp;lt;value&amp;gt;         output cutoff point            0.0001
-lineno=y|n             line number in traces?         y
-thread=y|n             thread in traces?              n
-doe=y|n                dump on exit?                  y
-msa=y|n                Solaris micro state accounting n
-force=y|n              force output to &amp;lt;file&amp;gt;         y
-verbose=y|n            print messages about dumps     y
-
-Obsolete Options
-----------------
-gc_okay=y|n
-
-Examples
---------
-  - Get sample cpu information every 20 millisec, with a stack depth of 3:
-      java -agentlib:hprof=cpu=samples,interval=20,depth=3 classname
-  - Get heap usage information based on the allocation sites:
-      java -agentlib:hprof=heap=sites classname
-
-Notes
------
-  - The option format=b cannot be used with monitor=y.
-  - The option format=b cannot be used with cpu=old|times.
-  - Use of the -Xrunhprof interface can still be used, e.g.
-       java -Xrunhprof:[help]|[&amp;lt;option&amp;gt;=&amp;lt;value&amp;gt;, ...]
-    will behave exactly the same as:
-       java -agentlib:hprof=[help]|[&amp;lt;option&amp;gt;=&amp;lt;value&amp;gt;, ...]
-
-Warnings
---------
-  - This is demonstration code for the JVMTI interface and use of BCI,
-    it is not an official product or formal part of the JDK.
-  - The -Xrunhprof interface will be removed in a future release.
-  - The option format=b is considered experimental, this format may change
-    in a future release.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;可以使用eclipse插件MAT（http://www.eclipse.org/mat/）分析堆栈；原来的分析工具HAT（Heap Analysis Tool ，http://jovial.com/hat/）从java 1.6开始已经集成到发行版中，成为&lt;a href=&#34;https://docs.oracle.com/javase/8/docs/technotes/tools/unix/jhat.html&#34;&gt;jhat&lt;/a&gt;。这里有jhat使用的&lt;a href=&#34;http://zeroturnaround.com/rebellabs/the-6-built-in-jdk-tools-the-average-developer-should-learn-to-use-more/&#34;&gt;一个例子&lt;/a&gt;。&lt;/p&gt;
-
-&lt;p&gt;参考:&lt;br /&gt;
-&lt;a href=&#34;http://docs.oracle.com/javase/7/docs/technotes/samples/hprof.html&#34;&gt;HPROF: A Heap/CPU Profiling Tool&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
+    <pubDate>2015-07-22 07:38:58 +0800</pubDate>
     <item>
       <title>jvm工具-jstat</title>
       <link>http://defworld.com/2015/07/16/jvm-tool-jstat.html</link>
@@ -155,6 +87,74 @@ Options:
 </description>
     </item>
     <item>
+      <title>jvm工具-hprof</title>
+      <link>http://defworld.com/2015/07/16/jvm-tool-hprof.html</link>
+      <pubDate>2015-07-16 12:00:00 +0800</pubDate>
+      <description>&lt;p&gt;jvm启动的时候需要指定参数，去加载 JVM native agent library ，这样才能打开hprof记录；在j2se 1.5之后，hprof是基于Java Virtual Machine Tool Interface (&lt;a href=&#34;http://docs.oracle.com/javase/7/docs/technotes/guides/jvmti/index.html&#34;&gt;JVM TI&lt;/a&gt;)实现的。&lt;/p&gt;
+
+&lt;p&gt;HPROF is capable of presenting CPU usage, heap allocation statistics, and monitor contention profiles.  In addition, it can also report complete heap dumps and states of all the monitors and threads in the Java virtual machine.&lt;br /&gt;
+可查看帮助文档：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ java -agentlib:hprof=help
+
+     HPROF: Heap and CPU Profiling Agent (JVMTI Demonstration Code)
+
+hprof usage: java -agentlib:hprof=[help]|[&amp;lt;option&amp;gt;=&amp;lt;value&amp;gt;, ...]
+
+Option Name and Value  Description                    Default
+---------------------  -----------                    -------
+heap=dump|sites|all    heap profiling                 all
+cpu=samples|times|old  CPU usage                      off
+monitor=y|n            monitor contention             n
+format=a|b             text(txt) or binary output     a
+file=&amp;lt;file&amp;gt;            write data to file             java.hprof[{.txt}]
+net=&amp;lt;host&amp;gt;:&amp;lt;port&amp;gt;      send data over a socket        off
+depth=&amp;lt;size&amp;gt;           stack trace depth              4
+interval=&amp;lt;ms&amp;gt;          sample interval in ms          10
+cutoff=&amp;lt;value&amp;gt;         output cutoff point            0.0001
+lineno=y|n             line number in traces?         y
+thread=y|n             thread in traces?              n
+doe=y|n                dump on exit?                  y
+msa=y|n                Solaris micro state accounting n
+force=y|n              force output to &amp;lt;file&amp;gt;         y
+verbose=y|n            print messages about dumps     y
+
+Obsolete Options
+----------------
+gc_okay=y|n
+
+Examples
+--------
+  - Get sample cpu information every 20 millisec, with a stack depth of 3:
+      java -agentlib:hprof=cpu=samples,interval=20,depth=3 classname
+  - Get heap usage information based on the allocation sites:
+      java -agentlib:hprof=heap=sites classname
+
+Notes
+-----
+  - The option format=b cannot be used with monitor=y.
+  - The option format=b cannot be used with cpu=old|times.
+  - Use of the -Xrunhprof interface can still be used, e.g.
+       java -Xrunhprof:[help]|[&amp;lt;option&amp;gt;=&amp;lt;value&amp;gt;, ...]
+    will behave exactly the same as:
+       java -agentlib:hprof=[help]|[&amp;lt;option&amp;gt;=&amp;lt;value&amp;gt;, ...]
+
+Warnings
+--------
+  - This is demonstration code for the JVMTI interface and use of BCI,
+    it is not an official product or formal part of the JDK.
+  - The -Xrunhprof interface will be removed in a future release.
+  - The option format=b is considered experimental, this format may change
+    in a future release.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可以使用eclipse插件MAT（http://www.eclipse.org/mat/）分析堆栈；原来的分析工具HAT（Heap Analysis Tool ，http://jovial.com/hat/）从java 1.6开始已经集成到发行版中，成为&lt;a href=&#34;https://docs.oracle.com/javase/8/docs/technotes/tools/unix/jhat.html&#34;&gt;jhat&lt;/a&gt;。这里有jhat使用的&lt;a href=&#34;http://zeroturnaround.com/rebellabs/the-6-built-in-jdk-tools-the-average-developer-should-learn-to-use-more/&#34;&gt;一个例子&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;参考:&lt;br /&gt;
+&lt;a href=&#34;http://docs.oracle.com/javase/7/docs/technotes/samples/hprof.html&#34;&gt;HPROF: A Heap/CPU Profiling Tool&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    <item>
       <title>【摘抄】garmin-重置</title>
       <link>http://defworld.com/2015/07/11/garmin-reset.html</link>
       <pubDate>2015-07-11 12:00:00 +0800</pubDate>
@@ -224,29 +224,6 @@ DO IT AT YOUR OWN RISK.. THER IS ALWAYS SOMETHING THAT MIGHT GO WRONG!&lt;/p&gt;
 &lt;p&gt;参考：&lt;br /&gt;
 &lt;a href=&#34;https://support.apple.com/en-us/HT204350&#34;&gt;Move your content to a new Mac&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&#34;http://marcushesse.com/2012/use-migration-assistant-with-macbook-air-over-airport-wifi/&#34;&gt;use-migration-assistant-with-macbook-air-over-airport-wifi&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    <item>
-      <title>JVM——JMM，java内存模型</title>
-      <link>http://defworld.com/2015/07/08/jvm-jmm.html</link>
-      <pubDate>2015-07-08 12:00:00 +0800</pubDate>
-      <description>&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;简介jmm与硬件内存架构的关系&#34; href=&#34;#简介jmm与硬件内存架构的关系&#34;&gt;&lt;/a&gt;简介JMM与硬件内存架构的关系&lt;/h2&gt;
-
-&lt;p&gt;java虚拟机包含一个完整的计算机模型，java内存模型跟硬件内存架构之间的关系是：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://farm1.staticflickr.com/328/19329026068_2c37a4027e.jpg&#34; alt=&#34;jmm-cpu&#34; /&gt;
-&lt;/p&gt;
-
-&lt;p&gt;stack、heap有可能出现在寄存器、cpu缓存层、主内存中，也因此可能出现可见性（某个线程对一个对象的修改，不被另一个线程看见）、race conditions（竞争状态，修改同一个对象时可能会出现问题）。&lt;/p&gt;
-
-&lt;p&gt;参考：&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://ifeve.com/java-memory-model-6/&#34;&gt;Java内存模型&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/java-memory-model-0/&#34;&gt;深入理解java内存模型系列文章&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/jmm-faq/&#34;&gt;Java内存模型FAQ&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/syn-jmm/&#34;&gt;同步和Java内存模型&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://it.deepinmind.com/jvm/2015/02/13/jvm-having-access-to-less-memory-than-xmx.html&#34;&gt;遗失的java堆内存&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://coderbee.net/index.php/java/20140811/979&#34;&gt;java对象内存布局&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -654,6 +631,29 @@ GC locker: Trying a full collection because scavenge failed
 
 &lt;p&gt;系列文章：&lt;br /&gt;
 &lt;a href=&#34;http://it.deepinmind.com/categories.html#GC-ref&#34;&gt;http://it.deepinmind.com/categories.html#GC-ref&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>JVM——JMM，java内存模型</title>
+      <link>http://defworld.com/2015/07/08/jvm-jmm.html</link>
+      <pubDate>2015-07-08 12:00:00 +0800</pubDate>
+      <description>&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;简介jmm与硬件内存架构的关系&#34; href=&#34;#简介jmm与硬件内存架构的关系&#34;&gt;&lt;/a&gt;简介JMM与硬件内存架构的关系&lt;/h2&gt;
+
+&lt;p&gt;java虚拟机包含一个完整的计算机模型，java内存模型跟硬件内存架构之间的关系是：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://farm1.staticflickr.com/328/19329026068_2c37a4027e.jpg&#34; alt=&#34;jmm-cpu&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;stack、heap有可能出现在寄存器、cpu缓存层、主内存中，也因此可能出现可见性（某个线程对一个对象的修改，不被另一个线程看见）、race conditions（竞争状态，修改同一个对象时可能会出现问题）。&lt;/p&gt;
+
+&lt;p&gt;参考：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://ifeve.com/java-memory-model-6/&#34;&gt;Java内存模型&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/java-memory-model-0/&#34;&gt;深入理解java内存模型系列文章&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/jmm-faq/&#34;&gt;Java内存模型FAQ&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/syn-jmm/&#34;&gt;同步和Java内存模型&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://it.deepinmind.com/jvm/2015/02/13/jvm-having-access-to-less-memory-than-xmx.html&#34;&gt;遗失的java堆内存&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://coderbee.net/index.php/java/20140811/979&#34;&gt;java对象内存布局&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -2009,6 +2009,38 @@ if (maybeComputer.isPresent()) { // 这里只有present/absent两种状态，pre
 </description>
     </item>
     <item>
+      <title>压力测试 - 关注那些点</title>
+      <link>http://defworld.com/2014/08/08/load-test-3.html</link>
+      <pubDate>2014-08-08 12:00:00 +0800</pubDate>
+      <description>&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;jvm&#34; href=&#34;#jvm&#34;&gt;&lt;/a&gt;jvm&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;a. 启动参数
+b. gc
+c. 关闭即时编译
+d. 启动加载问题
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;nginx&#34; href=&#34;#nginx&#34;&gt;&lt;/a&gt;nginx&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;磁盘I/O是阻塞的&lt;/li&gt;
+&lt;li&gt;CPU Affinity&lt;/li&gt;
+&lt;li&gt;Keep Alive&lt;/li&gt;
+&lt;li&gt;tcp_nodelay and tcp_nopush&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;系统层面&#34; href=&#34;#系统层面&#34;&gt;&lt;/a&gt;系统层面&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;cpu&lt;/li&gt;
+&lt;li&gt;mem&lt;/li&gt;
+&lt;li&gt;I/O&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;java代码层面&#34; href=&#34;#java代码层面&#34;&gt;&lt;/a&gt;java代码层面&lt;/h2&gt;
+</description>
+    </item>
+    <item>
       <title>压力测试小结 - 工具</title>
       <link>http://defworld.com/2014/08/08/load-test-1.html</link>
       <pubDate>2014-08-08 12:00:00 +0800</pubDate>
@@ -2201,38 +2233,6 @@ lsof -i[46] [protocol][@hostname|hostaddr][:service|port]
 《如何统计lua每个函数的执行时间占比》https://groups.google.com/forum/#!topic/openresty/bOwgPymXQzg&lt;br /&gt;
 《春哥的nginx systemtap工具集》https://github.com/openresty/nginx-systemtap-toolkit#sample-bt&lt;br /&gt;
 《ata systemtap资源》http://www.atatech.org/search?q=systemtap&lt;/p&gt;
-</description>
-    </item>
-    <item>
-      <title>压力测试 - 关注那些点</title>
-      <link>http://defworld.com/2014/08/08/load-test-3.html</link>
-      <pubDate>2014-08-08 12:00:00 +0800</pubDate>
-      <description>&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;jvm&#34; href=&#34;#jvm&#34;&gt;&lt;/a&gt;jvm&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code&gt;a. 启动参数
-b. gc
-c. 关闭即时编译
-d. 启动加载问题
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;nginx&#34; href=&#34;#nginx&#34;&gt;&lt;/a&gt;nginx&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;磁盘I/O是阻塞的&lt;/li&gt;
-&lt;li&gt;CPU Affinity&lt;/li&gt;
-&lt;li&gt;Keep Alive&lt;/li&gt;
-&lt;li&gt;tcp_nodelay and tcp_nopush&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;系统层面&#34; href=&#34;#系统层面&#34;&gt;&lt;/a&gt;系统层面&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;cpu&lt;/li&gt;
-&lt;li&gt;mem&lt;/li&gt;
-&lt;li&gt;I/O&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;java代码层面&#34; href=&#34;#java代码层面&#34;&gt;&lt;/a&gt;java代码层面&lt;/h2&gt;
 </description>
     </item>
     <item>
@@ -3900,6 +3900,62 @@ mvn clean deploy 只发布calss jar包
 </description>
     </item>
     <item>
+      <title>java锁笔记</title>
+      <link>http://defworld.com/2013/08/30/java-locks.html</link>
+      <pubDate>2013-08-30 12:00:00 +0800</pubDate>
+      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;线程通信&#34; href=&#34;#线程通信&#34;&gt;&lt;/a&gt;线程通信&lt;/h1&gt;
+
+&lt;p&gt;通信遇到的问题包括：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;共享对象：需要做同步处理&lt;/li&gt;
+&lt;li&gt;忙等待：循环等待另一个线程发来信号，可sleep&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;wait(),notify()&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1. 遇到mobj.wait()，让线程进入非运行状态，直到另一个线程mobj.nitify
+2. 这几个方法必须在获得mobj锁的前提下调用，否则IllegalMonitorStateException
+3. 一个线程调用了wait()，即释放mobj上的锁
+4. 一旦一个线程被唤醒，不能立刻就退出wait()的方法调用，直到调用
+notify()的线程退出了它自己的同步块。因此，多个线程被notifyAll唤醒，只有一个
+线程可以最终退出wait()方法，因为必须获得mobj的锁
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;丢失的信号（Missed Signal）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;线程A先调用了mobj.notify()，线程B后调用mobj.wait()，通知信号发送过了就被丢弃，
+线程B就可能永远不能醒来。
+这就需要一个额外的变量来保存‘是否被通知过’的信息。
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;假唤醒（spurious wakeups）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;没有调用过notify()和notifyAll()的情况下醒来，原因未知
+需要加个自旋锁，即将wait()方法放到while循环中
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;不要在字符串常量或全局对象中调用wait()。mobj与信号常量不是一一对应。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;mobj: 管程 (英语：Monitors，也称为监视器)&lt;/p&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;锁&#34; href=&#34;#锁&#34;&gt;&lt;/a&gt;锁&lt;/h1&gt;
+
+&lt;p&gt;锁由synchronized实现，有以下几个特性:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;同一时刻只能有一个线程穿过临界区，进入同步块&lt;/li&gt;
+&lt;li&gt;锁的可重入性：synchronized同步块可重入，相应也有可重入锁&lt;/li&gt;
+&lt;li&gt;锁的公平性：多个线程不断竞争访问相同的synchronized同步块，可能存在某个
+线程一直竞争不到。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;参考&lt;/strong&gt;:&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/locks/&#34;&gt;Java中的锁&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/thread-signaling/&#34;&gt;线程通信&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    <item>
       <title>jdk自带工具</title>
       <link>http://defworld.com/2013/08/30/jdk-tools.html</link>
       <pubDate>2013-08-30 12:00:00 +0800</pubDate>
@@ -3996,62 +4052,6 @@ runnable - 线程状态
 </description>
     </item>
     <item>
-      <title>java锁笔记</title>
-      <link>http://defworld.com/2013/08/30/java-locks.html</link>
-      <pubDate>2013-08-30 12:00:00 +0800</pubDate>
-      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;线程通信&#34; href=&#34;#线程通信&#34;&gt;&lt;/a&gt;线程通信&lt;/h1&gt;
-
-&lt;p&gt;通信遇到的问题包括：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;共享对象：需要做同步处理&lt;/li&gt;
-&lt;li&gt;忙等待：循环等待另一个线程发来信号，可sleep&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;wait(),notify()&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;1. 遇到mobj.wait()，让线程进入非运行状态，直到另一个线程mobj.nitify
-2. 这几个方法必须在获得mobj锁的前提下调用，否则IllegalMonitorStateException
-3. 一个线程调用了wait()，即释放mobj上的锁
-4. 一旦一个线程被唤醒，不能立刻就退出wait()的方法调用，直到调用
-notify()的线程退出了它自己的同步块。因此，多个线程被notifyAll唤醒，只有一个
-线程可以最终退出wait()方法，因为必须获得mobj的锁
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;丢失的信号（Missed Signal）&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;线程A先调用了mobj.notify()，线程B后调用mobj.wait()，通知信号发送过了就被丢弃，
-线程B就可能永远不能醒来。
-这就需要一个额外的变量来保存‘是否被通知过’的信息。
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;假唤醒（spurious wakeups）&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;没有调用过notify()和notifyAll()的情况下醒来，原因未知
-需要加个自旋锁，即将wait()方法放到while循环中
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;不要在字符串常量或全局对象中调用wait()。mobj与信号常量不是一一对应。&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;mobj: 管程 (英语：Monitors，也称为监视器)&lt;/p&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;锁&#34; href=&#34;#锁&#34;&gt;&lt;/a&gt;锁&lt;/h1&gt;
-
-&lt;p&gt;锁由synchronized实现，有以下几个特性:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;同一时刻只能有一个线程穿过临界区，进入同步块&lt;/li&gt;
-&lt;li&gt;锁的可重入性：synchronized同步块可重入，相应也有可重入锁&lt;/li&gt;
-&lt;li&gt;锁的公平性：多个线程不断竞争访问相同的synchronized同步块，可能存在某个
-线程一直竞争不到。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;strong&gt;参考&lt;/strong&gt;:&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/locks/&#34;&gt;Java中的锁&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/thread-signaling/&#34;&gt;线程通信&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    <item>
       <title>玩Pi过程中Q&amp;A(持续更新)</title>
       <link>http://defworld.com/2013/06/30/pi-q-a.html</link>
       <pubDate>2013-06-30 12:00:00 +0800</pubDate>
@@ -4117,12 +4117,12 @@ Host github
 </description>
     </item>
     <item>
-      <title>.bashrc .bash_profile等文件区别</title>
+      <title>【大部分转载】.bashrc .bash_profile等文件区别</title>
       <link>http://defworld.com/2013/06/28/about-bashrc.html</link>
       <pubDate>2013-06-28 12:00:00 +0800</pubDate>
       <description>&lt;p&gt;&lt;strong&gt;/etc/profile&lt;/strong&gt;&lt;br /&gt;
 全局，用户第一次登录执行一次&lt;br /&gt;
-会从/etc/profile.d目录的配置文件中搜集shell的设置.&lt;/p&gt;
+会从/etc/profile.d目录的配置文件中搜集shell的设置.给用户设置环境变量的地方，不管用户使用的什么shell(bash、zsh&amp;hellip;)&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;/etc/bashrc&lt;/strong&gt;&lt;br /&gt;
 全局，bash shell配置，一般由/etc/profile调用&lt;/p&gt;
@@ -4136,6 +4136,71 @@ Host github
 
 &lt;p&gt;&lt;strong&gt;~/.bash_logout&lt;/strong&gt;&lt;br /&gt;
 当每次退出系统(退出bash shell)时,执行该文件.&lt;/p&gt;
+
+&lt;p&gt;而如果系统是 ubuntu 或者 debian 的话, 就不会有 /etc/bashrc 而会有 /etc/bash.bashrc 文件.&lt;/p&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;shell的模式&#34; href=&#34;#shell的模式&#34;&gt;&lt;/a&gt;shell的模式&lt;/h2&gt;
+
+&lt;p&gt;系统的 shell 有很多种, 比如 bash, sh, zsh 之类的, 如果要查看某一个用户使用的是什么 shell 可以通过 finger [USERNAME] 命令来查看. 我们这里只说 shell 是 bash 的情况, 因为如果是 sh 或者其他 shell 显然不会运行 bashrc 的.&lt;/p&gt;
+
+&lt;h3&gt;login shell 和 no-login shell&lt;/h3&gt;
+
+&lt;p&gt;“login shell” 代表用户登入, 比如使用 “su -l username“ 命令, 或者用 ssh 连接到某一个服务器上, 或者开启termal，都会使用该用户默认 shell 启动 login shell 模式.&lt;br /&gt;
+该模式下的 shell 会去自动执行 /etc/profile 和 ~/.profile 文件, 但不会执行任何的 bashrc 文件, 所以一般再 /etc/profile 或者 ~/.profile 里我们会手动去 source bashrc 文件.&lt;br /&gt;
+而 no-login shell 的情况是我们在终端下直接输入 bash 或者 bash -c “CMD” 来启动的 shell.&lt;br /&gt;
+该模式下是不会自动去运行任何的 profile 文件.&lt;/p&gt;
+
+&lt;h3&gt;interactive shell 和 non-interactive shell&lt;/h3&gt;
+
+&lt;p&gt;interactive shell 是交互式shell, 顾名思义就是用来和用户交互的, 提供了命令提示符可以输入命令.&lt;br /&gt;
+该模式下会存在一个叫 PS1 的环境变量, 如果还不是 login shell 的则会去 source /etc/bash.bashrc 和 ~/.bashrc 文件&lt;br /&gt;
+non-interactive shell 则一般是通过 bash -c “CMD” 来执行的bash.&lt;br /&gt;
+该模式下不会执行任何的 rc 文件, 不过还存在一种特殊情况这个我之后详细讲述&lt;/p&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;shell模式与文件执行的关系&#34; href=&#34;#shell模式与文件执行的关系&#34;&gt;&lt;/a&gt;shell模式与文件执行的关系&lt;/h2&gt;
+
+&lt;p&gt;login shell会去执行profile文件（no-login shell不会执行），而interactive no-login shell会去执行profile（interactive login shell不会执行）。&lt;br /&gt;
+特例是： 通过 “ssh server CMD” 执行的命令 或 通过程序执行远程的命令。&lt;/p&gt;
+
+&lt;h3&gt;SSH login, sudo su - [USER] 或者 mac 下开启终端&lt;/h3&gt;
+
+&lt;p&gt;ssh 登入和 su - 是典型的 interactive login shell, 所以会有 PS1 变量, 并且会执行&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/etc/profile
+~/.profile
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;在命令提示符状态下输入 bash 或者 ubuntu 默认设置下打开终端&lt;/h3&gt;
+
+&lt;p&gt;这样开启的是 interactive no-login shell, 所以会有 PS1 变量, 只会执行&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/etc/bash.bashrc
+~/.bashrc
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;通过 bash -c “CMD” 或者 bash BASHFILE 命令执行的 shell&lt;/h3&gt;
+
+&lt;p&gt;这些命令什么都不会执行, 也就是设置 PS1 变量, 不执行任何 RC 文件&lt;/p&gt;
+
+&lt;h3&gt;最特殊! 通过 “ssh server CMD” 执行的命令 或 通过程序执行远程的命令&lt;/h3&gt;
+
+&lt;p&gt;这是最特殊的一种模式, 理论上应该既是 非交互 也是 非登入的, 但是实际上他不会设置 PS1, 但是还会执行&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/etc/bash.bashrc
+~/.bashrc
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这里还有一点值得注意的是 /etc/bashrc 任何情况下都不会执行.&lt;/p&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;小技巧&#34; href=&#34;#小技巧&#34;&gt;&lt;/a&gt;小技巧&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;/etc/profile&lt;/code&gt;中加入&lt;code&gt;export system_profile_loaded=1&lt;/code&gt;，其他文件就可以根据 $system_profile_loaded 来判断是否已经载入过 profile&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;参考：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://wido.me/sunteya/understand-bashrc-and-profile/&#34;&gt;理解 bashrc 和 profile&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>

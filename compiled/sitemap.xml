@@ -4,17 +4,17 @@
 		<loc>http://defworld.com/</loc>
 	</url>
 	<url>
-		<loc>http://defworld.com/2015/07/16/jvm-tool-hprof.html</loc>
-		<lastmod>2015-07-16</lastmod>
-		<changefreq>weekly</changefreq>
-	</url>
-	<url>
 		<loc>http://defworld.com/2015/07/16/jvm-tool-jstat.html</loc>
 		<lastmod>2015-07-16</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
 		<loc>http://defworld.com/2015/07/16/jvm-tool-jstack%2Cjvisualvm%2Cvisualgc%2Cjmap.html</loc>
+		<lastmod>2015-07-16</lastmod>
+		<changefreq>weekly</changefreq>
+	</url>
+	<url>
+		<loc>http://defworld.com/2015/07/16/jvm-tool-hprof.html</loc>
 		<lastmod>2015-07-16</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
@@ -29,12 +29,12 @@
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/2015/07/08/jvm-jmm.html</loc>
+		<loc>http://defworld.com/2015/07/08/jvm-gc.html</loc>
 		<lastmod>2015-07-08</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/2015/07/08/jvm-gc.html</loc>
+		<loc>http://defworld.com/2015/07/08/jvm-jmm.html</loc>
 		<lastmod>2015-07-08</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
@@ -139,12 +139,12 @@
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/2014/08/08/load-test-1.html</loc>
+		<loc>http://defworld.com/2014/08/08/load-test-3.html</loc>
 		<lastmod>2014-08-08</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/2014/08/08/load-test-3.html</loc>
+		<loc>http://defworld.com/2014/08/08/load-test-1.html</loc>
 		<lastmod>2014-08-08</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
@@ -214,12 +214,12 @@
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/2013/08/30/jdk-tools.html</loc>
+		<loc>http://defworld.com/2013/08/30/java-locks.html</loc>
 		<lastmod>2013-08-30</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/2013/08/30/java-locks.html</loc>
+		<loc>http://defworld.com/2013/08/30/jdk-tools.html</loc>
 		<lastmod>2013-08-30</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
