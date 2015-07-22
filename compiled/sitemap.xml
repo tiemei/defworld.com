@@ -4,12 +4,12 @@
 		<loc>http://defworld.com/</loc>
 	</url>
 	<url>
-		<loc>http://defworld.com/2015/07/16/jvm-tool-jstat.html</loc>
+		<loc>http://defworld.com/2015/07/16/jvm-tool-hprof.html</loc>
 		<lastmod>2015-07-16</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/2015/07/16/jvm-tool-hprof.html</loc>
+		<loc>http://defworld.com/2015/07/16/jvm-tool-jstat.html</loc>
 		<lastmod>2015-07-16</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
@@ -29,12 +29,12 @@
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/2015/07/08/jvm-gc.html</loc>
+		<loc>http://defworld.com/2015/07/08/jvm-jmm.html</loc>
 		<lastmod>2015-07-08</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/2015/07/08/jvm-jmm.html</loc>
+		<loc>http://defworld.com/2015/07/08/jvm-gc.html</loc>
 		<lastmod>2015-07-08</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
@@ -74,12 +74,12 @@
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/2014/12/18/java-annotation.html</loc>
+		<loc>http://defworld.com/2014/12/18/concurrent-programming-lock.html</loc>
 		<lastmod>2014-12-18</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/2014/12/18/concurrent-programming-lock.html</loc>
+		<loc>http://defworld.com/2014/12/18/java-annotation.html</loc>
 		<lastmod>2014-12-18</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
@@ -154,12 +154,12 @@
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/2014/06/13/notes-js-2-object.html</loc>
+		<loc>http://defworld.com/2014/06/13/notes-js-1.html</loc>
 		<lastmod>2014-06-13</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/2014/06/13/notes-js-1.html</loc>
+		<loc>http://defworld.com/2014/06/13/notes-js-2-object.html</loc>
 		<lastmod>2014-06-13</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
@@ -214,22 +214,22 @@
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/2013/08/30/java-locks.html</loc>
-		<lastmod>2013-08-30</lastmod>
-		<changefreq>weekly</changefreq>
-	</url>
-	<url>
 		<loc>http://defworld.com/2013/08/30/jdk-tools.html</loc>
 		<lastmod>2013-08-30</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/2013/06/30/ssh.html</loc>
-		<lastmod>2013-06-30</lastmod>
+		<loc>http://defworld.com/2013/08/30/java-locks.html</loc>
+		<lastmod>2013-08-30</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
 		<loc>http://defworld.com/2013/06/30/pi-q-a.html</loc>
+		<lastmod>2013-06-30</lastmod>
+		<changefreq>weekly</changefreq>
+	</url>
+	<url>
+		<loc>http://defworld.com/2013/06/30/ssh.html</loc>
 		<lastmod>2013-06-30</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
