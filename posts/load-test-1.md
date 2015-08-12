@@ -158,6 +158,12 @@ dd命令：
 
 
 
+## jdk自带工具
+
+## 查看堆栈
+
+`sudo -u ads /home/a/share/java/bin/jstack java_pid > jstack_`date '+%Y-%m-%d_%H:%M:%S'``
+
 ## 
 
 

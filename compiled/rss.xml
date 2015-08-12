@@ -3,7 +3,182 @@
   <channel>
     <title>顽固的卡夫卡</title>
     <link>http://defworld.com</link>
-    <pubDate>2015-07-07 05:07:00 +0800</pubDate>
+    <pubDate>2015-08-12 11:33:50 +0800</pubDate>
+    <item>
+      <title>tool-wireshark</title>
+      <link>http://defworld.com/2015/08/03/tool-wireshark.html</link>
+      <pubDate>2015-08-03 12:00:00 +0800</pubDate>
+      <description>&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;常见技巧&#34; href=&#34;#常见技巧&#34;&gt;&lt;/a&gt;常见技巧&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;安装，通过官网下载wireshark，然后提示你下载x11，到x11官网下载x11，然后重启电脑即可使用&lt;/li&gt;
+&lt;li&gt;使用&lt;code&gt;Statistics -&amp;gt; IO Graph&lt;/code&gt;工具来对比多种filter条件下的连续趋势&lt;/li&gt;
+&lt;li&gt;使用&lt;code&gt;Statistics -&amp;gt; Protocol Hierarchy&lt;/code&gt;显示各种协议的概览&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;io-graphs&#34; href=&#34;#io-graphs&#34;&gt;&lt;/a&gt;IO Graphs&lt;/h2&gt;
+
+&lt;p&gt;这里的不是所有filter跟函数都使用与filter框中使用。  图编号越低表示在前台显示，可能会覆盖较高图号。&lt;/p&gt;
+
+&lt;h3&gt;常用filter&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;tcp.analysis.lost_segment：表明已经在抓包中看到不连续的序列号。报文丢失会造成重复的ACK，这会导致重传。
+
+tcp.analysis.duplicate_ack：显示被确认过不止一次的报文。大凉的重复ACK是TCP端点之间高延时的迹象。
+
+tcp.analysis.retransmission：显示抓包中的所有重传。如果重传次数不多的话还是正常的，过多重传可能有问题。这通常意味着应用性能缓慢和/或用户报文丢失。
+
+tcp.analysis.window_update：将传输过程中的TCP window大小图形化。如果看到窗口大小下降为零，这意味着发送方已经退出了，并等待接收方确认所有已传送数据。这可能表明接收端已经不堪重负了。
+
+tcp.analysis.bytes_in_flight：某一时间点网络上未确认字节数。未确认字节数不能超过你的TCP窗口大小（定义于最初3此TCP握手），为了最大化吞吐量你想要获得尽可能接近TCP窗口大小。如果看到连续低于TCP窗口大小，可能意味着报文丢失或路径上其他影响吞吐量的问题。
+
+tcp.analysis.ack_rtt：衡量抓取的TCP报文与相应的ACK。如果这一时间间隔比较长那可能表示某种类型的网络延时（报文丢失，拥塞，等等）
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;常用函数&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;max
+min 
+ava
+
+count 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;参考：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://blog.jobbole.com/70907/&#34;&gt;一站式学习wireshark系列&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://blog.jobbole.com/71427/&#34;&gt;一站式学习Wireshark（四）：网络性能排查之TCP重传与重复ACK&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://blog.jobbole.com/71925/&#34;&gt;一站式学习Wireshark（五）：TCP窗口与拥塞处理&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://blog.jobbole.com/73477/&#34;&gt;一站式学习Wireshark（六）：狙击网络高延时点&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>osx-制作USA安装盘，并迁移老MAC</title>
+      <link>http://defworld.com/2015/07/10/osx-createinstallmedia.html</link>
+      <pubDate>2015-07-10 12:00:00 +0800</pubDate>
+      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;制作安装盘并重装系统&#34; href=&#34;#制作安装盘并重装系统&#34;&gt;&lt;/a&gt;制作安装盘并重装系统&lt;/h1&gt;
+
+&lt;ol&gt;
+&lt;li&gt;直接到app store下载最新版的osx系统：https://itunes.apple.com/cn/app/os-x-yosemite/id915041082?mt=12&lt;/li&gt;
+&lt;li&gt;命令行执行下面的命令，制作安装盘，注意将U盘路径替换成自己，系统路径也需要匹配。这一步需要比较长时间，耐心等待。&lt;code&gt;sudo /Applications/Install\ OS\ X\ Yosemite.app/Contents/Resources/createinstallmedia --volume /Volumes/QY --applicationpath /Applications/Install\ OS\ X\ Yosemite.app&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;插上U盘，按下Option键重启电脑，选择重新安装系统。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;从老电脑将内容迁移过来&#34; href=&#34;#从老电脑将内容迁移过来&#34;&gt;&lt;/a&gt;从老电脑将内容迁移过来&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://support.apple.com/en-us/HT204350&#34;&gt;https://support.apple.com/en-us/HT204350&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>JVM——JMM，java内存模型</title>
+      <link>http://defworld.com/2015/07/08/jvm-jmm.html</link>
+      <pubDate>2015-07-08 12:00:00 +0800</pubDate>
+      <description>&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;简介jmm与硬件内存架构的关系&#34; href=&#34;#简介jmm与硬件内存架构的关系&#34;&gt;&lt;/a&gt;简介JMM与硬件内存架构的关系&lt;/h2&gt;
+
+&lt;p&gt;java虚拟机包含一个完整的计算机模型，java内存模型跟硬件内存架构之间的关系是：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://farm1.staticflickr.com/328/19329026068_2c37a4027e.jpg&#34; alt=&#34;jmm-cpu&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;stack、heap有可能出现在寄存器、cpu缓存层、主内存中，也因此可能出现可见性（某个线程对一个对象的修改，不被另一个线程看见）、race conditions（竞争状态，修改同一个对象时可能会出现问题）。&lt;/p&gt;
+
+&lt;p&gt;参考：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://ifeve.com/java-memory-model-6/&#34;&gt;Java内存模型&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/java-memory-model-0/&#34;&gt;深入理解java内存模型系列文章&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/jmm-faq/&#34;&gt;Java内存模型FAQ&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/syn-jmm/&#34;&gt;同步和Java内存模型&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://it.deepinmind.com/jvm/2015/02/13/jvm-having-access-to-less-memory-than-xmx.html&#34;&gt;遗失的java堆内存&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://coderbee.net/index.php/java/20140811/979&#34;&gt;java对象内存布局&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>jvm——gc</title>
+      <link>http://defworld.com/2015/07/08/jvm-gc.html</link>
+      <pubDate>2015-07-08 12:00:00 +0800</pubDate>
+      <description>&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;几种常见的垃圾回收算法&#34; href=&#34;#几种常见的垃圾回收算法&#34;&gt;&lt;/a&gt;几种常见的垃圾回收算法&lt;/h2&gt;
+
+&lt;h3&gt;引用计数法(Reference Counting Collector)&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://farm1.staticflickr.com/542/18944422264_f6d3a376ce.jpg&#34; alt=&#34;Reference Counting Collector&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;堆中每个对象维护一个引用计数，一个对象被创建后，每一个新的引用执行这个对象，引用计数+1；每减少一个新的引用，或者原来的引用超过了生命周期，引用计数-1；当一个引用计数为0的对象被垃圾回收，它所有引用的所有对象的计数-1。&lt;br /&gt;
+缺点是，有些独立的引用环没法回收。此时需要额外的方式来回收，比如“弱引用”，比如特殊的算法回收引用环。Perl，Python，PHP就是使用类似的算法来回收引用环。&lt;br /&gt;
+优点是，执行快，不需要打断应用程序执行。&lt;/p&gt;
+
+&lt;h3&gt;tracing算法(Tracing Collector) 或 标记-清除算法(mark and sweep)&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://farm1.staticflickr.com/313/19380455499_60b373cbf7.jpg&#34; alt=&#34;mark and sweep&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;从根节点开始扫描可达对象，称为标记；将不可达对象删除，称为清理；因为清理会产生内存碎片，所以需要额外的整理动作（compacting）。&lt;br /&gt;
+java中可作为GC Root的对象有：&lt;br /&gt;
+1.虚拟机栈中引用的对象（本地变量表）
+2.方法区中静态属性引用的对象
+3. 方法区中常量引用的对象
+4.本地方法栈中引用的对象（Native对象）&lt;/p&gt;
+
+&lt;h3&gt;copying算法(Compacting Collector)&lt;/h3&gt;
+
+&lt;p&gt;将内存分成两块，从root开始找到所有可达对象，拷贝到空闲区，然后清理当前使用区。一般需要暂停应用程序执行。&lt;br /&gt;
+这个算法可以作为标记-清楚算法的补充。&lt;/p&gt;
+
+&lt;h3&gt;generation算法(Generational Collector)&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://farm1.staticflickr.com/286/19571763781_69ca22ff15.jpg&#34; alt=&#34;generation&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;术语解释：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;分代&lt;br /&gt;
+Young Generation：eden区，两个survivor(survivor0,survivor1)区，容量比约为8:1:1。&lt;br /&gt;
+Old Generation（Tenured Space）&lt;br /&gt;
+Permanent Generation&lt;/p&gt;
+
+&lt;p&gt;gc种类&lt;br /&gt;
+Young GC (Minor GC/ygc)&lt;br /&gt;
+Full GC (Major GC/fgc)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;大部分对象在Eden区生成，ygc将Eden区可达对象复制到survivor0，并清空Eden区。当survivor0满了，ygc时将Eden区、survivor0区可达对象复制到&lt;/p&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;几种常见垃圾收集器&#34; href=&#34;#几种常见垃圾收集器&#34;&gt;&lt;/a&gt;几种常见垃圾收集器&lt;/h2&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;gc日志实例分析&#34; href=&#34;#gc日志实例分析&#34;&gt;&lt;/a&gt;gc日志实例分析&lt;/h2&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;待解决问题&#34; href=&#34;#待解决问题&#34;&gt;&lt;/a&gt;待解决问题&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;新生代触发young gc的条件？&lt;/li&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;主要参考：&lt;br /&gt;
+&lt;a href=&#34;http://www.cnblogs.com/sunniest/p/4575144.html&#34;&gt;深入理解java垃圾回收机制&lt;/a&gt;&lt;br /&gt;
+[]()&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.searchtb.com/2013/07/jvm-gc-introduction-examples.html&#34;&gt;淘宝搜索-JVM GC简介和实例&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;https://blogs.oracle.com/poonam/entry/understanding_cms_gc_logs&#34;&gt;https://blogs.oracle.com/poonam/entry/understanding_cms_gc_logs&lt;/a&gt;
+&lt;a href=&#34;https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/cms.html&#34;&gt;https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/cms.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://coderbee.net/index.php/jvm/20131216/646&#34;&gt;gc日志分析&lt;/a&gt;
+&lt;a href=&#34;http://ifeve.com/useful-jvm-flags-part-8-gc-logging/&#34;&gt;JVM实用参数（八）GC日志&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://it.deepinmind.com/gc/2014/09/12/garbage-collectors-serial-vs-parallel-vs-cms-vs-the-g1-and-whats-new-in-java-8.html&#34;&gt;不同的垃圾回收器的比较&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://blog.hesey.net/2014/05/swap-impact-on-rt-sensitive-apps.html?utm_source=rss&amp;amp;utm_medium=rss&amp;amp;utm_campaign=swap-impact-on-rt-sensitive-apps&#34;&gt;Swap对响应时间敏感应用的影响&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://it.deepinmind.com/gc/2015/03/03/minor-gc-vs-major-gc-vs-full-gc.html&#34;&gt;full gc是否真的存在&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://www.searchtb.com/2013/07/jvm-gc-introduction-examples.html&#34;&gt;JVM的GC简介和实例&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://blog.hesey.net/2013/11/cms-gc-optimize.html&#34;&gt;一次CMS GC的调优工作&lt;/a&gt;
+&lt;a href=&#34;http://blog.csdn.net/iter_zc/article/details/41825395&#34;&gt;聊聊JVM（四）深入理解Major GC, Full GC, CMS&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/jvm-troubleshooting-guide-4/&#34;&gt;《JVM故障诊断指南》之4 —— Java 8:从持久代到metaspace&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/useful-jvm-flags-part-8-gc-logging/&#34;&gt;JVM实用参数（八）GC日志&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;系列文章：&lt;br /&gt;
+&lt;a href=&#34;http://it.deepinmind.com/categories.html#GC-ref&#34;&gt;http://it.deepinmind.com/categories.html#GC-ref&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
     <item>
       <title>https加密与证书</title>
       <link>http://defworld.com/2015/06/07/https.html</link>
@@ -940,53 +1115,6 @@ var select = function (callback) {
 </description>
     </item>
     <item>
-      <title>Node的异步代码怎么写</title>
-      <link>http://defworld.com/2014/09/19/node-how-to-write-node-async-code.html</link>
-      <pubDate>2014-09-19 12:00:00 +0800</pubDate>
-      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;函数式编程&#34; href=&#34;#函数式编程&#34;&gt;&lt;/a&gt;函数式编程&lt;/h1&gt;
-
-&lt;p&gt;函数作为js中的一等公民，可以作为参数或返回值传递，此谓高阶函数。偏函数也是基于此，返回一个函数，但是这个返回的函数一部分已经预置了，举个例子：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;// 一个调用多次才会执行的函数
-_.after = function(times, func) {
-    if (times &amp;lt;= 0)return func();
-    return function() {
-        if (--times &amp;lt; 1) {
-            return func.apply(this, arguments);
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;异步编程难点&#34; href=&#34;#异步编程难点&#34;&gt;&lt;/a&gt;异步编程难点&lt;/h1&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;异常处理&#34; href=&#34;#异常处理&#34;&gt;&lt;/a&gt;异常处理&lt;/h2&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;函数嵌套过深&#34; href=&#34;#函数嵌套过深&#34;&gt;&lt;/a&gt;函数嵌套过深&lt;/h2&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;阻塞代码&#34; href=&#34;#阻塞代码&#34;&gt;&lt;/a&gt;阻塞代码&lt;/h2&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;多线程编程&#34; href=&#34;#多线程编程&#34;&gt;&lt;/a&gt;多线程编程&lt;/h2&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;异步编程解决方案&#34; href=&#34;#异步编程解决方案&#34;&gt;&lt;/a&gt;异步编程解决方案&lt;/h1&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;事件发布订阅模式&#34; href=&#34;#事件发布订阅模式&#34;&gt;&lt;/a&gt;事件发布订阅模式&lt;/h2&gt;
-
-&lt;p&gt;Node自身提供的events模块。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;// 订阅
-emitter.on(&amp;quot;event1&amp;quot;, function (message) {
-    console.log(message);
-});
-
-// 发布
-emitter.emit(&#39;event1&#39;, &amp;quot;I am message!&amp;quot;);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;将事件与具体的处理逻辑解耦，一个时间与多个回调函数关联。从某种角度来说事件的设计就是组件的接口设计。&lt;/p&gt;
-</description>
-    </item>
-    <item>
       <title>聊聊Node.js的异步I/O</title>
       <link>http://defworld.com/2014/09/19/node-js-async-i-o.html</link>
       <pubDate>2014-09-19 12:00:00 +0800</pubDate>
@@ -1085,6 +1213,53 @@ Node提供的几个异步调用都是绑定在这些观察者身上的：&lt;/p&
 &lt;p&gt;《Unix Network Programming Vol1 1002003, 3Ed 6.2 I/O Models》http://english.tebyan.net/newindex.aspx?pid=31159&amp;amp;BookID=23760&amp;amp;PageIndex=92&amp;amp;Language=3&lt;br /&gt;
 《怎样理解阻塞非阻塞与同步异步的区别？》http://www.zhihu.com/question/19732473&lt;br /&gt;
 《深入浅出Node.js》作者：朴灵&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>Node的异步代码怎么写</title>
+      <link>http://defworld.com/2014/09/19/node-how-to-write-node-async-code.html</link>
+      <pubDate>2014-09-19 12:00:00 +0800</pubDate>
+      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;函数式编程&#34; href=&#34;#函数式编程&#34;&gt;&lt;/a&gt;函数式编程&lt;/h1&gt;
+
+&lt;p&gt;函数作为js中的一等公民，可以作为参数或返回值传递，此谓高阶函数。偏函数也是基于此，返回一个函数，但是这个返回的函数一部分已经预置了，举个例子：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;// 一个调用多次才会执行的函数
+_.after = function(times, func) {
+    if (times &amp;lt;= 0)return func();
+    return function() {
+        if (--times &amp;lt; 1) {
+            return func.apply(this, arguments);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;异步编程难点&#34; href=&#34;#异步编程难点&#34;&gt;&lt;/a&gt;异步编程难点&lt;/h1&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;异常处理&#34; href=&#34;#异常处理&#34;&gt;&lt;/a&gt;异常处理&lt;/h2&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;函数嵌套过深&#34; href=&#34;#函数嵌套过深&#34;&gt;&lt;/a&gt;函数嵌套过深&lt;/h2&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;阻塞代码&#34; href=&#34;#阻塞代码&#34;&gt;&lt;/a&gt;阻塞代码&lt;/h2&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;多线程编程&#34; href=&#34;#多线程编程&#34;&gt;&lt;/a&gt;多线程编程&lt;/h2&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;异步编程解决方案&#34; href=&#34;#异步编程解决方案&#34;&gt;&lt;/a&gt;异步编程解决方案&lt;/h1&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;事件发布订阅模式&#34; href=&#34;#事件发布订阅模式&#34;&gt;&lt;/a&gt;事件发布订阅模式&lt;/h2&gt;
+
+&lt;p&gt;Node自身提供的events模块。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;// 订阅
+emitter.on(&amp;quot;event1&amp;quot;, function (message) {
+    console.log(message);
+});
+
+// 发布
+emitter.emit(&#39;event1&#39;, &amp;quot;I am message!&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;将事件与具体的处理逻辑解耦，一个时间与多个回调函数关联。从某种角度来说事件的设计就是组件的接口设计。&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -1557,6 +1732,12 @@ lsof -i[46] [protocol][@hostname|hostaddr][:service|port]
 &lt;/ol&gt;
 
 &lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;linux如何知道文件被哪个进程写？&#34; href=&#34;#linux如何知道文件被哪个进程写？&#34;&gt;&lt;/a&gt;linux如何知道文件被哪个进程写？&lt;/h2&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;jdk自带工具&#34; href=&#34;#jdk自带工具&#34;&gt;&lt;/a&gt;jdk自带工具&lt;/h2&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;查看堆栈&#34; href=&#34;#查看堆栈&#34;&gt;&lt;/a&gt;查看堆栈&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;sudo -u ads /home/a/share/java/bin/jstack java_pid &amp;gt; jstack_&lt;/code&gt;date &amp;lsquo;+%Y-%m-%d_%H:%M:%S&amp;rsquo;&lt;/p&gt;
 
 &lt;p&gt;参考：&lt;br /&gt;
 《每天一个linux命令（44）：top命令》http://www.cnblogs.com/peida/archive/&lt;sup&gt;2012&lt;/sup&gt;&amp;frasl;&lt;sub&gt;12&lt;/sub&gt;/&lt;sup&gt;24&lt;/sup&gt;&amp;frasl;&lt;sub&gt;2831353&lt;/sub&gt;.html&lt;br /&gt;
@@ -3242,6 +3423,62 @@ mvn clean deploy 只发布calss jar包
 </description>
     </item>
     <item>
+      <title>java锁笔记</title>
+      <link>http://defworld.com/2013/08/30/java-locks.html</link>
+      <pubDate>2013-08-30 12:00:00 +0800</pubDate>
+      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;线程通信&#34; href=&#34;#线程通信&#34;&gt;&lt;/a&gt;线程通信&lt;/h1&gt;
+
+&lt;p&gt;通信遇到的问题包括：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;共享对象：需要做同步处理&lt;/li&gt;
+&lt;li&gt;忙等待：循环等待另一个线程发来信号，可sleep&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;wait(),notify()&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1. 遇到mobj.wait()，让线程进入非运行状态，直到另一个线程mobj.nitify
+2. 这几个方法必须在获得mobj锁的前提下调用，否则IllegalMonitorStateException
+3. 一个线程调用了wait()，即释放mobj上的锁
+4. 一旦一个线程被唤醒，不能立刻就退出wait()的方法调用，直到调用
+notify()的线程退出了它自己的同步块。因此，多个线程被notifyAll唤醒，只有一个
+线程可以最终退出wait()方法，因为必须获得mobj的锁
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;丢失的信号（Missed Signal）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;线程A先调用了mobj.notify()，线程B后调用mobj.wait()，通知信号发送过了就被丢弃，
+线程B就可能永远不能醒来。
+这就需要一个额外的变量来保存‘是否被通知过’的信息。
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;假唤醒（spurious wakeups）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;没有调用过notify()和notifyAll()的情况下醒来，原因未知
+需要加个自旋锁，即将wait()方法放到while循环中
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;不要在字符串常量或全局对象中调用wait()。mobj与信号常量不是一一对应。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;mobj: 管程 (英语：Monitors，也称为监视器)&lt;/p&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;锁&#34; href=&#34;#锁&#34;&gt;&lt;/a&gt;锁&lt;/h1&gt;
+
+&lt;p&gt;锁由synchronized实现，有以下几个特性:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;同一时刻只能有一个线程穿过临界区，进入同步块&lt;/li&gt;
+&lt;li&gt;锁的可重入性：synchronized同步块可重入，相应也有可重入锁&lt;/li&gt;
+&lt;li&gt;锁的公平性：多个线程不断竞争访问相同的synchronized同步块，可能存在某个
+线程一直竞争不到。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;参考&lt;/strong&gt;:&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/locks/&#34;&gt;Java中的锁&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/thread-signaling/&#34;&gt;线程通信&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    <item>
       <title>jdk自带工具</title>
       <link>http://defworld.com/2013/08/30/jdk-tools.html</link>
       <pubDate>2013-08-30 12:00:00 +0800</pubDate>
@@ -3338,59 +3575,14 @@ runnable - 线程状态
 </description>
     </item>
     <item>
-      <title>java锁笔记</title>
-      <link>http://defworld.com/2013/08/30/java-locks.html</link>
-      <pubDate>2013-08-30 12:00:00 +0800</pubDate>
-      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;线程通信&#34; href=&#34;#线程通信&#34;&gt;&lt;/a&gt;线程通信&lt;/h1&gt;
+      <title>玩Pi过程中Q&amp;A(持续更新)</title>
+      <link>http://defworld.com/2013/06/30/pi-q-a.html</link>
+      <pubDate>2013-06-30 12:00:00 +0800</pubDate>
+      <description>&lt;p&gt;自己玩Pi过程中遇到的问题，有些只是找到解决方案，原理并没有深究&lt;/p&gt;
 
-&lt;p&gt;通信遇到的问题包括：&lt;/p&gt;
+&lt;h4&gt;执行apt-get install时，报404 Not Found&lt;/h4&gt;
 
-&lt;ol&gt;
-&lt;li&gt;共享对象：需要做同步处理&lt;/li&gt;
-&lt;li&gt;忙等待：循环等待另一个线程发来信号，可sleep&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;wait(),notify()&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;1. 遇到mobj.wait()，让线程进入非运行状态，直到另一个线程mobj.nitify
-2. 这几个方法必须在获得mobj锁的前提下调用，否则IllegalMonitorStateException
-3. 一个线程调用了wait()，即释放mobj上的锁
-4. 一旦一个线程被唤醒，不能立刻就退出wait()的方法调用，直到调用
-notify()的线程退出了它自己的同步块。因此，多个线程被notifyAll唤醒，只有一个
-线程可以最终退出wait()方法，因为必须获得mobj的锁
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;丢失的信号（Missed Signal）&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;线程A先调用了mobj.notify()，线程B后调用mobj.wait()，通知信号发送过了就被丢弃，
-线程B就可能永远不能醒来。
-这就需要一个额外的变量来保存‘是否被通知过’的信息。
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;假唤醒（spurious wakeups）&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;没有调用过notify()和notifyAll()的情况下醒来，原因未知
-需要加个自旋锁，即将wait()方法放到while循环中
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;不要在字符串常量或全局对象中调用wait()。mobj与信号常量不是一一对应。&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;mobj: 管程 (英语：Monitors，也称为监视器)&lt;/p&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;锁&#34; href=&#34;#锁&#34;&gt;&lt;/a&gt;锁&lt;/h1&gt;
-
-&lt;p&gt;锁由synchronized实现，有以下几个特性:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;同一时刻只能有一个线程穿过临界区，进入同步块&lt;/li&gt;
-&lt;li&gt;锁的可重入性：synchronized同步块可重入，相应也有可重入锁&lt;/li&gt;
-&lt;li&gt;锁的公平性：多个线程不断竞争访问相同的synchronized同步块，可能存在某个
-线程一直竞争不到。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;strong&gt;参考&lt;/strong&gt;:&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/locks/&#34;&gt;Java中的锁&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/thread-signaling/&#34;&gt;线程通信&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;执行&lt;code&gt;sugo apt-get update&lt;/code&gt;解决&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -3445,17 +3637,6 @@ Host github
 
 &lt;p&gt;任何使用&lt;code&gt;pi@defworld.com&lt;/code&gt;的地方用&lt;code&gt;pi&lt;/code&gt;代替，例如&lt;code&gt;ssh pi@defworld.com&lt;/code&gt;用&lt;code&gt;ssh pi&lt;/code&gt;代替，
 会自动查找指定的密钥&lt;code&gt;id_rsa&lt;/code&gt;进行权限验证。于是，你可以单机保存多个密钥。&lt;/p&gt;
-</description>
-    </item>
-    <item>
-      <title>玩Pi过程中Q&amp;A(持续更新)</title>
-      <link>http://defworld.com/2013/06/30/pi-q-a.html</link>
-      <pubDate>2013-06-30 12:00:00 +0800</pubDate>
-      <description>&lt;p&gt;自己玩Pi过程中遇到的问题，有些只是找到解决方案，原理并没有深究&lt;/p&gt;
-
-&lt;h4&gt;执行apt-get install时，报404 Not Found&lt;/h4&gt;
-
-&lt;p&gt;执行&lt;code&gt;sugo apt-get update&lt;/code&gt;解决&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -3583,6 +3764,8 @@ svn commit -m &amp;quot;comment&amp;quot; # 提交回滚，版本升级到29
 &lt;h3&gt;branche&lt;/h3&gt;
 
 &lt;p&gt;&lt;img src=&#34;http://farm8.staticflickr.com/7384/9150086081_dfe8ef4bce.jpg&#34; alt=&#34;git branche&#34; /&gt;
+&lt;br /&gt;
+&lt;img src=&#34;https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF&#34; alt=&#34;Git 分支 - 远程分支&#34; /&gt;
 &lt;/p&gt;
 
 &lt;ul&gt;
@@ -3590,6 +3773,9 @@ svn commit -m &amp;quot;comment&amp;quot; # 提交回滚，版本升级到29
 &lt;li&gt;&lt;code&gt;git branch -r&lt;/code&gt; 列出服务器仓库所有分支&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;git branche &amp;lt;name&amp;gt; &amp;lt;commit&amp;gt;&lt;/code&gt; commit指定新branche的起始点，默认最新一次commit&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;git checkout &amp;lt;branchname&amp;gt;&lt;/code&gt; 指定当前活动分支，与从Index同步文件命令意义不同&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git fetch origin&lt;/code&gt; 将远程仓库origin最新的内容下载下来，包括最新的分支，注意这里本地只是建了一个新分支的指针，还需要执行&lt;code&gt;git checkout -b [分支名] [远程名]/[分支名]&lt;/code&gt; 来新建一个本地分支，并让本地分支跟踪远程分支。&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git push origin :[远程分支名]&lt;/code&gt; 删除远程分支&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git checkout --track origin/[远程分支名]&lt;/code&gt; 让当前分支跟踪某个远程分支&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;在新分支上commit后，然后又切回master，状态如下图：&lt;br /&gt;
@@ -3598,6 +3784,41 @@ svn commit -m &amp;quot;comment&amp;quot; # 提交回滚，版本升级到29
 接着，你又在master分支上commit，状态变成:&lt;br /&gt;
 &lt;img src=&#34;http://farm6.staticflickr.com/5547/9152373240_ee693532ee.jpg&#34; alt=&#34;git branche 3&#34; /&gt;
 &lt;/p&gt;
+
+&lt;h3&gt;Stashing&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://git-scm.com/book/zh/v1/Git-%E5%B7%A5%E5%85%B7-%E5%82%A8%E8%97%8F%EF%BC%88Stashing%EF%BC%89&#34; alt=&#34;Git 工具 - 储藏（Stashing）&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;应用场景：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;有些变动没有commit，想拉远程内容，或者切换分支了，需要先stash&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;stash的内容，切换到另一个分支后，能够合并回来（注意解决冲突）&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git stash&lt;/code&gt; 暂存当前快照，包括所有未commit内容&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git stash list&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git stash apply [stash@{n}]&lt;/code&gt; 应用某个stash，不加stash@{0}默认最新的&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git stash pop [stash@{n}]&lt;/code&gt; 应用的同时移除&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git stash drop [stash@{n}]&lt;/code&gt; 删除&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git stash show -p [stash@{0}] | git apply -R&lt;/code&gt; 取消stash，也可以通过别名来实现：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ git config --global alias.stash-unapply &#39;!git stash show -p | git apply -R&#39;
+$ git stash apply
+$ #... work work work
+$ git stash-unapply
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git stash branch testchanges&lt;/code&gt; 从stash上创建一个新分支&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;这些stash的内容有单独的Git Staging area存储，就跟git status 看到的变更存在Git Index区一样。&lt;/p&gt;
 
 &lt;h3&gt;merging&lt;/h3&gt;
 
@@ -3619,7 +3840,7 @@ this change was done in newfeature
 &amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt; newfeature:somefile.txt
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;改好后commit，你就可以删掉branche了&lt;code&gt;git branche -d newfeature&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;改好后git add 有冲突的文件，然后commit，你就可以删掉branche了&lt;code&gt;git branche -d newfeature&lt;/code&gt;&lt;/p&gt;
 
 &lt;h3&gt;配置&lt;/h3&gt;
 
@@ -5797,16 +6018,6 @@ private Person person;
 </description>
     </item>
     <item>
-      <title>JMM-java内存模型</title>
-      <link>http://defworld.com/2013/05/21/jmm.html</link>
-      <pubDate>2013-05-21 12:00:00 +0800</pubDate>
-      <description>&lt;p&gt;参考:&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/java-memory-model-0/&#34;&gt;深入理解java内存模型系列文章&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/jmm-faq/&#34;&gt;Java内存模型FAQ&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/syn-jmm/&#34;&gt;同步和Java内存模型&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    <item>
       <title>tomcat源码阅读-1-准备源码</title>
       <link>http://defworld.com/2013/05/20/read-tomcat-source-1.html</link>
       <pubDate>2013-05-20 12:00:00 +0800</pubDate>
@@ -5905,129 +6116,6 @@ MappingJacksonJsonView)。同样的问题，你不仅需要控制error page，�
 1. 返回的json数据还是通过渲染vm的方式，可以替换直接返回responseEntity
 2. 对其他异常的处理过于简单（也可能是业务需求即如此）
 3. 没有正确设置resp code&lt;/p&gt;
-</description>
-    </item>
-    <item>
-      <title>java语言基础细节</title>
-      <link>http://defworld.com/2013/05/18/a-little-things-abount-java-language.html</link>
-      <pubDate>2013-05-18 12:00:00 +0800</pubDate>
-      <description>&lt;p&gt;2011年的笔记，当时是在看《细说 Java》，算是一个入门书。&lt;br /&gt;
-虽然基础，但是平时工作中并不一定注意到这些细节，现在这些零碎的东西都整理起来。&lt;br /&gt;
-只挑选目前看还有些价值的&lt;/p&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;java基本数据类型&#34; href=&#34;#java基本数据类型&#34;&gt;&lt;/a&gt;java基本数据类型&lt;/h2&gt;
-
-&lt;p&gt;基本数据类型由低到高排序：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;byte(1) short(2) ---&amp;gt;
-                     int(4) long(8) float(4) double(8)
-        char (2) ---&amp;gt;
-boolean(1)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;由低到高隐式转换，高到底必须显示申明，因为数据会失真。&lt;br /&gt;
-char是无符号类型，所以char short&lt;br /&gt;
-boolean不能和其他类型进行相互转换&lt;br /&gt;
-必要时使用BigInteger &amp;amp; BigDecimal&lt;/p&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;值传递与引用传递&#34; href=&#34;#值传递与引用传递&#34;&gt;&lt;/a&gt;值传递与引用传递&lt;/h2&gt;
-
-&lt;p&gt;两者其实都是值传递&lt;/p&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;私有属性的优势&#34; href=&#34;#私有属性的优势&#34;&gt;&lt;/a&gt;私有属性的优势&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;对外暴露get/set，可实现额外的校验或其他逻辑控制&lt;/li&gt;
-&lt;li&gt;隐藏内部细节，对外屏蔽内部变化&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;类加载及对象初始化时动作&#34; href=&#34;#类加载及对象初始化时动作&#34;&gt;&lt;/a&gt;类加载及对象初始化时动作&lt;/h2&gt;
-
-&lt;ol&gt;
-&lt;li&gt;在类加载时（第一次使用类是），为类中的静态成员变量分配内存空间，并赋予默认值&lt;/li&gt;
-&lt;li&gt;执行静态成员变量的初始化操作。前面已经指出，静态成员的初始化有两种：在声明时直接初始化与静态初始化块。两种方式会按照在类中出现的顺序（声明的顺序）来执行。A，B步只会在类加载时执行一次。&lt;/li&gt;
-&lt;li&gt;如果创建了类的对象，便在堆中为类的实例分配内存空间，实例变量被初始化为默认值&lt;/li&gt;
-&lt;li&gt;执行实例化变量的初始化操作。实例变量的前两种初始化方式：声明时直接初始化与初始化块，这两种初始化方法会按照在类中出现的顺序（声明的顺序）来执行。&lt;/li&gt;
-&lt;li&gt;执行类的构造器。C~E在每次创建类的对象时都会执行。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;重载/重写/隐藏&#34; href=&#34;#重载/重写/隐藏&#34;&gt;&lt;/a&gt;重载/重写/隐藏&lt;/h2&gt;
-
-&lt;h3&gt;重载&lt;/h3&gt;
-
-&lt;p&gt;方法的重载就是方法具有相同的名称不同的参数列表，在编译期间确定，编译器可以根据参数的类型与个数加以区分，而方法的返回类型与方法抛出异常等因素的不同不作为重载的标准，因为其不能提供足够的信息。如果参数已引用传递，那么硬系那个调用的因素时引用的类型，而与引用所指向的对象类型无关。&lt;br /&gt;
-编译器选择重载方法时顺序时：&lt;br /&gt;
-A选择形参类型与制定的实参列表完全一致的方法&lt;br /&gt;
-B如果A中的方法不存在，选择形参列表的参数类型能够兼容对应的实参列表的参数类型。&lt;br /&gt;
-  如果满足这一条件的方法不止一个，那么如果A方法参数类表在类型上可以兼容对应的B方法参数列表的类型，那么将排除B方法，按照这种方法排除，如果排除以后仍然剩下多于一个的方法，那么编译器会给出错误信息，指出引用类型不明确。&lt;br /&gt;
-C如果B中的方法不存在，自动封箱与拆箱操作将会执行，然后按照B继续寻找。&lt;br /&gt;
-D如果C中的方法不存在，则选择具有可变形参的方法，如果方法存在，调用该方法，否则给出错误信息，指出方法不存在。&lt;/p&gt;
-
-&lt;h3&gt;重写&lt;/h3&gt;
-
-&lt;p&gt;方法重写的条件：&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;子类与父类的方法必须都是实例方法。如果父类是实例方法而子类是静态方法，或者相反，则编译器会报错。如果子类与父类都是静态方法，那么子类隐藏父类的方法，而不是重写父类的方法。&lt;/li&gt;
-&lt;li&gt;子类与父类的方法需要具有相同的方法名称、参数列表，并且子类的返回类型与父类相同或者是父类的子类。如果方法名称相同而参数列表不同（返回类型可相同也可不相同），那么只是方法的重载。如果方法名称与参数列表相同而返回类型不同（并且子类方法的返回类型不是父类的子类型），那么编译器将会报错。&lt;/li&gt;
-&lt;li&gt;子类方法的访问权限不能小于父类的访问权限。&lt;/li&gt;
-&lt;li&gt;子类方法不能比父类方法抛出更多的已检测异常（也称编译时异常）。&lt;/li&gt;
-&lt;li&gt;父类的方法在子类中必须可见。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3&gt;隐藏&lt;/h3&gt;
-
-&lt;p&gt;静态方法隐藏的条件:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;静态（required)&lt;/li&gt;
-&lt;li&gt;相同的方法名称、参数列表、子类的返回类型和父类相同或者是父类的子类型&lt;/li&gt;
-&lt;li&gt;子类方法的访问权限不能小于父类方法&lt;/li&gt;
-&lt;li&gt;子类方法不恩能够比父类方法抛出更多的已检测异常&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;成员变量隐藏：&lt;br /&gt;
-与静态方法类似，子类不能重写类中的成员变量，只能隐藏父类的成员变量（不论静态变量还是实例变量）。只要求子类与父类的成员变量的名字相同即可，与变量类型无关。&lt;br /&gt;
-注意成员变量的继承，如果子类继承了父类的成员变量，则子类与父类共享同一个成员变量。如果是实例变量，在对象内部共享，如果是静态成员变量，在父类与子类之间共享。&lt;/p&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;变量和方法的搜索顺序&#34; href=&#34;#变量和方法的搜索顺序&#34;&gt;&lt;/a&gt;变量和方法的搜索顺序&lt;/h2&gt;
-
-&lt;p&gt;遵循由近及远的原则&lt;/p&gt;
-
-&lt;h3&gt;变量的搜索顺序&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;从访问某变量所在的语句块中（最小语句块）搜索变量的声明&lt;/li&gt;
-&lt;li&gt;访问该语句块的外围语句块，知道整个方法所在的语句块，方法的参数也作为搜索的对象。&lt;/li&gt;
-&lt;li&gt;搜索类中声明的成员变量，如果不存在其声明，搜索从父类型中集成的成员变量。&lt;/li&gt;
-&lt;li&gt;如果该类是一个内部类，那么对外围类返回步骤3进行搜索，知道顶层类为止。&lt;/li&gt;
-&lt;li&gt;搜索明确静态导入的成员（即单一静态导入的成员）&lt;/li&gt;
-&lt;li&gt;搜索使用星号静态导入的成员&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3&gt;方法的搜索顺序&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;当前类的类型&lt;/li&gt;
-&lt;li&gt;内部类的类型&lt;/li&gt;
-&lt;li&gt;明确导入的类型&lt;/li&gt;
-&lt;li&gt;与当前类处在同一个包中的其他类型&lt;/li&gt;
-&lt;li&gt;使用带星号导入的类型&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;泛型&#34; href=&#34;#泛型&#34;&gt;&lt;/a&gt;泛型&lt;/h2&gt;
-
-&lt;p&gt;使用Object需要在运行时强制转型，而泛型编译期间就能确定类型，运行截断参数类型的信息将被擦除。&lt;br /&gt;
-List&amp;lt;Super&amp;gt;只能接收List&amp;lt;Super&amp;gt;类型的参数，不能接收List&amp;lt;Sub&amp;gt;。用List&amp;lt;?&amp;gt;/List&amp;lt;? extends Super&amp;gt;/List&amp;lt;? super Number&amp;gt;&lt;/p&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;引用类型&#34; href=&#34;#引用类型&#34;&gt;&lt;/a&gt;引用类型&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;强引用存在永远不会回收&lt;/li&gt;
-&lt;li&gt;soft引用存在只有在内存满是才有可能被回收（看GC算法）&lt;/li&gt;
-&lt;li&gt;weak reference 对象与soft引用对象不同点是：后者在GC回收时要通过算法检查是否会后，对前者总是回收，但是复杂关系的weak对象群要好几次GC的运行才会被回收。只要勇于map&lt;/li&gt;
-&lt;li&gt;虚引用一般适用于执行完了finalize函数，并且为不可到达对象，但是还没有被GC回收的对象。辅助finalize进行后期回收工作。&lt;/li&gt;
-&lt;/ul&gt;
 </description>
     </item>
     <item>
@@ -6169,6 +6257,129 @@ sudo make install
 &lt;/ul&gt;
 
 &lt;p&gt;ok ! enjoy it !&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>java语言基础细节</title>
+      <link>http://defworld.com/2013/05/18/a-little-things-abount-java-language.html</link>
+      <pubDate>2013-05-18 12:00:00 +0800</pubDate>
+      <description>&lt;p&gt;2011年的笔记，当时是在看《细说 Java》，算是一个入门书。&lt;br /&gt;
+虽然基础，但是平时工作中并不一定注意到这些细节，现在这些零碎的东西都整理起来。&lt;br /&gt;
+只挑选目前看还有些价值的&lt;/p&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;java基本数据类型&#34; href=&#34;#java基本数据类型&#34;&gt;&lt;/a&gt;java基本数据类型&lt;/h2&gt;
+
+&lt;p&gt;基本数据类型由低到高排序：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;byte(1) short(2) ---&amp;gt;
+                     int(4) long(8) float(4) double(8)
+        char (2) ---&amp;gt;
+boolean(1)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;由低到高隐式转换，高到底必须显示申明，因为数据会失真。&lt;br /&gt;
+char是无符号类型，所以char short&lt;br /&gt;
+boolean不能和其他类型进行相互转换&lt;br /&gt;
+必要时使用BigInteger &amp;amp; BigDecimal&lt;/p&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;值传递与引用传递&#34; href=&#34;#值传递与引用传递&#34;&gt;&lt;/a&gt;值传递与引用传递&lt;/h2&gt;
+
+&lt;p&gt;两者其实都是值传递&lt;/p&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;私有属性的优势&#34; href=&#34;#私有属性的优势&#34;&gt;&lt;/a&gt;私有属性的优势&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;对外暴露get/set，可实现额外的校验或其他逻辑控制&lt;/li&gt;
+&lt;li&gt;隐藏内部细节，对外屏蔽内部变化&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;类加载及对象初始化时动作&#34; href=&#34;#类加载及对象初始化时动作&#34;&gt;&lt;/a&gt;类加载及对象初始化时动作&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;在类加载时（第一次使用类是），为类中的静态成员变量分配内存空间，并赋予默认值&lt;/li&gt;
+&lt;li&gt;执行静态成员变量的初始化操作。前面已经指出，静态成员的初始化有两种：在声明时直接初始化与静态初始化块。两种方式会按照在类中出现的顺序（声明的顺序）来执行。A，B步只会在类加载时执行一次。&lt;/li&gt;
+&lt;li&gt;如果创建了类的对象，便在堆中为类的实例分配内存空间，实例变量被初始化为默认值&lt;/li&gt;
+&lt;li&gt;执行实例化变量的初始化操作。实例变量的前两种初始化方式：声明时直接初始化与初始化块，这两种初始化方法会按照在类中出现的顺序（声明的顺序）来执行。&lt;/li&gt;
+&lt;li&gt;执行类的构造器。C~E在每次创建类的对象时都会执行。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;重载/重写/隐藏&#34; href=&#34;#重载/重写/隐藏&#34;&gt;&lt;/a&gt;重载/重写/隐藏&lt;/h2&gt;
+
+&lt;h3&gt;重载&lt;/h3&gt;
+
+&lt;p&gt;方法的重载就是方法具有相同的名称不同的参数列表，在编译期间确定，编译器可以根据参数的类型与个数加以区分，而方法的返回类型与方法抛出异常等因素的不同不作为重载的标准，因为其不能提供足够的信息。如果参数已引用传递，那么硬系那个调用的因素时引用的类型，而与引用所指向的对象类型无关。&lt;br /&gt;
+编译器选择重载方法时顺序时：&lt;br /&gt;
+A选择形参类型与制定的实参列表完全一致的方法&lt;br /&gt;
+B如果A中的方法不存在，选择形参列表的参数类型能够兼容对应的实参列表的参数类型。&lt;br /&gt;
+  如果满足这一条件的方法不止一个，那么如果A方法参数类表在类型上可以兼容对应的B方法参数列表的类型，那么将排除B方法，按照这种方法排除，如果排除以后仍然剩下多于一个的方法，那么编译器会给出错误信息，指出引用类型不明确。&lt;br /&gt;
+C如果B中的方法不存在，自动封箱与拆箱操作将会执行，然后按照B继续寻找。&lt;br /&gt;
+D如果C中的方法不存在，则选择具有可变形参的方法，如果方法存在，调用该方法，否则给出错误信息，指出方法不存在。&lt;/p&gt;
+
+&lt;h3&gt;重写&lt;/h3&gt;
+
+&lt;p&gt;方法重写的条件：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;子类与父类的方法必须都是实例方法。如果父类是实例方法而子类是静态方法，或者相反，则编译器会报错。如果子类与父类都是静态方法，那么子类隐藏父类的方法，而不是重写父类的方法。&lt;/li&gt;
+&lt;li&gt;子类与父类的方法需要具有相同的方法名称、参数列表，并且子类的返回类型与父类相同或者是父类的子类。如果方法名称相同而参数列表不同（返回类型可相同也可不相同），那么只是方法的重载。如果方法名称与参数列表相同而返回类型不同（并且子类方法的返回类型不是父类的子类型），那么编译器将会报错。&lt;/li&gt;
+&lt;li&gt;子类方法的访问权限不能小于父类的访问权限。&lt;/li&gt;
+&lt;li&gt;子类方法不能比父类方法抛出更多的已检测异常（也称编译时异常）。&lt;/li&gt;
+&lt;li&gt;父类的方法在子类中必须可见。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;隐藏&lt;/h3&gt;
+
+&lt;p&gt;静态方法隐藏的条件:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;静态（required)&lt;/li&gt;
+&lt;li&gt;相同的方法名称、参数列表、子类的返回类型和父类相同或者是父类的子类型&lt;/li&gt;
+&lt;li&gt;子类方法的访问权限不能小于父类方法&lt;/li&gt;
+&lt;li&gt;子类方法不恩能够比父类方法抛出更多的已检测异常&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;成员变量隐藏：&lt;br /&gt;
+与静态方法类似，子类不能重写类中的成员变量，只能隐藏父类的成员变量（不论静态变量还是实例变量）。只要求子类与父类的成员变量的名字相同即可，与变量类型无关。&lt;br /&gt;
+注意成员变量的继承，如果子类继承了父类的成员变量，则子类与父类共享同一个成员变量。如果是实例变量，在对象内部共享，如果是静态成员变量，在父类与子类之间共享。&lt;/p&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;变量和方法的搜索顺序&#34; href=&#34;#变量和方法的搜索顺序&#34;&gt;&lt;/a&gt;变量和方法的搜索顺序&lt;/h2&gt;
+
+&lt;p&gt;遵循由近及远的原则&lt;/p&gt;
+
+&lt;h3&gt;变量的搜索顺序&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;从访问某变量所在的语句块中（最小语句块）搜索变量的声明&lt;/li&gt;
+&lt;li&gt;访问该语句块的外围语句块，知道整个方法所在的语句块，方法的参数也作为搜索的对象。&lt;/li&gt;
+&lt;li&gt;搜索类中声明的成员变量，如果不存在其声明，搜索从父类型中集成的成员变量。&lt;/li&gt;
+&lt;li&gt;如果该类是一个内部类，那么对外围类返回步骤3进行搜索，知道顶层类为止。&lt;/li&gt;
+&lt;li&gt;搜索明确静态导入的成员（即单一静态导入的成员）&lt;/li&gt;
+&lt;li&gt;搜索使用星号静态导入的成员&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;方法的搜索顺序&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;当前类的类型&lt;/li&gt;
+&lt;li&gt;内部类的类型&lt;/li&gt;
+&lt;li&gt;明确导入的类型&lt;/li&gt;
+&lt;li&gt;与当前类处在同一个包中的其他类型&lt;/li&gt;
+&lt;li&gt;使用带星号导入的类型&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;泛型&#34; href=&#34;#泛型&#34;&gt;&lt;/a&gt;泛型&lt;/h2&gt;
+
+&lt;p&gt;使用Object需要在运行时强制转型，而泛型编译期间就能确定类型，运行截断参数类型的信息将被擦除。&lt;br /&gt;
+List&amp;lt;Super&amp;gt;只能接收List&amp;lt;Super&amp;gt;类型的参数，不能接收List&amp;lt;Sub&amp;gt;。用List&amp;lt;?&amp;gt;/List&amp;lt;? extends Super&amp;gt;/List&amp;lt;? super Number&amp;gt;&lt;/p&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;引用类型&#34; href=&#34;#引用类型&#34;&gt;&lt;/a&gt;引用类型&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;强引用存在永远不会回收&lt;/li&gt;
+&lt;li&gt;soft引用存在只有在内存满是才有可能被回收（看GC算法）&lt;/li&gt;
+&lt;li&gt;weak reference 对象与soft引用对象不同点是：后者在GC回收时要通过算法检查是否会后，对前者总是回收，但是复杂关系的weak对象群要好几次GC的运行才会被回收。只要勇于map&lt;/li&gt;
+&lt;li&gt;虚引用一般适用于执行完了finalize函数，并且为不可到达对象，但是还没有被GC回收的对象。辅助finalize进行后期回收工作。&lt;/li&gt;
+&lt;/ul&gt;
 </description>
     </item>
     <item>

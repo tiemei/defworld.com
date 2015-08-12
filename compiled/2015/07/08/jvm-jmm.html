@@ -2,9 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>我的eclipse配置、快捷键、插件</title>
-  
-    <meta name="description" content="eclipse,配置,快捷键,插件">
+    <title>JVM——JMM，java内存模型</title>
   
     <meta name="author" content="tiemei">
 
@@ -78,38 +76,42 @@
 
       <div class="content">
         <div class="page-header">
-  <h1>我的eclipse配置、快捷键、插件 </h1>
+  <h1>JVM——JMM，java内存模型 </h1>
 </div>
 
 <div class="row">
   <div class="span8">
-    <p>工作是J2EE应用开发，eclipse是陪伴我最多的工具。使用频率如此高，一定要顺手，一定要舒服。从10年9月份开始编程，就一直未离开eclipse，积累了一些东西，是时候跟大家分享了。</p>
+    <h2><a style="display: block;" name="简介jmm与硬件内存架构的关系" href="#简介jmm与硬件内存架构的关系"></a>简介JMM与硬件内存架构的关系</h2>
 
-<blockquote>
-<p>os:mac os x 10.8
-eclipse:juno</p>
-</blockquote>
+<p>java虚拟机包含一个完整的计算机模型，java内存模型跟硬件内存架构之间的关系是：</p>
 
-<h2><a style="display: block;" name="我常用的快捷键" href="#我常用的快捷键"></a>我常用的快捷键</h2>
+<p><img src="https://farm1.staticflickr.com/328/19329026068_2c37a4027e.jpg" alt="jmm-cpu" />
+</p>
 
-<ul>
-<li><code>cmd-shift-f</code> 格式化</li>
-<li><code>cmd + w</code>     关闭窗口</li>
-</ul>
+<p>stack、heap有可能出现在寄存器、cpu缓存层、主内存中，也因此可能出现可见性（某个线程对一个对象的修改，不被另一个线程看见）、race conditions（竞争状态，修改同一个对象时可能会出现问题）。</p>
+
+<p>参考：</p>
+
+<p><a href="http://ifeve.com/java-memory-model-6/">Java内存模型</a><br />
+<a href="http://ifeve.com/java-memory-model-0/">深入理解java内存模型系列文章</a><br />
+<a href="http://ifeve.com/jmm-faq/">Java内存模型FAQ</a><br />
+<a href="http://ifeve.com/syn-jmm/">同步和Java内存模型</a><br />
+<a href="http://it.deepinmind.com/jvm/2015/02/13/jvm-having-access-to-less-memory-than-xmx.html">遗失的java堆内存</a><br />
+<a href="http://coderbee.net/index.php/java/20140811/979">java对象内存布局</a></p>
 
     <hr>
     <div class="pagination">
       <ul>
         <ul>
           
-            <li class="prev"><a href="/2013/06/12/my-shell-mannual.html" title="近一年来shell命令积累(随时更新)">&larr; Previous</a></li>
+            <li class="prev"><a href="/2015/07/10/osx-createinstallmedia.html" title="osx-制作USA安装盘，并迁移老MAC">&larr; Previous</a></li>
           
           
 
             <li><a href="/archive">Archive</a></li>
 
           
-            <li class="next"><a href="/2013/06/07/intellij-idea-shortcuts.html" title="从eclipse迁移到intellijIDEA(OS x 10.5)">Next &rarr;</a></li>
+            <li class="next"><a href="/2015/07/08/jvm-gc.html" title="jvm——gc">Next &rarr;</a></li>
           
           
         </ul>
@@ -135,23 +137,19 @@ eclipse:juno</p>
   
   <div class="span4">
     <h4>Published</h4>
-    <div class="date"><span>2013-06-11</span></div>
+    <div class="date"><span>2015-07-08</span></div>
     <br>
     <h4>Categories</h4>
     <ul class="tag_box">
     
       <li>
-  <a href="/categories/#tool-ref">tool <span>8</span></a>
+  <a href="/categories/#java-ref">java <span>15</span></a>
 </li>
     
     </ul>
     <br>
     <h4>Tags</h4>
     <ul class="tag_box">
-    
-      <li>
-  <a href="/tags/#eclipse-ref">eclipse <span>1</span></a>
-</li>
     
     </ul>
   </div>

@@ -92,16 +92,45 @@ svn commit -m "comment" # 提交回滚，版本升级到29
 
 ### branche
 ![git branche](http://farm8.staticflickr.com/7384/9150086081_dfe8ef4bce.jpg)  
+![Git 分支 - 远程分支](https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF)  
 
 * `git branche` 查看有几个分支，以及活动分支
 * `git branch -r` 列出服务器仓库所有分支
 * `git branche <name> <commit>` commit指定新branche的起始点，默认最新一次commit
 * `git checkout <branchname>` 指定当前活动分支，与从Index同步文件命令意义不同
-
+* `git fetch origin` 将远程仓库origin最新的内容下载下来，包括最新的分支，注意这里本地只是建了一个新分支的指针，还需要执行`git checkout -b [分支名] [远程名]/[分支名]` 来新建一个本地分支，并让本地分支跟踪远程分支。  
+* `git push origin :[远程分支名]` 删除远程分支  
+* `git checkout --track origin/[远程分支名]` 让当前分支跟踪某个远程分支
+  
 在新分支上commit后，然后又切回master，状态如下图：  
 ![git branche 2](http://farm8.staticflickr.com/7350/9150130937_6908be5258.jpg)  
 接着，你又在master分支上commit，状态变成:  
-![git branche 3](http://farm6.staticflickr.com/5547/9152373240_ee693532ee.jpg)  
+![git branche 3](http://farm6.staticflickr.com/5547/9152373240_ee693532ee.jpg)
+
+### Stashing
+
+![Git 工具 - 储藏（Stashing）](https://git-scm.com/book/zh/v1/Git-%E5%B7%A5%E5%85%B7-%E5%82%A8%E8%97%8F%EF%BC%88Stashing%EF%BC%89)   
+
+应用场景：  
+
+* 有些变动没有commit，想拉远程内容，或者切换分支了，需要先stash
+* stash的内容，切换到另一个分支后，能够合并回来（注意解决冲突）
+
+* `git stash` 暂存当前快照，包括所有未commit内容
+* ` git stash list`
+* `git stash apply [stash@{n}]` 应用某个stash，不加stash@{0}默认最新的
+* `git stash pop [stash@{n}]` 应用的同时移除
+* `git stash drop [stash@{n}]` 删除
+* `git stash show -p [stash@{0}] | git apply -R` 取消stash，也可以通过别名来实现：
+
+        $ git config --global alias.stash-unapply '!git stash show -p | git apply -R'
+        $ git stash apply
+        $ #... work work work
+        $ git stash-unapply
+
+* `git stash branch testchanges` 从stash上创建一个新分支
+
+这些stash的内容有单独的Git Staging area存储，就跟git status 看到的变更存在Git Index区一样。  
   
 ### merging
 你在新branche开发完毕，要将变动合并到master，你将执行`git merge newfeature`，如果没有冲突，最终状态如下图：  
@@ -117,7 +146,7 @@ svn commit -m "comment" # 提交回滚，版本升级到29
     =======
     this change was done in newfeature
     >>>>>>> newfeature:somefile.txt
-改好后commit，你就可以删掉branche了`git branche -d newfeature`  
+改好后git add 有冲突的文件，然后commit，你就可以删掉branche了`git branche -d newfeature`  
 
 ### 配置
 
