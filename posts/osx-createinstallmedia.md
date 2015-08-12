@@ -13,4 +13,27 @@ categories: 'osx'
 
 # 从老电脑将内容迁移过来
 
+<<<<<<< HEAD
 https://support.apple.com/en-us/HT204350  
+=======
+官网说的两台mac连在同一wifi上就能成功，试了没成功。后来找到一个方式：    
+
+1. 老mac创建一个network，并连上这个网络  
+![](https://farm1.staticflickr.com/328/19577943046_2f1a554344.jpg)  
+
+![](https://farm1.staticflickr.com/487/19577980266_0cf6d9ea45.jpg)  
+
+2. 老mac设置网络共享，注意这里可能需要选择Share your connection from : ThunderBolt Ethernet，To computers using: Wi-Fi。并注意打开防火墙  
+
+![](https://farm4.staticflickr.com/3803/18981584834_c24a7b9168.jpg)  
+
+3. 新mac连上老mac的网络  
+4. 两者打开Migration Assitant传递数据
+5. 等待好几个小时直到完成。
+
+因为无线是在太慢，如果有ThunderBolt to ThunderBolt转接线，就不用这么麻烦了。  
+
+参考：  
+[Move your content to a new Mac](https://support.apple.com/en-us/HT204350)  
+[use-migration-assistant-with-macbook-air-over-airport-wifi](http://marcushesse.com/2012/use-migration-assistant-with-macbook-air-over-airport-wifi/)    
+>>>>>>> 98d4643bd95cbf846411e2339f24a4c4ec6ec42c

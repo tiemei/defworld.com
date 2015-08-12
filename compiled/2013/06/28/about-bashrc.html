@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>.bashrc .bash_profile等文件区别</title>
+    <title>【大部分转载】.bashrc .bash_profile等文件区别</title>
   
     <meta name="description" content="bashrc">
   
@@ -78,14 +78,14 @@
 
       <div class="content">
         <div class="page-header">
-  <h1>.bashrc .bash_profile等文件区别 </h1>
+  <h1>【大部分转载】.bashrc .bash_profile等文件区别 </h1>
 </div>
 
 <div class="row">
   <div class="span8">
     <p><strong>/etc/profile</strong><br />
 全局，用户第一次登录执行一次<br />
-会从/etc/profile.d目录的配置文件中搜集shell的设置.</p>
+会从/etc/profile.d目录的配置文件中搜集shell的设置.给用户设置环境变量的地方，不管用户使用的什么shell(bash、zsh&hellip;)</p>
 
 <p><strong>/etc/bashrc</strong><br />
 全局，bash shell配置，一般由/etc/profile调用</p>
@@ -100,12 +100,77 @@
 <p><strong>~/.bash_logout</strong><br />
 当每次退出系统(退出bash shell)时,执行该文件.</p>
 
+<p>而如果系统是 ubuntu 或者 debian 的话, 就不会有 /etc/bashrc 而会有 /etc/bash.bashrc 文件.</p>
+
+<h2><a style="display: block;" name="shell的模式" href="#shell的模式"></a>shell的模式</h2>
+
+<p>系统的 shell 有很多种, 比如 bash, sh, zsh 之类的, 如果要查看某一个用户使用的是什么 shell 可以通过 finger [USERNAME] 命令来查看. 我们这里只说 shell 是 bash 的情况, 因为如果是 sh 或者其他 shell 显然不会运行 bashrc 的.</p>
+
+<h3>login shell 和 no-login shell</h3>
+
+<p>“login shell” 代表用户登入, 比如使用 “su -l username“ 命令, 或者用 ssh 连接到某一个服务器上, 或者开启termal，都会使用该用户默认 shell 启动 login shell 模式.<br />
+该模式下的 shell 会去自动执行 /etc/profile 和 ~/.profile 文件, 但不会执行任何的 bashrc 文件, 所以一般再 /etc/profile 或者 ~/.profile 里我们会手动去 source bashrc 文件.<br />
+而 no-login shell 的情况是我们在终端下直接输入 bash 或者 bash -c “CMD” 来启动的 shell.<br />
+该模式下是不会自动去运行任何的 profile 文件.</p>
+
+<h3>interactive shell 和 non-interactive shell</h3>
+
+<p>interactive shell 是交互式shell, 顾名思义就是用来和用户交互的, 提供了命令提示符可以输入命令.<br />
+该模式下会存在一个叫 PS1 的环境变量, 如果还不是 login shell 的则会去 source /etc/bash.bashrc 和 ~/.bashrc 文件<br />
+non-interactive shell 则一般是通过 bash -c “CMD” 来执行的bash.<br />
+该模式下不会执行任何的 rc 文件, 不过还存在一种特殊情况这个我之后详细讲述</p>
+
+<h2><a style="display: block;" name="shell模式与文件执行的关系" href="#shell模式与文件执行的关系"></a>shell模式与文件执行的关系</h2>
+
+<p>login shell会去执行profile文件（no-login shell不会执行），而interactive no-login shell会去执行profile（interactive login shell不会执行）。<br />
+特例是： 通过 “ssh server CMD” 执行的命令 或 通过程序执行远程的命令。</p>
+
+<h3>SSH login, sudo su - [USER] 或者 mac 下开启终端</h3>
+
+<p>ssh 登入和 su - 是典型的 interactive login shell, 所以会有 PS1 变量, 并且会执行</p>
+
+<pre><code>/etc/profile
+~/.profile
+</code></pre>
+
+<h3>在命令提示符状态下输入 bash 或者 ubuntu 默认设置下打开终端</h3>
+
+<p>这样开启的是 interactive no-login shell, 所以会有 PS1 变量, 只会执行</p>
+
+<pre><code>/etc/bash.bashrc
+~/.bashrc
+</code></pre>
+
+<h3>通过 bash -c “CMD” 或者 bash BASHFILE 命令执行的 shell</h3>
+
+<p>这些命令什么都不会执行, 也就是设置 PS1 变量, 不执行任何 RC 文件</p>
+
+<h3>最特殊! 通过 “ssh server CMD” 执行的命令 或 通过程序执行远程的命令</h3>
+
+<p>这是最特殊的一种模式, 理论上应该既是 非交互 也是 非登入的, 但是实际上他不会设置 PS1, 但是还会执行</p>
+
+<pre><code>/etc/bash.bashrc
+~/.bashrc
+</code></pre>
+
+<p>这里还有一点值得注意的是 /etc/bashrc 任何情况下都不会执行.</p>
+
+<h2><a style="display: block;" name="小技巧" href="#小技巧"></a>小技巧</h2>
+
+<ul>
+<li><code>/etc/profile</code>中加入<code>export system_profile_loaded=1</code>，其他文件就可以根据 $system_profile_loaded 来判断是否已经载入过 profile</li>
+</ul>
+
+<p>参考：</p>
+
+<p><a href="https://wido.me/sunteya/understand-bashrc-and-profile/">理解 bashrc 和 profile</a></p>
+
     <hr>
     <div class="pagination">
       <ul>
         <ul>
           
-            <li class="prev"><a href="/2013/06/30/ssh.html" title="ssh密钥自动登陆+ssh-agent使用+单机多个ssh账号">&larr; Previous</a></li>
+            <li class="prev"><a href="/2013/06/30/pi-q-a.html" title="玩Pi过程中Q&amp;A(持续更新)">&larr; Previous</a></li>
           
           
 

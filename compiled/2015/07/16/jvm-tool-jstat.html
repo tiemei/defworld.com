@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>一句话表达设计模式</title>
+    <title>jvm工具-jstat</title>
   
     <meta name="author" content="tiemei">
 
@@ -76,34 +76,65 @@
 
       <div class="content">
         <div class="page-header">
-  <h1>一句话表达设计模式 </h1>
+  <h1>jvm工具-jstat </h1>
 </div>
 
 <div class="row">
   <div class="span8">
-    <p><a href="http://ifeve.com/java-example-of-observer-pattern/">观察者模式</a>：分订阅者、发布者，发布者发布消息给多个订阅者</p>
+    <p><code>jstat [ generalOption | outputOptions vmid [interval[s|ms] [count]] ]</code></p>
 
-<p><a href="http://ifeve.com/java-example-of-strategy-pattern/">策略模式</a>：只有运行时才知道会走哪个策略。if-else也能实现，建议将策略抽象出一个接口，运行时决定走哪个实现。<br />
-<a href="http://ifeve.com/state-design-pattern-in-java-example-tutorial/">状态模式</a>：将一段逻辑委托给另一个对象处理，但是在代码编写时就确定走哪个对象处理，建议抽象一个接口。</p>
+<p>generalOption只有两个选项，且使用时不能加其他参数及选项：</p>
 
-<p><a href="http://ifeve.com/template-method-design-pattern/">模板模式</a>：定义做一件事情的步骤，但不具体实现。一般在父类定义做一件事情需要调用哪几个步骤。<br />
-<a href="http://ifeve.com/java-example-of-decorator-pattern/">装饰者模式</a>：因为多个因素构成了一个类，这些因素自由组合时个数比较多，需要将其中一部分因素抽出来作为一个类，抽出来的类和原来的类组合构成一个综合类。典型例子java IO库。</p>
+<pre><code>-help Display help message
+-options Display list of statistics options. 
+</code></pre>
 
-<p><a href="http://ifeve.com/memento-design-pattern-in-java-example-tutorial/">备忘录模式</a>：</p>
+<p>outputOptions有多个选项，另外可以加上-h, -t, and -J，接在outputOptions后面:</p>
+
+<pre><code>Option              Displays...
+class               Statistics on the behavior of the class loader.
+compiler            Statistics of the behavior of the HotSpot Just-in-Time compiler.
+gc                  Statistics of the behavior of the garbage collected heap.
+gccapacity          Statistics of the capacities of the generations and their corresponding spaces.
+gccause             Summary of garbage collection statistics (same as -gcutil), with the cause of the last and current (if applicable) garbage collection events.
+gcnew               Statistics of the behavior of the new generation.
+gcnewcapacity       Statistics of the sizes of the new generations and its corresponding spaces.
+gcold               Statistics of the behavior of the old and permanent generations.
+gcoldcapacity       Statistics of the sizes of the old generation.
+gcpermcapacity      Statistics of the sizes of the permanent generation.
+gcutil              Summary of garbage collection statistics.
+printcompilation    HotSpot compilation method statistics.
+</code></pre>
+
+<pre><code>-h n
+Display a column header every n samples (output rows), where n is a positive integer. Default value is 0, which displays the column header above the first row of data.
+
+-t
+Display a timestamp column as the first column of output. The timestamp is the time since the start time of the target JVM.
+
+-JjavaOption
+Pass javaOption to the java application launcher. For example, -J-Xms48m sets the startup memory to 48 megabytes. For a complete list of options, see java - the Java application launcher
+</code></pre>
+
+<p>例子：<code>jstat -gcoldcapacity -t 21891 250 3</code></p>
+
+<p>参考：</p>
+
+<p><a href="http://docs.oracle.com/javase/7/docs/technotes/tools/share/jstat.html">jstat - Java Virtual Machine Statistics Monitoring Tool</a></p>
 
     <hr>
     <div class="pagination">
       <ul>
         <ul>
           
-            <li class="prev"><a href="/2015/02/12/sequel-pro-shortcuts.html" title="sequel pro 快捷键">&larr; Previous</a></li>
+            <li class="prev"><a href="/2015/07/16/jvm-tool-hprof.html" title="jvm工具-hprof">&larr; Previous</a></li>
           
           
 
             <li><a href="/archive">Archive</a></li>
 
           
-            <li class="next"><a href="/2015/01/06/note-java-tips-1.html" title="java小贴士-1">Next &rarr;</a></li>
+            <li class="next"><a href="/2015/07/11/garmin-reset.html" title="【摘抄】garmin-重置">Next &rarr;</a></li>
           
           
         </ul>
@@ -129,7 +160,7 @@
   
   <div class="span4">
     <h4>Published</h4>
-    <div class="date"><span>2015-01-16</span></div>
+    <div class="date"><span>2015-07-16</span></div>
     <br>
     <h4>Categories</h4>
     <ul class="tag_box">

@@ -9,6 +9,21 @@
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
+		<loc>http://defworld.com/2015/07/16/jvm-tool-hprof.html</loc>
+		<lastmod>2015-07-16</lastmod>
+		<changefreq>weekly</changefreq>
+	</url>
+	<url>
+		<loc>http://defworld.com/2015/07/16/jvm-tool-jstat.html</loc>
+		<lastmod>2015-07-16</lastmod>
+		<changefreq>weekly</changefreq>
+	</url>
+	<url>
+		<loc>http://defworld.com/2015/07/11/garmin-reset.html</loc>
+		<lastmod>2015-07-11</lastmod>
+		<changefreq>weekly</changefreq>
+	</url>
+	<url>
 		<loc>http://defworld.com/2015/07/10/osx-createinstallmedia.html</loc>
 		<lastmod>2015-07-10</lastmod>
 		<changefreq>weekly</changefreq>
@@ -94,12 +109,12 @@
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/2014/09/19/node-js-async-i-o.html</loc>
+		<loc>http://defworld.com/2014/09/19/node-how-to-write-node-async-code.html</loc>
 		<lastmod>2014-09-19</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/2014/09/19/node-how-to-write-node-async-code.html</loc>
+		<loc>http://defworld.com/2014/09/19/node-js-async-i-o.html</loc>
 		<lastmod>2014-09-19</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
@@ -209,12 +224,12 @@
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/2013/06/30/pi-q-a.html</loc>
+		<loc>http://defworld.com/2013/06/30/ssh.html</loc>
 		<lastmod>2013-06-30</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/2013/06/30/ssh.html</loc>
+		<loc>http://defworld.com/2013/06/30/pi-q-a.html</loc>
 		<lastmod>2013-06-30</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
@@ -269,12 +284,12 @@
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/2013/05/18/auto-up-img-to-filikr-and-get-shareurl.html</loc>
+		<loc>http://defworld.com/2013/05/18/a-little-things-abount-java-language.html</loc>
 		<lastmod>2013-05-18</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc>http://defworld.com/2013/05/18/a-little-things-abount-java-language.html</loc>
+		<loc>http://defworld.com/2013/05/18/auto-up-img-to-filikr-and-get-shareurl.html</loc>
 		<lastmod>2013-05-18</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
