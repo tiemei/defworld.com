@@ -13,9 +13,7 @@ categories: 'osx'
 
 # 从老电脑将内容迁移过来
 
-<<<<<<< HEAD
 https://support.apple.com/en-us/HT204350  
-=======
 官网说的两台mac连在同一wifi上就能成功，试了没成功。后来找到一个方式：    
 
 1. 老mac创建一个network，并连上这个网络  
@@ -36,4 +34,3 @@ https://support.apple.com/en-us/HT204350
 参考：  
 [Move your content to a new Mac](https://support.apple.com/en-us/HT204350)  
 [use-migration-assistant-with-macbook-air-over-airport-wifi](http://marcushesse.com/2012/use-migration-assistant-with-macbook-air-over-airport-wifi/)    
->>>>>>> 98d4643bd95cbf846411e2339f24a4c4ec6ec42c

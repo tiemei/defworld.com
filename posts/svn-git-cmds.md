@@ -92,9 +92,7 @@ svn commit -m "comment" # 提交回滚，版本升级到29
 
 ### branche
 ![git branche](http://farm8.staticflickr.com/7384/9150086081_dfe8ef4bce.jpg)  
-<<<<<<< HEAD
 ![Git 分支 - 远程分支](https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF)  
-=======
 这里有一个多个分支创建于切换的典型例子，说的比较详细：https://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6    
 >>>>>>> 98d4643bd95cbf846411e2339f24a4c4ec6ec42c
 
