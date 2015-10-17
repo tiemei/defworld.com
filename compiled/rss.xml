@@ -3,7 +3,17 @@
   <channel>
     <title>顽固的卡夫卡</title>
     <link>http://defworld.com</link>
-    <pubDate>2015-08-26 09:41:41 +0800</pubDate>
+    <pubDate>2015-10-17 10:34:04 +0800</pubDate>
+    <item>
+      <title>shell shortcut</title>
+      <link>http://defworld.com/2015/10/17/shell-shortcut.html</link>
+      <pubDate>2015-10-17 12:00:00 +0800</pubDate>
+      <description>&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Ctrl+k&lt;/code&gt; 删除从光标所在位置到行末&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Alt+Backspace&lt;/code&gt; 向前删除一个单词&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     <item>
       <title>说说不可见字符</title>
       <link>http://defworld.com/2015/08/21/not-visible-char.html</link>
@@ -23,6 +33,10 @@ set list
 &lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;输出&#34; href=&#34;#输出&#34;&gt;&lt;/a&gt;输出&lt;/h2&gt;
 
 &lt;p&gt;&lt;code&gt;echo $&#39;\001\002&#39;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;echo &lt;code&gt;date &amp;quot;+%s&amp;quot;&lt;/code&gt;000$&amp;rsquo;\001&amp;rsquo;2$&amp;rsquo;\001&amp;rsquo;$&amp;rsquo;\001&amp;rsquo;$&amp;rsquo;\001&amp;rsquo;$&amp;rsquo;\001&amp;rsquo;&lt;/p&gt;
+
+&lt;p&gt;curl -vv -H &amp;lsquo;X-SHZ-AppId:2&amp;rsquo; -F &amp;ldquo;userid=1&amp;rdquo; -F &amp;ldquo;file=@/home/tiemei/log_file&amp;rdquo;  &amp;ldquo;http://localhost/shz/log/upload&amp;rdquo; &amp;ndash;trace-ascii /dev/stdout&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -71,6 +85,52 @@ count
 &lt;a href=&#34;http://blog.jobbole.com/71427/&#34;&gt;一站式学习Wireshark（四）：网络性能排查之TCP重传与重复ACK&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&#34;http://blog.jobbole.com/71925/&#34;&gt;一站式学习Wireshark（五）：TCP窗口与拥塞处理&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&#34;http://blog.jobbole.com/73477/&#34;&gt;一站式学习Wireshark（六）：狙击网络高延时点&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>jvm工具-jstat</title>
+      <link>http://defworld.com/2015/07/16/jvm-tool-jstat.html</link>
+      <pubDate>2015-07-16 12:00:00 +0800</pubDate>
+      <description>&lt;p&gt;&lt;code&gt;jstat [ generalOption | outputOptions vmid [interval[s|ms] [count]] ]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;generalOption只有两个选项，且使用时不能加其他参数及选项：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;-help Display help message
+-options Display list of statistics options. 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;outputOptions有多个选项，另外可以加上-h, -t, and -J，接在outputOptions后面:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Option              Displays...
+class               Statistics on the behavior of the class loader.
+compiler            Statistics of the behavior of the HotSpot Just-in-Time compiler.
+gc                  Statistics of the behavior of the garbage collected heap.
+gccapacity          Statistics of the capacities of the generations and their corresponding spaces.
+gccause             Summary of garbage collection statistics (same as -gcutil), with the cause of the last and current (if applicable) garbage collection events.
+gcnew               Statistics of the behavior of the new generation.
+gcnewcapacity       Statistics of the sizes of the new generations and its corresponding spaces.
+gcold               Statistics of the behavior of the old and permanent generations.
+gcoldcapacity       Statistics of the sizes of the old generation.
+gcpermcapacity      Statistics of the sizes of the permanent generation.
+gcutil              Summary of garbage collection statistics.
+printcompilation    HotSpot compilation method statistics.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;-h n
+Display a column header every n samples (output rows), where n is a positive integer. Default value is 0, which displays the column header above the first row of data.
+
+-t
+Display a timestamp column as the first column of output. The timestamp is the time since the start time of the target JVM.
+
+-JjavaOption
+Pass javaOption to the java application launcher. For example, -J-Xms48m sets the startup memory to 48 megabytes. For a complete list of options, see java - the Java application launcher
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;例子：&lt;code&gt;jstat -gcoldcapacity -t 21891 250 3&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;参考：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://docs.oracle.com/javase/7/docs/technotes/tools/share/jstat.html&#34;&gt;jstat - Java Virtual Machine Statistics Monitoring Tool&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -139,52 +199,6 @@ Warnings
 
 &lt;p&gt;参考:&lt;br /&gt;
 &lt;a href=&#34;http://docs.oracle.com/javase/7/docs/technotes/samples/hprof.html&#34;&gt;HPROF: A Heap/CPU Profiling Tool&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    <item>
-      <title>jvm工具-jstat</title>
-      <link>http://defworld.com/2015/07/16/jvm-tool-jstat.html</link>
-      <pubDate>2015-07-16 12:00:00 +0800</pubDate>
-      <description>&lt;p&gt;&lt;code&gt;jstat [ generalOption | outputOptions vmid [interval[s|ms] [count]] ]&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;generalOption只有两个选项，且使用时不能加其他参数及选项：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;-help Display help message
--options Display list of statistics options. 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;outputOptions有多个选项，另外可以加上-h, -t, and -J，接在outputOptions后面:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Option              Displays...
-class               Statistics on the behavior of the class loader.
-compiler            Statistics of the behavior of the HotSpot Just-in-Time compiler.
-gc                  Statistics of the behavior of the garbage collected heap.
-gccapacity          Statistics of the capacities of the generations and their corresponding spaces.
-gccause             Summary of garbage collection statistics (same as -gcutil), with the cause of the last and current (if applicable) garbage collection events.
-gcnew               Statistics of the behavior of the new generation.
-gcnewcapacity       Statistics of the sizes of the new generations and its corresponding spaces.
-gcold               Statistics of the behavior of the old and permanent generations.
-gcoldcapacity       Statistics of the sizes of the old generation.
-gcpermcapacity      Statistics of the sizes of the permanent generation.
-gcutil              Summary of garbage collection statistics.
-printcompilation    HotSpot compilation method statistics.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code&gt;-h n
-Display a column header every n samples (output rows), where n is a positive integer. Default value is 0, which displays the column header above the first row of data.
-
--t
-Display a timestamp column as the first column of output. The timestamp is the time since the start time of the target JVM.
-
--JjavaOption
-Pass javaOption to the java application launcher. For example, -J-Xms48m sets the startup memory to 48 megabytes. For a complete list of options, see java - the Java application launcher
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;例子：&lt;code&gt;jstat -gcoldcapacity -t 21891 250 3&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;参考：&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://docs.oracle.com/javase/7/docs/technotes/tools/share/jstat.html&#34;&gt;jstat - Java Virtual Machine Statistics Monitoring Tool&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -985,6 +999,38 @@ http.request.method == &amp;quot;GET&amp;quot; &amp;amp;&amp;amp; http.request.f
 </description>
     </item>
     <item>
+      <title>并发编程 - 锁</title>
+      <link>http://defworld.com/2014/12/18/concurrent-programming-lock.html</link>
+      <pubDate>2014-12-18 12:00:00 +0800</pubDate>
+      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;饥饿和公平&#34; href=&#34;#饥饿和公平&#34;&gt;&lt;/a&gt;饥饿和公平&lt;/h1&gt;
+
+&lt;p&gt;饥饿是说某个线程总是被其他线程抢走CPU运行时间，而公平指所有的线程都能公平的获得运行机会。&lt;br /&gt;
+如果是使用synchronized同步块，不能保证某个线程一定获得运行机会，所以需要使用锁。锁的实现里可以自己控制唤醒时的机会分配。理论上Java不能实现100%公平。&lt;/p&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;自旋锁&#34; href=&#34;#自旋锁&#34;&gt;&lt;/a&gt;自旋锁&lt;/h1&gt;
+
+&lt;p&gt;自旋锁是采用让当前线程不停地在循环体内执行实现的。&lt;/p&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;阻塞锁&#34; href=&#34;#阻塞锁&#34;&gt;&lt;/a&gt;阻塞锁&lt;/h1&gt;
+
+&lt;p&gt;阻塞锁，与自旋锁不同，改变了线程的运行状态。&lt;br /&gt;
+阻塞锁的优势在于，阻塞的线程不会占用cpu时间，不会导致。CPU占用率过高，但进入时间以及恢复时间都要比自旋锁略慢。在竞争激烈的情况下 阻塞锁的性能要明显高于 自旋锁。&lt;br /&gt;
+理想的情况则是; 在线程竞争不激烈的情况下，使用自旋锁，竞争激烈的情况下使用，阻塞锁。&lt;/p&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;可重入锁&#34; href=&#34;#可重入锁&#34;&gt;&lt;/a&gt;可重入锁&lt;/h1&gt;
+
+&lt;p&gt;可重入锁，也叫做递归锁，指的是同一线程外层函数获得锁之后，内层递归函数仍然有获取该锁的代码，等到其他线程unlock时，这个线程能够从这个锁里出来。&lt;/p&gt;
+
+&lt;p&gt;参考：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://ifeve.com/starvation-and-fairness/&#34;&gt;饥饿和公平&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/java_lock_see1/&#34;&gt;java锁的种类以及辨析（一）：自旋锁&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/java_lock_see2/&#34;&gt;Java锁的种类以及辨析（二）：自旋锁的其他种类&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/java_lock_see3/&#34;&gt;Java锁的种类以及辨析（三）：阻塞锁&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/java_lock_see4/&#34;&gt;Java锁的种类以及辨析（四）：可重入锁&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    <item>
       <title>笔记 - java annotation</title>
       <link>http://defworld.com/2014/12/18/java-annotation.html</link>
       <pubDate>2014-12-18 12:00:00 +0800</pubDate>
@@ -1072,38 +1118,6 @@ RUNTIME
 &lt;a href=&#34;http://tutorials.jenkov.com/java/annotations.html&#34;&gt;Java Annotations&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&#34;http://docs.oracle.com/javase/tutorial/java/annotations/&#34;&gt;Lesson: Annotations&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&#34;http://en.wikipedia.org/wiki/Java_annotation#Processing&#34;&gt;Java annotation wiki&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    <item>
-      <title>并发编程 - 锁</title>
-      <link>http://defworld.com/2014/12/18/concurrent-programming-lock.html</link>
-      <pubDate>2014-12-18 12:00:00 +0800</pubDate>
-      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;饥饿和公平&#34; href=&#34;#饥饿和公平&#34;&gt;&lt;/a&gt;饥饿和公平&lt;/h1&gt;
-
-&lt;p&gt;饥饿是说某个线程总是被其他线程抢走CPU运行时间，而公平指所有的线程都能公平的获得运行机会。&lt;br /&gt;
-如果是使用synchronized同步块，不能保证某个线程一定获得运行机会，所以需要使用锁。锁的实现里可以自己控制唤醒时的机会分配。理论上Java不能实现100%公平。&lt;/p&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;自旋锁&#34; href=&#34;#自旋锁&#34;&gt;&lt;/a&gt;自旋锁&lt;/h1&gt;
-
-&lt;p&gt;自旋锁是采用让当前线程不停地在循环体内执行实现的。&lt;/p&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;阻塞锁&#34; href=&#34;#阻塞锁&#34;&gt;&lt;/a&gt;阻塞锁&lt;/h1&gt;
-
-&lt;p&gt;阻塞锁，与自旋锁不同，改变了线程的运行状态。&lt;br /&gt;
-阻塞锁的优势在于，阻塞的线程不会占用cpu时间，不会导致。CPU占用率过高，但进入时间以及恢复时间都要比自旋锁略慢。在竞争激烈的情况下 阻塞锁的性能要明显高于 自旋锁。&lt;br /&gt;
-理想的情况则是; 在线程竞争不激烈的情况下，使用自旋锁，竞争激烈的情况下使用，阻塞锁。&lt;/p&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;可重入锁&#34; href=&#34;#可重入锁&#34;&gt;&lt;/a&gt;可重入锁&lt;/h1&gt;
-
-&lt;p&gt;可重入锁，也叫做递归锁，指的是同一线程外层函数获得锁之后，内层递归函数仍然有获取该锁的代码，等到其他线程unlock时，这个线程能够从这个锁里出来。&lt;/p&gt;
-
-&lt;p&gt;参考：&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://ifeve.com/starvation-and-fairness/&#34;&gt;饥饿和公平&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/java_lock_see1/&#34;&gt;java锁的种类以及辨析（一）：自旋锁&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/java_lock_see2/&#34;&gt;Java锁的种类以及辨析（二）：自旋锁的其他种类&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/java_lock_see3/&#34;&gt;Java锁的种类以及辨析（三）：阻塞锁&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/java_lock_see4/&#34;&gt;Java锁的种类以及辨析（四）：可重入锁&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -1683,6 +1697,53 @@ var select = function (callback) {
 </description>
     </item>
     <item>
+      <title>Node的异步代码怎么写</title>
+      <link>http://defworld.com/2014/09/19/node-how-to-write-node-async-code.html</link>
+      <pubDate>2014-09-19 12:00:00 +0800</pubDate>
+      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;函数式编程&#34; href=&#34;#函数式编程&#34;&gt;&lt;/a&gt;函数式编程&lt;/h1&gt;
+
+&lt;p&gt;函数作为js中的一等公民，可以作为参数或返回值传递，此谓高阶函数。偏函数也是基于此，返回一个函数，但是这个返回的函数一部分已经预置了，举个例子：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;// 一个调用多次才会执行的函数
+_.after = function(times, func) {
+    if (times &amp;lt;= 0)return func();
+    return function() {
+        if (--times &amp;lt; 1) {
+            return func.apply(this, arguments);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;异步编程难点&#34; href=&#34;#异步编程难点&#34;&gt;&lt;/a&gt;异步编程难点&lt;/h1&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;异常处理&#34; href=&#34;#异常处理&#34;&gt;&lt;/a&gt;异常处理&lt;/h2&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;函数嵌套过深&#34; href=&#34;#函数嵌套过深&#34;&gt;&lt;/a&gt;函数嵌套过深&lt;/h2&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;阻塞代码&#34; href=&#34;#阻塞代码&#34;&gt;&lt;/a&gt;阻塞代码&lt;/h2&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;多线程编程&#34; href=&#34;#多线程编程&#34;&gt;&lt;/a&gt;多线程编程&lt;/h2&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;异步编程解决方案&#34; href=&#34;#异步编程解决方案&#34;&gt;&lt;/a&gt;异步编程解决方案&lt;/h1&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;事件发布订阅模式&#34; href=&#34;#事件发布订阅模式&#34;&gt;&lt;/a&gt;事件发布订阅模式&lt;/h2&gt;
+
+&lt;p&gt;Node自身提供的events模块。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;// 订阅
+emitter.on(&amp;quot;event1&amp;quot;, function (message) {
+    console.log(message);
+});
+
+// 发布
+emitter.emit(&#39;event1&#39;, &amp;quot;I am message!&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;将事件与具体的处理逻辑解耦，一个时间与多个回调函数关联。从某种角度来说事件的设计就是组件的接口设计。&lt;/p&gt;
+</description>
+    </item>
+    <item>
       <title>聊聊Node.js的异步I/O</title>
       <link>http://defworld.com/2014/09/19/node-js-async-i-o.html</link>
       <pubDate>2014-09-19 12:00:00 +0800</pubDate>
@@ -1781,53 +1842,6 @@ Node提供的几个异步调用都是绑定在这些观察者身上的：&lt;/p&
 &lt;p&gt;《Unix Network Programming Vol1 1002003, 3Ed 6.2 I/O Models》http://english.tebyan.net/newindex.aspx?pid=31159&amp;amp;BookID=23760&amp;amp;PageIndex=92&amp;amp;Language=3&lt;br /&gt;
 《怎样理解阻塞非阻塞与同步异步的区别？》http://www.zhihu.com/question/19732473&lt;br /&gt;
 《深入浅出Node.js》作者：朴灵&lt;/p&gt;
-</description>
-    </item>
-    <item>
-      <title>Node的异步代码怎么写</title>
-      <link>http://defworld.com/2014/09/19/node-how-to-write-node-async-code.html</link>
-      <pubDate>2014-09-19 12:00:00 +0800</pubDate>
-      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;函数式编程&#34; href=&#34;#函数式编程&#34;&gt;&lt;/a&gt;函数式编程&lt;/h1&gt;
-
-&lt;p&gt;函数作为js中的一等公民，可以作为参数或返回值传递，此谓高阶函数。偏函数也是基于此，返回一个函数，但是这个返回的函数一部分已经预置了，举个例子：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;// 一个调用多次才会执行的函数
-_.after = function(times, func) {
-    if (times &amp;lt;= 0)return func();
-    return function() {
-        if (--times &amp;lt; 1) {
-            return func.apply(this, arguments);
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;异步编程难点&#34; href=&#34;#异步编程难点&#34;&gt;&lt;/a&gt;异步编程难点&lt;/h1&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;异常处理&#34; href=&#34;#异常处理&#34;&gt;&lt;/a&gt;异常处理&lt;/h2&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;函数嵌套过深&#34; href=&#34;#函数嵌套过深&#34;&gt;&lt;/a&gt;函数嵌套过深&lt;/h2&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;阻塞代码&#34; href=&#34;#阻塞代码&#34;&gt;&lt;/a&gt;阻塞代码&lt;/h2&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;多线程编程&#34; href=&#34;#多线程编程&#34;&gt;&lt;/a&gt;多线程编程&lt;/h2&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;异步编程解决方案&#34; href=&#34;#异步编程解决方案&#34;&gt;&lt;/a&gt;异步编程解决方案&lt;/h1&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;事件发布订阅模式&#34; href=&#34;#事件发布订阅模式&#34;&gt;&lt;/a&gt;事件发布订阅模式&lt;/h2&gt;
-
-&lt;p&gt;Node自身提供的events模块。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;// 订阅
-emitter.on(&amp;quot;event1&amp;quot;, function (message) {
-    console.log(message);
-});
-
-// 发布
-emitter.emit(&#39;event1&#39;, &amp;quot;I am message!&amp;quot;);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;将事件与具体的处理逻辑解耦，一个时间与多个回调函数关联。从某种角度来说事件的设计就是组件的接口设计。&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -2100,38 +2114,6 @@ if (maybeComputer.isPresent()) { // 这里只有present/absent两种状态，pre
 </description>
     </item>
     <item>
-      <title>压力测试 - 关注那些点</title>
-      <link>http://defworld.com/2014/08/08/load-test-3.html</link>
-      <pubDate>2014-08-08 12:00:00 +0800</pubDate>
-      <description>&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;jvm&#34; href=&#34;#jvm&#34;&gt;&lt;/a&gt;jvm&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code&gt;a. 启动参数
-b. gc
-c. 关闭即时编译
-d. 启动加载问题
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;nginx&#34; href=&#34;#nginx&#34;&gt;&lt;/a&gt;nginx&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;磁盘I/O是阻塞的&lt;/li&gt;
-&lt;li&gt;CPU Affinity&lt;/li&gt;
-&lt;li&gt;Keep Alive&lt;/li&gt;
-&lt;li&gt;tcp_nodelay and tcp_nopush&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;系统层面&#34; href=&#34;#系统层面&#34;&gt;&lt;/a&gt;系统层面&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;cpu&lt;/li&gt;
-&lt;li&gt;mem&lt;/li&gt;
-&lt;li&gt;I/O&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;java代码层面&#34; href=&#34;#java代码层面&#34;&gt;&lt;/a&gt;java代码层面&lt;/h2&gt;
-</description>
-    </item>
-    <item>
       <title>压力测试小结 - 工具</title>
       <link>http://defworld.com/2014/08/08/load-test-1.html</link>
       <pubDate>2014-08-08 12:00:00 +0800</pubDate>
@@ -2324,6 +2306,38 @@ lsof -i[46] [protocol][@hostname|hostaddr][:service|port]
 《如何统计lua每个函数的执行时间占比》https://groups.google.com/forum/#!topic/openresty/bOwgPymXQzg&lt;br /&gt;
 《春哥的nginx systemtap工具集》https://github.com/openresty/nginx-systemtap-toolkit#sample-bt&lt;br /&gt;
 《ata systemtap资源》http://www.atatech.org/search?q=systemtap&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>压力测试 - 关注那些点</title>
+      <link>http://defworld.com/2014/08/08/load-test-3.html</link>
+      <pubDate>2014-08-08 12:00:00 +0800</pubDate>
+      <description>&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;jvm&#34; href=&#34;#jvm&#34;&gt;&lt;/a&gt;jvm&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;a. 启动参数
+b. gc
+c. 关闭即时编译
+d. 启动加载问题
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;nginx&#34; href=&#34;#nginx&#34;&gt;&lt;/a&gt;nginx&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;磁盘I/O是阻塞的&lt;/li&gt;
+&lt;li&gt;CPU Affinity&lt;/li&gt;
+&lt;li&gt;Keep Alive&lt;/li&gt;
+&lt;li&gt;tcp_nodelay and tcp_nopush&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;系统层面&#34; href=&#34;#系统层面&#34;&gt;&lt;/a&gt;系统层面&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;cpu&lt;/li&gt;
+&lt;li&gt;mem&lt;/li&gt;
+&lt;li&gt;I/O&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;java代码层面&#34; href=&#34;#java代码层面&#34;&gt;&lt;/a&gt;java代码层面&lt;/h2&gt;
 </description>
     </item>
     <item>

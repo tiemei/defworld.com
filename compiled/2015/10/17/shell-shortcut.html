@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>js入门笔记（三）</title>
+    <title>shell shortcut</title>
   
     <meta name="author" content="tiemei">
 
@@ -76,71 +76,29 @@
 
       <div class="content">
         <div class="page-header">
-  <h1>js入门笔记（三） </h1>
+  <h1>shell shortcut </h1>
 </div>
 
 <div class="row">
   <div class="span8">
-    <h2><a style="display: block;" name="利用`__definegetter__``__definesetter__`定义get/set方法，并且注意下js没有块作用域的问题" href="#利用`__definegetter__``__definesetter__`定义get/set方法，并且注意下js没有块作用域的问题"></a>利用<code>__defineGetter__</code><code>__defineSetter__</code>定义get/set方法，并且注意下js没有块作用域的问题</h2>
-
-<pre><code class="js">// 错误的写法
-var Record = function(data) {
-  this.fieldValues = {}
-  this._data = data;
-  var record = this;
-  for(var key in data) {
-    record.__defineGetter__(key, function() {
-      return record._data[key];
-    });
-    record.__defineSetter__(key, function(val) {
-      record.fieldValues[key] = val; // 因为key是全局变量，对data对象遍历时，最终key为prop2
-    });
-  }
-}
-
-var myRecord = new Record({prop1: 'prop1test', prop2: 'prop2test'});
-
-myRecord.prop1 = 'newvalue';
-
-console.log(myRecord.fieldValues.prop1); // undefined
-console.log(myRecord.fieldValues.prop2); // 'newvalue'
-
-// 正确的写法
-var Record = function(data) {
-    var key;
-    this.fieldValues = {}
-    this._data = data;
-    for(key in data) {
-        //closure maintains state of &quot;key&quot; variable
-        //without being overwritten each iteration
-        (function (record, key) { // 把key变成局部对象，函数内部的使用将不会随着外部key变量的指向而改变
-            record.__defineGetter__(key, function() {
-                return record._data[key];
-            });
-            record.__defineSetter__(key, function(val) {
-                record.fieldValues[key] = val;
-            });
-        }(this, key));
-    }
-}
-</code></pre>
-
-<p>参考:<br />
-<a href="http://stackoverflow.com/questions/10453725/weird-behavior-with-javascript-getter-setters">Weird behavior with Javascript getter/setters</a></p>
+    <ul>
+<li><code>Ctrl+k</code> 删除从光标所在位置到行末</li>
+<li><code>Alt+Backspace</code> 向前删除一个单词</li>
+</ul>
 
     <hr>
     <div class="pagination">
       <ul>
         <ul>
           
-            <li class="prev"><a href="/2014/08/08/load-test-3.html" title="压力测试 - 关注那些点">&larr; Previous</a></li>
           
+            <li class="prev disabled"><a>&larr; Previous</a></li>
           
 
             <li><a href="/archive">Archive</a></li>
 
           
-            <li class="next"><a href="/2014/06/13/notes-js-2-object.html" title="js入门笔记（二）——面向对象">Next &rarr;</a></li>
+            <li class="next"><a href="/2015/08/21/not-visible-char.html" title="说说不可见字符">Next &rarr;</a></li>
           
           
         </ul>
@@ -166,13 +124,13 @@ var Record = function(data) {
   
   <div class="span4">
     <h4>Published</h4>
-    <div class="date"><span>2014-06-15</span></div>
+    <div class="date"><span>2015-10-17</span></div>
     <br>
     <h4>Categories</h4>
     <ul class="tag_box">
     
       <li>
-  <a href="/categories/#Node.js-ref">Node.js <span>10</span></a>
+  <a href="/categories/#linux-ref">linux <span>7</span></a>
 </li>
     
     </ul>

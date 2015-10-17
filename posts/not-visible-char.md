@@ -24,3 +24,9 @@ set list
 `echo $'\001\002'`  
 
 
+
+
+echo `date "+%s"`000$'\001'2$'\001'$'\001'$'\001'$'\001'
+
+
+curl -vv -H 'X-SHZ-AppId:2' -F "userid=1" -F "file=@/home/tiemei/log_file"  "http://localhost/shz/log/upload" --trace-ascii /dev/stdout
