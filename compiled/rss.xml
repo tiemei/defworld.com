@@ -3,7 +3,24 @@
   <channel>
     <title>顽固的卡夫卡</title>
     <link>http://defworld.com</link>
-    <pubDate>2015-10-17 10:34:04 +0800</pubDate>
+    <pubDate>2015-11-03 10:38:51 +0800</pubDate>
+    <item>
+      <title>压力测试-如何找出CPU消耗高的JAVA线程</title>
+      <link>http://defworld.com/2015/11/03/load-test-java-thread-cpu.html</link>
+      <pubDate>2015-11-03 12:00:00 +0800</pubDate>
+      <description>&lt;ol&gt;
+&lt;li&gt;找出Java中资源消耗最大的线程id &lt;code&gt;top -H -p &amp;lt;java_pid&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;jstack打印出当前栈信息，找出对应的的线程（注意将十六进制nid转换成十进制）;也可以看这个线程的系统调用情况&lt;code&gt;sudo strace -T -c -p &amp;lt;java_thread_id&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;看这个线程在干啥&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    <item>
+      <title>压力测试-jvm启动时负载较高问题</title>
+      <link>http://defworld.com/2015/11/03/load-test-jvm-start-cpu.html</link>
+      <pubDate>2015-11-03 12:00:00 +0800</pubDate>
+      <description></description>
+    </item>
     <item>
       <title>shell shortcut</title>
       <link>http://defworld.com/2015/10/17/shell-shortcut.html</link>
@@ -275,29 +292,6 @@ DO IT AT YOUR OWN RISK.. THER IS ALWAYS SOMETHING THAT MIGHT GO WRONG!&lt;/p&gt;
 </description>
     </item>
     <item>
-      <title>JVM——JMM，java内存模型</title>
-      <link>http://defworld.com/2015/07/08/jvm-jmm.html</link>
-      <pubDate>2015-07-08 12:00:00 +0800</pubDate>
-      <description>&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;简介jmm与硬件内存架构的关系&#34; href=&#34;#简介jmm与硬件内存架构的关系&#34;&gt;&lt;/a&gt;简介JMM与硬件内存架构的关系&lt;/h2&gt;
-
-&lt;p&gt;java虚拟机包含一个完整的计算机模型，java内存模型跟硬件内存架构之间的关系是：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://farm1.staticflickr.com/328/19329026068_2c37a4027e.jpg&#34; alt=&#34;jmm-cpu&#34; /&gt;
-&lt;/p&gt;
-
-&lt;p&gt;stack、heap有可能出现在寄存器、cpu缓存层、主内存中，也因此可能出现可见性（某个线程对一个对象的修改，不被另一个线程看见）、race conditions（竞争状态，修改同一个对象时可能会出现问题）。&lt;/p&gt;
-
-&lt;p&gt;参考：&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://ifeve.com/java-memory-model-6/&#34;&gt;Java内存模型&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/java-memory-model-0/&#34;&gt;深入理解java内存模型系列文章&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/jmm-faq/&#34;&gt;Java内存模型FAQ&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/syn-jmm/&#34;&gt;同步和Java内存模型&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://it.deepinmind.com/jvm/2015/02/13/jvm-having-access-to-less-memory-than-xmx.html&#34;&gt;遗失的java堆内存&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://coderbee.net/index.php/java/20140811/979&#34;&gt;java对象内存布局&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    <item>
       <title>jvm——gc</title>
       <link>http://defworld.com/2015/07/08/jvm-gc.html</link>
       <pubDate>2015-07-08 12:00:00 +0800</pubDate>
@@ -344,14 +338,7 @@ Permanent Generation&lt;/p&gt;
 
 &lt;p&gt;gc种类&lt;br /&gt;
 Young GC (Minor GC/ygc)&lt;br /&gt;
-&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt; HEAD
-Full GC (Major GC/fgc)&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h1&gt;大部分对象在Eden区生成，ygc将Eden区可达对象复制到survivor0，并清空Eden区。当survivor0满了，ygc时将Eden区、survivor0区可达对象复制到&lt;/h1&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Full GC (Major GC/fgc)  ，CMS gc跟full gc不同，full gc会使用并行收集器，整个过程stop the world，收集年轻代、年老代、永生代所有空间。所以应当避免full gc。&lt;/p&gt;
+Full GC (Major GC/fgc)  ，CMS gc跟full gc不同，full gc会使用并行收集器，整个过程stop the world，收集年轻代、年老代、永生代所有空间。所以应当避免full gc。&lt;/p&gt;
 
 &lt;p&gt;Major GCis cleaning the Old G
 Full GCis cleaning the entire Heap – both Young and Old spaces.&lt;/p&gt;
@@ -364,38 +351,7 @@ Full GCis cleaning the entire Heap – both Young and Old spaces.&lt;/p&gt;
 
 &lt;p&gt;新生代存在的唯一理由是优化垃圾回收(GC)的性能。更具体说，把堆划分为新生代和老年代有2个好处：简化了新对象的分配(只在新生代分配内存),可以更有效的清除不再需要的对象(即死对象)(新生代和老年代使用不同的GC算法)。&lt;/p&gt;
 
-&lt;p&gt;现在应该能理解为什么新生代大小非常重要了(译者,有另外一种说法：新生代大小并不重要，影响GC的因素主要是幸存对象的数量)，如果新生代过小，会导致新生对象很快就晋升到老年代中，在老年代中对象很难被回收。如果新生代过大，会发生过多的复制过程。我们需要找到一个合适大小。&lt;br /&gt;
-&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt; 98d4643bd95cbf846411e2339f24a4c4ec6ec42c&lt;/p&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;几种常见垃圾收集器&#34; href=&#34;#几种常见垃圾收集器&#34;&gt;&lt;/a&gt;几种常见垃圾收集器&lt;/h2&gt;
-
-&lt;p&gt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt; HEAD&lt;/p&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;gc日志实例分析&#34; href=&#34;#gc日志实例分析&#34;&gt;&lt;/a&gt;gc日志实例分析&lt;/h2&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;待解决问题&#34; href=&#34;#待解决问题&#34;&gt;&lt;/a&gt;待解决问题&lt;/h2&gt;
-
-&lt;ol&gt;
-&lt;li&gt;新生代触发young gc的条件？&lt;/li&gt;
-&lt;li&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;主要参考：&lt;br /&gt;
-&lt;a href=&#34;http://www.cnblogs.com/sunniest/p/4575144.html&#34;&gt;深入理解java垃圾回收机制&lt;/a&gt;&lt;br /&gt;
-[]()&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://www.searchtb.com/2013/07/jvm-gc-introduction-examples.html&#34;&gt;淘宝搜索-JVM GC简介和实例&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;https://blogs.oracle.com/poonam/entry/understanding_cms_gc_logs&#34;&gt;https://blogs.oracle.com/poonam/entry/understanding_cms_gc_logs&lt;/a&gt;
-&lt;a href=&#34;https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/cms.html&#34;&gt;https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/cms.html&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://coderbee.net/index.php/jvm/20131216/646&#34;&gt;gc日志分析&lt;/a&gt;&lt;/p&gt;
-
-&lt;h1&gt;&lt;a href=&#34;http://ifeve.com/useful-jvm-flags-part-8-gc-logging/&#34;&gt;JVM实用参数（八）GC日志&lt;/a&gt;&lt;/h1&gt;
-
-&lt;p&gt;年轻代、年老代的垃圾收集器如下：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://farm1.staticflickr.com/497/19518252208_ef711304e9.jpg&#34; alt=&#34;垃圾收集器&#34; /&gt;
-&lt;/p&gt;
+&lt;p&gt;现在应该能理解为什么新生代大小非常重要了(译者,有另外一种说法：新生代大小并不重要，影响GC的因素主要是幸存对象的数量)，如果新生代过小，会导致新生对象很快就晋升到老年代中，在老年代中对象很难被回收。如果新生代过大，会发生过多的复制过程。我们需要找到一个合适大小。&lt;/p&gt;
 
 &lt;p&gt;各种gc评价评价标准有两个：&lt;/p&gt;
 
@@ -721,44 +677,41 @@ GC locker: Trying a full collection because scavenge failed
 &lt;p&gt;其他未看：&lt;br /&gt;
 &lt;a href=&#34;http://coderbee.net/index.php/jvm/20131216/646&#34;&gt;gc日志分析&lt;/a&gt;
 &lt;a href=&#34;http://www.importnew.com/16223.html&#34;&gt;java垃圾回收调优实战&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://blog.hesey.net/2013/11/cms-gc-optimize.html&#34;&gt;一次CMS GC的调优工作&lt;/a&gt;&lt;br /&gt;
-&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt; 98d4643bd95cbf846411e2339f24a4c4ec6ec42c&lt;/p&gt;
+&lt;a href=&#34;http://blog.hesey.net/2013/11/cms-gc-optimize.html&#34;&gt;一次CMS GC的调优工作&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://it.deepinmind.com/gc/2014/09/12/garbage-collectors-serial-vs-parallel-vs-cms-vs-the-g1-and-whats-new-in-java-8.html&#34;&gt;不同的垃圾回收器的比较&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&#34;http://blog.hesey.net/2014/05/swap-impact-on-rt-sensitive-apps.html?utm_source=rss&amp;amp;utm_medium=rss&amp;amp;utm_campaign=swap-impact-on-rt-sensitive-apps&#34;&gt;Swap对响应时间敏感应用的影响&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&#34;http://it.deepinmind.com/gc/2015/03/03/minor-gc-vs-major-gc-vs-full-gc.html&#34;&gt;full gc是否真的存在&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://www.searchtb.com/2013/07/jvm-gc-introduction-examples.html&#34;&gt;JVM的GC简介和实例&lt;/a&gt;&lt;br /&gt;
-&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt; HEAD
-&lt;a href=&#34;http://blog.hesey.net/2013/11/cms-gc-optimize.html&#34;&gt;一次CMS GC的调优工作&lt;/a&gt;
-&lt;a href=&#34;http://blog.csdn.net/iter_zc/article/details/41825395&#34;&gt;聊聊JVM（四）深入理解Major GC, Full GC, CMS&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/jvm-troubleshooting-guide-4/&#34;&gt;《JVM故障诊断指南》之4 —— Java 8:从持久代到metaspace&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/useful-jvm-flags-part-8-gc-logging/&#34;&gt;JVM实用参数（八）GC日志&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;系列文章：&lt;/p&gt;
-
-&lt;h1&gt;&lt;a href=&#34;http://it.deepinmind.com/categories.html#GC-ref&#34;&gt;http://it.deepinmind.com/categories.html#GC-ref&lt;/a&gt;&lt;/h1&gt;
+&lt;a href=&#34;http://www.searchtb.com/2013/07/jvm-gc-introduction-examples.html&#34;&gt;JVM的GC简介和实例&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://blog.csdn.net/iter_zc/article/details/41825395&#34;&gt;聊聊JVM（四）深入理解Major GC, Full GC, CMS&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&#34;http://ifeve.com/jvm-troubleshooting-guide-4/&#34;&gt;《JVM故障诊断指南》之4 —— Java 8:从持久代到metaspace&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;系列文章：&lt;br /&gt;
 &lt;a href=&#34;http://it.deepinmind.com/categories.html#GC-ref&#34;&gt;http://it.deepinmind.com/categories.html#GC-ref&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>JVM——JMM，java内存模型</title>
+      <link>http://defworld.com/2015/07/08/jvm-jmm.html</link>
+      <pubDate>2015-07-08 12:00:00 +0800</pubDate>
+      <description>&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;简介jmm与硬件内存架构的关系&#34; href=&#34;#简介jmm与硬件内存架构的关系&#34;&gt;&lt;/a&gt;简介JMM与硬件内存架构的关系&lt;/h2&gt;
 
-&lt;blockquote&gt;
-&lt;blockquote&gt;
-&lt;blockquote&gt;
-&lt;blockquote&gt;
-&lt;blockquote&gt;
-&lt;blockquote&gt;
-&lt;blockquote&gt;
-&lt;p&gt;98d4643bd95cbf846411e2339f24a4c4ec6ec42c&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;/blockquote&gt;
-&lt;/blockquote&gt;
-&lt;/blockquote&gt;
-&lt;/blockquote&gt;
-&lt;/blockquote&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;java虚拟机包含一个完整的计算机模型，java内存模型跟硬件内存架构之间的关系是：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://farm1.staticflickr.com/328/19329026068_2c37a4027e.jpg&#34; alt=&#34;jmm-cpu&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;stack、heap有可能出现在寄存器、cpu缓存层、主内存中，也因此可能出现可见性（某个线程对一个对象的修改，不被另一个线程看见）、race conditions（竞争状态，修改同一个对象时可能会出现问题）。&lt;/p&gt;
+
+&lt;p&gt;参考：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://ifeve.com/java-memory-model-6/&#34;&gt;Java内存模型&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/java-memory-model-0/&#34;&gt;深入理解java内存模型系列文章&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/jmm-faq/&#34;&gt;Java内存模型FAQ&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/syn-jmm/&#34;&gt;同步和Java内存模型&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://it.deepinmind.com/jvm/2015/02/13/jvm-having-access-to-less-memory-than-xmx.html&#34;&gt;遗失的java堆内存&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://coderbee.net/index.php/java/20140811/979&#34;&gt;java对象内存布局&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -2114,6 +2067,38 @@ if (maybeComputer.isPresent()) { // 这里只有present/absent两种状态，pre
 </description>
     </item>
     <item>
+      <title>压力测试 - 关注那些点</title>
+      <link>http://defworld.com/2014/08/08/load-test-3.html</link>
+      <pubDate>2014-08-08 12:00:00 +0800</pubDate>
+      <description>&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;jvm&#34; href=&#34;#jvm&#34;&gt;&lt;/a&gt;jvm&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;a. 启动参数
+b. gc
+c. 关闭即时编译
+d. 启动加载问题
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;nginx&#34; href=&#34;#nginx&#34;&gt;&lt;/a&gt;nginx&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;磁盘I/O是阻塞的&lt;/li&gt;
+&lt;li&gt;CPU Affinity&lt;/li&gt;
+&lt;li&gt;Keep Alive&lt;/li&gt;
+&lt;li&gt;tcp_nodelay and tcp_nopush&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;系统层面&#34; href=&#34;#系统层面&#34;&gt;&lt;/a&gt;系统层面&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;cpu&lt;/li&gt;
+&lt;li&gt;mem&lt;/li&gt;
+&lt;li&gt;I/O&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;java代码层面&#34; href=&#34;#java代码层面&#34;&gt;&lt;/a&gt;java代码层面&lt;/h2&gt;
+</description>
+    </item>
+    <item>
       <title>压力测试小结 - 工具</title>
       <link>http://defworld.com/2014/08/08/load-test-1.html</link>
       <pubDate>2014-08-08 12:00:00 +0800</pubDate>
@@ -2306,38 +2291,6 @@ lsof -i[46] [protocol][@hostname|hostaddr][:service|port]
 《如何统计lua每个函数的执行时间占比》https://groups.google.com/forum/#!topic/openresty/bOwgPymXQzg&lt;br /&gt;
 《春哥的nginx systemtap工具集》https://github.com/openresty/nginx-systemtap-toolkit#sample-bt&lt;br /&gt;
 《ata systemtap资源》http://www.atatech.org/search?q=systemtap&lt;/p&gt;
-</description>
-    </item>
-    <item>
-      <title>压力测试 - 关注那些点</title>
-      <link>http://defworld.com/2014/08/08/load-test-3.html</link>
-      <pubDate>2014-08-08 12:00:00 +0800</pubDate>
-      <description>&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;jvm&#34; href=&#34;#jvm&#34;&gt;&lt;/a&gt;jvm&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code&gt;a. 启动参数
-b. gc
-c. 关闭即时编译
-d. 启动加载问题
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;nginx&#34; href=&#34;#nginx&#34;&gt;&lt;/a&gt;nginx&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;磁盘I/O是阻塞的&lt;/li&gt;
-&lt;li&gt;CPU Affinity&lt;/li&gt;
-&lt;li&gt;Keep Alive&lt;/li&gt;
-&lt;li&gt;tcp_nodelay and tcp_nopush&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;系统层面&#34; href=&#34;#系统层面&#34;&gt;&lt;/a&gt;系统层面&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;cpu&lt;/li&gt;
-&lt;li&gt;mem&lt;/li&gt;
-&lt;li&gt;I/O&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;java代码层面&#34; href=&#34;#java代码层面&#34;&gt;&lt;/a&gt;java代码层面&lt;/h2&gt;
 </description>
     </item>
     <item>
@@ -4005,62 +3958,6 @@ mvn clean deploy 只发布calss jar包
 </description>
     </item>
     <item>
-      <title>java锁笔记</title>
-      <link>http://defworld.com/2013/08/30/java-locks.html</link>
-      <pubDate>2013-08-30 12:00:00 +0800</pubDate>
-      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;线程通信&#34; href=&#34;#线程通信&#34;&gt;&lt;/a&gt;线程通信&lt;/h1&gt;
-
-&lt;p&gt;通信遇到的问题包括：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;共享对象：需要做同步处理&lt;/li&gt;
-&lt;li&gt;忙等待：循环等待另一个线程发来信号，可sleep&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;wait(),notify()&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;1. 遇到mobj.wait()，让线程进入非运行状态，直到另一个线程mobj.nitify
-2. 这几个方法必须在获得mobj锁的前提下调用，否则IllegalMonitorStateException
-3. 一个线程调用了wait()，即释放mobj上的锁
-4. 一旦一个线程被唤醒，不能立刻就退出wait()的方法调用，直到调用
-notify()的线程退出了它自己的同步块。因此，多个线程被notifyAll唤醒，只有一个
-线程可以最终退出wait()方法，因为必须获得mobj的锁
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;丢失的信号（Missed Signal）&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;线程A先调用了mobj.notify()，线程B后调用mobj.wait()，通知信号发送过了就被丢弃，
-线程B就可能永远不能醒来。
-这就需要一个额外的变量来保存‘是否被通知过’的信息。
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;假唤醒（spurious wakeups）&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;没有调用过notify()和notifyAll()的情况下醒来，原因未知
-需要加个自旋锁，即将wait()方法放到while循环中
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;不要在字符串常量或全局对象中调用wait()。mobj与信号常量不是一一对应。&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;mobj: 管程 (英语：Monitors，也称为监视器)&lt;/p&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;锁&#34; href=&#34;#锁&#34;&gt;&lt;/a&gt;锁&lt;/h1&gt;
-
-&lt;p&gt;锁由synchronized实现，有以下几个特性:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;同一时刻只能有一个线程穿过临界区，进入同步块&lt;/li&gt;
-&lt;li&gt;锁的可重入性：synchronized同步块可重入，相应也有可重入锁&lt;/li&gt;
-&lt;li&gt;锁的公平性：多个线程不断竞争访问相同的synchronized同步块，可能存在某个
-线程一直竞争不到。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;strong&gt;参考&lt;/strong&gt;:&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/locks/&#34;&gt;Java中的锁&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/thread-signaling/&#34;&gt;线程通信&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    <item>
       <title>jdk自带工具</title>
       <link>http://defworld.com/2013/08/30/jdk-tools.html</link>
       <pubDate>2013-08-30 12:00:00 +0800</pubDate>
@@ -4157,14 +4054,59 @@ runnable - 线程状态
 </description>
     </item>
     <item>
-      <title>玩Pi过程中Q&amp;A(持续更新)</title>
-      <link>http://defworld.com/2013/06/30/pi-q-a.html</link>
-      <pubDate>2013-06-30 12:00:00 +0800</pubDate>
-      <description>&lt;p&gt;自己玩Pi过程中遇到的问题，有些只是找到解决方案，原理并没有深究&lt;/p&gt;
+      <title>java锁笔记</title>
+      <link>http://defworld.com/2013/08/30/java-locks.html</link>
+      <pubDate>2013-08-30 12:00:00 +0800</pubDate>
+      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;线程通信&#34; href=&#34;#线程通信&#34;&gt;&lt;/a&gt;线程通信&lt;/h1&gt;
 
-&lt;h4&gt;执行apt-get install时，报404 Not Found&lt;/h4&gt;
+&lt;p&gt;通信遇到的问题包括：&lt;/p&gt;
 
-&lt;p&gt;执行&lt;code&gt;sugo apt-get update&lt;/code&gt;解决&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;共享对象：需要做同步处理&lt;/li&gt;
+&lt;li&gt;忙等待：循环等待另一个线程发来信号，可sleep&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;wait(),notify()&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1. 遇到mobj.wait()，让线程进入非运行状态，直到另一个线程mobj.nitify
+2. 这几个方法必须在获得mobj锁的前提下调用，否则IllegalMonitorStateException
+3. 一个线程调用了wait()，即释放mobj上的锁
+4. 一旦一个线程被唤醒，不能立刻就退出wait()的方法调用，直到调用
+notify()的线程退出了它自己的同步块。因此，多个线程被notifyAll唤醒，只有一个
+线程可以最终退出wait()方法，因为必须获得mobj的锁
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;丢失的信号（Missed Signal）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;线程A先调用了mobj.notify()，线程B后调用mobj.wait()，通知信号发送过了就被丢弃，
+线程B就可能永远不能醒来。
+这就需要一个额外的变量来保存‘是否被通知过’的信息。
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;假唤醒（spurious wakeups）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;没有调用过notify()和notifyAll()的情况下醒来，原因未知
+需要加个自旋锁，即将wait()方法放到while循环中
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;不要在字符串常量或全局对象中调用wait()。mobj与信号常量不是一一对应。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;mobj: 管程 (英语：Monitors，也称为监视器)&lt;/p&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;锁&#34; href=&#34;#锁&#34;&gt;&lt;/a&gt;锁&lt;/h1&gt;
+
+&lt;p&gt;锁由synchronized实现，有以下几个特性:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;同一时刻只能有一个线程穿过临界区，进入同步块&lt;/li&gt;
+&lt;li&gt;锁的可重入性：synchronized同步块可重入，相应也有可重入锁&lt;/li&gt;
+&lt;li&gt;锁的公平性：多个线程不断竞争访问相同的synchronized同步块，可能存在某个
+线程一直竞争不到。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;参考&lt;/strong&gt;:&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/locks/&#34;&gt;Java中的锁&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/thread-signaling/&#34;&gt;线程通信&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -4219,6 +4161,17 @@ Host github
 
 &lt;p&gt;任何使用&lt;code&gt;pi@defworld.com&lt;/code&gt;的地方用&lt;code&gt;pi&lt;/code&gt;代替，例如&lt;code&gt;ssh pi@defworld.com&lt;/code&gt;用&lt;code&gt;ssh pi&lt;/code&gt;代替，
 会自动查找指定的密钥&lt;code&gt;id_rsa&lt;/code&gt;进行权限验证。于是，你可以单机保存多个密钥。&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>玩Pi过程中Q&amp;A(持续更新)</title>
+      <link>http://defworld.com/2013/06/30/pi-q-a.html</link>
+      <pubDate>2013-06-30 12:00:00 +0800</pubDate>
+      <description>&lt;p&gt;自己玩Pi过程中遇到的问题，有些只是找到解决方案，原理并没有深究&lt;/p&gt;
+
+&lt;h4&gt;执行apt-get install时，报404 Not Found&lt;/h4&gt;
+
+&lt;p&gt;执行&lt;code&gt;sugo apt-get update&lt;/code&gt;解决&lt;/p&gt;
 </description>
     </item>
     <item>

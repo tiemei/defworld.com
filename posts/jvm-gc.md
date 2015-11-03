@@ -44,11 +44,6 @@ java中可作为GC Root的对象有：
 
 > gc种类  
 > Young GC (Minor GC/ygc)  
-<<<<<<< HEAD
-> Full GC (Major GC/fgc)  
-
-大部分对象在Eden区生成，ygc将Eden区可达对象复制到survivor0，并清空Eden区。当survivor0满了，ygc时将Eden区、survivor0区可达对象复制到
-=======
 > Full GC (Major GC/fgc)  ，CMS gc跟full gc不同，full gc会使用并行收集器，整个过程stop the world，收集年轻代、年老代、永生代所有空间。所以应当避免full gc。  
 > 
 > Major GCis cleaning the Old G
@@ -62,34 +57,6 @@ Full GCis cleaning the entire Heap – both Young and Old spaces.
 新生代存在的唯一理由是优化垃圾回收(GC)的性能。更具体说，把堆划分为新生代和老年代有2个好处：简化了新对象的分配(只在新生代分配内存),可以更有效的清除不再需要的对象(即死对象)(新生代和老年代使用不同的GC算法)。
 
 现在应该能理解为什么新生代大小非常重要了(译者,有另外一种说法：新生代大小并不重要，影响GC的因素主要是幸存对象的数量)，如果新生代过小，会导致新生对象很快就晋升到老年代中，在老年代中对象很难被回收。如果新生代过大，会发生过多的复制过程。我们需要找到一个合适大小。  
->>>>>>> 98d4643bd95cbf846411e2339f24a4c4ec6ec42c
-
-
-## 几种常见垃圾收集器
-
-<<<<<<< HEAD
-## gc日志实例分析
-
-## 待解决问题
-
-1. 新生代触发young gc的条件？
-2. 
-
-主要参考：  
-[深入理解java垃圾回收机制](http://www.cnblogs.com/sunniest/p/4575144.html)  
-[]()  
-
-[淘宝搜索-JVM GC简介和实例](http://www.searchtb.com/2013/07/jvm-gc-introduction-examples.html)  
-https://blogs.oracle.com/poonam/entry/understanding_cms_gc_logs
-https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/cms.html
-
-
-[gc日志分析](http://coderbee.net/index.php/jvm/20131216/646) 
-[JVM实用参数（八）GC日志](http://ifeve.com/useful-jvm-flags-part-8-gc-logging/) 
-=======
-年轻代、年老代的垃圾收集器如下：  
-
-![垃圾收集器](https://farm1.staticflickr.com/497/19518252208_ef711304e9.jpg)  
 
 各种gc评价评价标准有两个：  
 
@@ -413,37 +380,20 @@ JVM参数：
 [GC Tuning](https://plumbr.eu/handbook/gc-tuning)  
 
 
-
 其他未看：  
 [gc日志分析](http://coderbee.net/index.php/jvm/20131216/646) 
 [java垃圾回收调优实战](http://www.importnew.com/16223.html)  
 [一次CMS GC的调优工作](http://blog.hesey.net/2013/11/cms-gc-optimize.html)  
->>>>>>> 98d4643bd95cbf846411e2339f24a4c4ec6ec42c
 
 [不同的垃圾回收器的比较](http://it.deepinmind.com/gc/2014/09/12/garbage-collectors-serial-vs-parallel-vs-cms-vs-the-g1-and-whats-new-in-java-8.html)  
 [Swap对响应时间敏感应用的影响](http://blog.hesey.net/2014/05/swap-impact-on-rt-sensitive-apps.html?utm_source=rss&utm_medium=rss&utm_campaign=swap-impact-on-rt-sensitive-apps)  
 [full gc是否真的存在](http://it.deepinmind.com/gc/2015/03/03/minor-gc-vs-major-gc-vs-full-gc.html)  
 [JVM的GC简介和实例](http://www.searchtb.com/2013/07/jvm-gc-introduction-examples.html)  
-<<<<<<< HEAD
-[一次CMS GC的调优工作](http://blog.hesey.net/2013/11/cms-gc-optimize.html) 
-[聊聊JVM（四）深入理解Major GC, Full GC, CMS](http://blog.csdn.net/iter_zc/article/details/41825395)   
-[《JVM故障诊断指南》之4 —— Java 8:从持久代到metaspace](http://ifeve.com/jvm-troubleshooting-guide-4/)  
-[JVM实用参数（八）GC日志](http://ifeve.com/useful-jvm-flags-part-8-gc-logging/) 
-
- 
-  
-
-
-系列文章：  
-http://it.deepinmind.com/categories.html#GC-ref
-=======
 
 [聊聊JVM（四）深入理解Major GC, Full GC, CMS](http://blog.csdn.net/iter_zc/article/details/41825395)   
 [《JVM故障诊断指南》之4 —— Java 8:从持久代到metaspace](http://ifeve.com/jvm-troubleshooting-guide-4/)  
 
 系列文章：  
 http://it.deepinmind.com/categories.html#GC-ref  
-  
->>>>>>> 98d4643bd95cbf846411e2339f24a4c4ec6ec42c
 
 

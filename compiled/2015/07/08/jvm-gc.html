@@ -124,14 +124,7 @@ Permanent Generation</p>
 
 <p>gc种类<br />
 Young GC (Minor GC/ygc)<br />
-&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-Full GC (Major GC/fgc)</p>
-</blockquote>
-
-<h1>大部分对象在Eden区生成，ygc将Eden区可达对象复制到survivor0，并清空Eden区。当survivor0满了，ygc时将Eden区、survivor0区可达对象复制到</h1>
-
-<blockquote>
-<p>Full GC (Major GC/fgc)  ，CMS gc跟full gc不同，full gc会使用并行收集器，整个过程stop the world，收集年轻代、年老代、永生代所有空间。所以应当避免full gc。</p>
+Full GC (Major GC/fgc)  ，CMS gc跟full gc不同，full gc会使用并行收集器，整个过程stop the world，收集年轻代、年老代、永生代所有空间。所以应当避免full gc。</p>
 
 <p>Major GCis cleaning the Old G
 Full GCis cleaning the entire Heap – both Young and Old spaces.</p>
@@ -144,38 +137,7 @@ Full GCis cleaning the entire Heap – both Young and Old spaces.</p>
 
 <p>新生代存在的唯一理由是优化垃圾回收(GC)的性能。更具体说，把堆划分为新生代和老年代有2个好处：简化了新对象的分配(只在新生代分配内存),可以更有效的清除不再需要的对象(即死对象)(新生代和老年代使用不同的GC算法)。</p>
 
-<p>现在应该能理解为什么新生代大小非常重要了(译者,有另外一种说法：新生代大小并不重要，影响GC的因素主要是幸存对象的数量)，如果新生代过小，会导致新生对象很快就晋升到老年代中，在老年代中对象很难被回收。如果新生代过大，会发生过多的复制过程。我们需要找到一个合适大小。<br />
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; 98d4643bd95cbf846411e2339f24a4c4ec6ec42c</p>
-
-<h2><a style="display: block;" name="几种常见垃圾收集器" href="#几种常见垃圾收集器"></a>几种常见垃圾收集器</h2>
-
-<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
-
-<h2><a style="display: block;" name="gc日志实例分析" href="#gc日志实例分析"></a>gc日志实例分析</h2>
-
-<h2><a style="display: block;" name="待解决问题" href="#待解决问题"></a>待解决问题</h2>
-
-<ol>
-<li>新生代触发young gc的条件？</li>
-<li></li>
-</ol>
-
-<p>主要参考：<br />
-<a href="http://www.cnblogs.com/sunniest/p/4575144.html">深入理解java垃圾回收机制</a><br />
-[]()</p>
-
-<p><a href="http://www.searchtb.com/2013/07/jvm-gc-introduction-examples.html">淘宝搜索-JVM GC简介和实例</a><br />
-<a href="https://blogs.oracle.com/poonam/entry/understanding_cms_gc_logs">https://blogs.oracle.com/poonam/entry/understanding_cms_gc_logs</a>
-<a href="https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/cms.html">https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/cms.html</a></p>
-
-<p><a href="http://coderbee.net/index.php/jvm/20131216/646">gc日志分析</a></p>
-
-<h1><a href="http://ifeve.com/useful-jvm-flags-part-8-gc-logging/">JVM实用参数（八）GC日志</a></h1>
-
-<p>年轻代、年老代的垃圾收集器如下：</p>
-
-<p><img src="https://farm1.staticflickr.com/497/19518252208_ef711304e9.jpg" alt="垃圾收集器" />
-</p>
+<p>现在应该能理解为什么新生代大小非常重要了(译者,有另外一种说法：新生代大小并不重要，影响GC的因素主要是幸存对象的数量)，如果新生代过小，会导致新生对象很快就晋升到老年代中，在老年代中对象很难被回收。如果新生代过大，会发生过多的复制过程。我们需要找到一个合适大小。</p>
 
 <p>各种gc评价评价标准有两个：</p>
 
@@ -501,22 +463,12 @@ GC locker: Trying a full collection because scavenge failed
 <p>其他未看：<br />
 <a href="http://coderbee.net/index.php/jvm/20131216/646">gc日志分析</a>
 <a href="http://www.importnew.com/16223.html">java垃圾回收调优实战</a><br />
-<a href="http://blog.hesey.net/2013/11/cms-gc-optimize.html">一次CMS GC的调优工作</a><br />
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; 98d4643bd95cbf846411e2339f24a4c4ec6ec42c</p>
+<a href="http://blog.hesey.net/2013/11/cms-gc-optimize.html">一次CMS GC的调优工作</a></p>
 
 <p><a href="http://it.deepinmind.com/gc/2014/09/12/garbage-collectors-serial-vs-parallel-vs-cms-vs-the-g1-and-whats-new-in-java-8.html">不同的垃圾回收器的比较</a><br />
 <a href="http://blog.hesey.net/2014/05/swap-impact-on-rt-sensitive-apps.html?utm_source=rss&amp;utm_medium=rss&amp;utm_campaign=swap-impact-on-rt-sensitive-apps">Swap对响应时间敏感应用的影响</a><br />
 <a href="http://it.deepinmind.com/gc/2015/03/03/minor-gc-vs-major-gc-vs-full-gc.html">full gc是否真的存在</a><br />
-<a href="http://www.searchtb.com/2013/07/jvm-gc-introduction-examples.html">JVM的GC简介和实例</a><br />
-&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-<a href="http://blog.hesey.net/2013/11/cms-gc-optimize.html">一次CMS GC的调优工作</a>
-<a href="http://blog.csdn.net/iter_zc/article/details/41825395">聊聊JVM（四）深入理解Major GC, Full GC, CMS</a><br />
-<a href="http://ifeve.com/jvm-troubleshooting-guide-4/">《JVM故障诊断指南》之4 —— Java 8:从持久代到metaspace</a><br />
-<a href="http://ifeve.com/useful-jvm-flags-part-8-gc-logging/">JVM实用参数（八）GC日志</a></p>
-
-<p>系列文章：</p>
-
-<h1><a href="http://it.deepinmind.com/categories.html#GC-ref">http://it.deepinmind.com/categories.html#GC-ref</a></h1>
+<a href="http://www.searchtb.com/2013/07/jvm-gc-introduction-examples.html">JVM的GC简介和实例</a></p>
 
 <p><a href="http://blog.csdn.net/iter_zc/article/details/41825395">聊聊JVM（四）深入理解Major GC, Full GC, CMS</a><br />
 <a href="http://ifeve.com/jvm-troubleshooting-guide-4/">《JVM故障诊断指南》之4 —— Java 8:从持久代到metaspace</a></p>
@@ -524,35 +476,19 @@ GC locker: Trying a full collection because scavenge failed
 <p>系列文章：<br />
 <a href="http://it.deepinmind.com/categories.html#GC-ref">http://it.deepinmind.com/categories.html#GC-ref</a></p>
 
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>98d4643bd95cbf846411e2339f24a4c4ec6ec42c</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-
     <hr>
     <div class="pagination">
       <ul>
         <ul>
           
-            <li class="prev"><a href="/2015/07/08/jvm-jmm.html" title="JVM——JMM，java内存模型">&larr; Previous</a></li>
+            <li class="prev"><a href="/2015/07/10/osx-createinstallmedia.html" title="osx-制作USA安装盘，并迁移老MAC">&larr; Previous</a></li>
           
           
 
             <li><a href="/archive">Archive</a></li>
 
           
-            <li class="next"><a href="/2015/06/07/https.html" title="https加密与证书">Next &rarr;</a></li>
+            <li class="next"><a href="/2015/07/08/jvm-jmm.html" title="JVM——JMM，java内存模型">Next &rarr;</a></li>
           
           
         </ul>
@@ -584,7 +520,7 @@ GC locker: Trying a full collection because scavenge failed
     <ul class="tag_box">
     
       <li>
-  <a href="/categories/#java-ref">java <span>17</span></a>
+  <a href="/categories/#java-ref">java <span>19</span></a>
 </li>
     
     </ul>
