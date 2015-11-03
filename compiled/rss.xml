@@ -3,10 +3,10 @@
   <channel>
     <title>顽固的卡夫卡</title>
     <link>http://defworld.com</link>
-    <pubDate>2015-11-03 10:38:51 +0800</pubDate>
+    <pubDate>2015-11-03 10:45:47 +0800</pubDate>
     <item>
       <title>压力测试-如何找出CPU消耗高的JAVA线程</title>
-      <link>http://defworld.com/2015/11/03/load-test-java-thread-cpu.html</link>
+      <link>http://defworld.com/2015/11/03/stress-test_java-thread-cpu.html</link>
       <pubDate>2015-11-03 12:00:00 +0800</pubDate>
       <description>&lt;ol&gt;
 &lt;li&gt;找出Java中资源消耗最大的线程id &lt;code&gt;top -H -p &amp;lt;java_pid&amp;gt;&lt;/code&gt;&lt;/li&gt;
@@ -17,7 +17,7 @@
     </item>
     <item>
       <title>压力测试-jvm启动时负载较高问题</title>
-      <link>http://defworld.com/2015/11/03/load-test-jvm-start-cpu.html</link>
+      <link>http://defworld.com/2015/11/03/stress-test_jvm-start-cpu.html</link>
       <pubDate>2015-11-03 12:00:00 +0800</pubDate>
       <description></description>
     </item>
@@ -105,52 +105,6 @@ count
 </description>
     </item>
     <item>
-      <title>jvm工具-jstat</title>
-      <link>http://defworld.com/2015/07/16/jvm-tool-jstat.html</link>
-      <pubDate>2015-07-16 12:00:00 +0800</pubDate>
-      <description>&lt;p&gt;&lt;code&gt;jstat [ generalOption | outputOptions vmid [interval[s|ms] [count]] ]&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;generalOption只有两个选项，且使用时不能加其他参数及选项：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;-help Display help message
--options Display list of statistics options. 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;outputOptions有多个选项，另外可以加上-h, -t, and -J，接在outputOptions后面:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Option              Displays...
-class               Statistics on the behavior of the class loader.
-compiler            Statistics of the behavior of the HotSpot Just-in-Time compiler.
-gc                  Statistics of the behavior of the garbage collected heap.
-gccapacity          Statistics of the capacities of the generations and their corresponding spaces.
-gccause             Summary of garbage collection statistics (same as -gcutil), with the cause of the last and current (if applicable) garbage collection events.
-gcnew               Statistics of the behavior of the new generation.
-gcnewcapacity       Statistics of the sizes of the new generations and its corresponding spaces.
-gcold               Statistics of the behavior of the old and permanent generations.
-gcoldcapacity       Statistics of the sizes of the old generation.
-gcpermcapacity      Statistics of the sizes of the permanent generation.
-gcutil              Summary of garbage collection statistics.
-printcompilation    HotSpot compilation method statistics.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code&gt;-h n
-Display a column header every n samples (output rows), where n is a positive integer. Default value is 0, which displays the column header above the first row of data.
-
--t
-Display a timestamp column as the first column of output. The timestamp is the time since the start time of the target JVM.
-
--JjavaOption
-Pass javaOption to the java application launcher. For example, -J-Xms48m sets the startup memory to 48 megabytes. For a complete list of options, see java - the Java application launcher
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;例子：&lt;code&gt;jstat -gcoldcapacity -t 21891 250 3&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;参考：&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://docs.oracle.com/javase/7/docs/technotes/tools/share/jstat.html&#34;&gt;jstat - Java Virtual Machine Statistics Monitoring Tool&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    <item>
       <title>jvm工具-hprof</title>
       <link>http://defworld.com/2015/07/16/jvm-tool-hprof.html</link>
       <pubDate>2015-07-16 12:00:00 +0800</pubDate>
@@ -216,6 +170,52 @@ Warnings
 
 &lt;p&gt;参考:&lt;br /&gt;
 &lt;a href=&#34;http://docs.oracle.com/javase/7/docs/technotes/samples/hprof.html&#34;&gt;HPROF: A Heap/CPU Profiling Tool&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>jvm工具-jstat</title>
+      <link>http://defworld.com/2015/07/16/jvm-tool-jstat.html</link>
+      <pubDate>2015-07-16 12:00:00 +0800</pubDate>
+      <description>&lt;p&gt;&lt;code&gt;jstat [ generalOption | outputOptions vmid [interval[s|ms] [count]] ]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;generalOption只有两个选项，且使用时不能加其他参数及选项：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;-help Display help message
+-options Display list of statistics options. 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;outputOptions有多个选项，另外可以加上-h, -t, and -J，接在outputOptions后面:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Option              Displays...
+class               Statistics on the behavior of the class loader.
+compiler            Statistics of the behavior of the HotSpot Just-in-Time compiler.
+gc                  Statistics of the behavior of the garbage collected heap.
+gccapacity          Statistics of the capacities of the generations and their corresponding spaces.
+gccause             Summary of garbage collection statistics (same as -gcutil), with the cause of the last and current (if applicable) garbage collection events.
+gcnew               Statistics of the behavior of the new generation.
+gcnewcapacity       Statistics of the sizes of the new generations and its corresponding spaces.
+gcold               Statistics of the behavior of the old and permanent generations.
+gcoldcapacity       Statistics of the sizes of the old generation.
+gcpermcapacity      Statistics of the sizes of the permanent generation.
+gcutil              Summary of garbage collection statistics.
+printcompilation    HotSpot compilation method statistics.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;-h n
+Display a column header every n samples (output rows), where n is a positive integer. Default value is 0, which displays the column header above the first row of data.
+
+-t
+Display a timestamp column as the first column of output. The timestamp is the time since the start time of the target JVM.
+
+-JjavaOption
+Pass javaOption to the java application launcher. For example, -J-Xms48m sets the startup memory to 48 megabytes. For a complete list of options, see java - the Java application launcher
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;例子：&lt;code&gt;jstat -gcoldcapacity -t 21891 250 3&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;参考：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://docs.oracle.com/javase/7/docs/technotes/tools/share/jstat.html&#34;&gt;jstat - Java Virtual Machine Statistics Monitoring Tool&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -289,6 +289,29 @@ DO IT AT YOUR OWN RISK.. THER IS ALWAYS SOMETHING THAT MIGHT GO WRONG!&lt;/p&gt;
 &lt;p&gt;参考：&lt;br /&gt;
 &lt;a href=&#34;https://support.apple.com/en-us/HT204350&#34;&gt;Move your content to a new Mac&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&#34;http://marcushesse.com/2012/use-migration-assistant-with-macbook-air-over-airport-wifi/&#34;&gt;use-migration-assistant-with-macbook-air-over-airport-wifi&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>JVM——JMM，java内存模型</title>
+      <link>http://defworld.com/2015/07/08/jvm-jmm.html</link>
+      <pubDate>2015-07-08 12:00:00 +0800</pubDate>
+      <description>&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;简介jmm与硬件内存架构的关系&#34; href=&#34;#简介jmm与硬件内存架构的关系&#34;&gt;&lt;/a&gt;简介JMM与硬件内存架构的关系&lt;/h2&gt;
+
+&lt;p&gt;java虚拟机包含一个完整的计算机模型，java内存模型跟硬件内存架构之间的关系是：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://farm1.staticflickr.com/328/19329026068_2c37a4027e.jpg&#34; alt=&#34;jmm-cpu&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;stack、heap有可能出现在寄存器、cpu缓存层、主内存中，也因此可能出现可见性（某个线程对一个对象的修改，不被另一个线程看见）、race conditions（竞争状态，修改同一个对象时可能会出现问题）。&lt;/p&gt;
+
+&lt;p&gt;参考：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://ifeve.com/java-memory-model-6/&#34;&gt;Java内存模型&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/java-memory-model-0/&#34;&gt;深入理解java内存模型系列文章&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/jmm-faq/&#34;&gt;Java内存模型FAQ&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/syn-jmm/&#34;&gt;同步和Java内存模型&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://it.deepinmind.com/jvm/2015/02/13/jvm-having-access-to-less-memory-than-xmx.html&#34;&gt;遗失的java堆内存&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://coderbee.net/index.php/java/20140811/979&#34;&gt;java对象内存布局&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -692,29 +715,6 @@ GC locker: Trying a full collection because scavenge failed
 </description>
     </item>
     <item>
-      <title>JVM——JMM，java内存模型</title>
-      <link>http://defworld.com/2015/07/08/jvm-jmm.html</link>
-      <pubDate>2015-07-08 12:00:00 +0800</pubDate>
-      <description>&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;简介jmm与硬件内存架构的关系&#34; href=&#34;#简介jmm与硬件内存架构的关系&#34;&gt;&lt;/a&gt;简介JMM与硬件内存架构的关系&lt;/h2&gt;
-
-&lt;p&gt;java虚拟机包含一个完整的计算机模型，java内存模型跟硬件内存架构之间的关系是：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://farm1.staticflickr.com/328/19329026068_2c37a4027e.jpg&#34; alt=&#34;jmm-cpu&#34; /&gt;
-&lt;/p&gt;
-
-&lt;p&gt;stack、heap有可能出现在寄存器、cpu缓存层、主内存中，也因此可能出现可见性（某个线程对一个对象的修改，不被另一个线程看见）、race conditions（竞争状态，修改同一个对象时可能会出现问题）。&lt;/p&gt;
-
-&lt;p&gt;参考：&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://ifeve.com/java-memory-model-6/&#34;&gt;Java内存模型&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/java-memory-model-0/&#34;&gt;深入理解java内存模型系列文章&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/jmm-faq/&#34;&gt;Java内存模型FAQ&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/syn-jmm/&#34;&gt;同步和Java内存模型&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://it.deepinmind.com/jvm/2015/02/13/jvm-having-access-to-less-memory-than-xmx.html&#34;&gt;遗失的java堆内存&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://coderbee.net/index.php/java/20140811/979&#34;&gt;java对象内存布局&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    <item>
       <title>https加密与证书</title>
       <link>http://defworld.com/2015/06/07/https.html</link>
       <pubDate>2015-06-07 12:00:00 +0800</pubDate>
@@ -952,38 +952,6 @@ http.request.method == &amp;quot;GET&amp;quot; &amp;amp;&amp;amp; http.request.f
 </description>
     </item>
     <item>
-      <title>并发编程 - 锁</title>
-      <link>http://defworld.com/2014/12/18/concurrent-programming-lock.html</link>
-      <pubDate>2014-12-18 12:00:00 +0800</pubDate>
-      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;饥饿和公平&#34; href=&#34;#饥饿和公平&#34;&gt;&lt;/a&gt;饥饿和公平&lt;/h1&gt;
-
-&lt;p&gt;饥饿是说某个线程总是被其他线程抢走CPU运行时间，而公平指所有的线程都能公平的获得运行机会。&lt;br /&gt;
-如果是使用synchronized同步块，不能保证某个线程一定获得运行机会，所以需要使用锁。锁的实现里可以自己控制唤醒时的机会分配。理论上Java不能实现100%公平。&lt;/p&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;自旋锁&#34; href=&#34;#自旋锁&#34;&gt;&lt;/a&gt;自旋锁&lt;/h1&gt;
-
-&lt;p&gt;自旋锁是采用让当前线程不停地在循环体内执行实现的。&lt;/p&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;阻塞锁&#34; href=&#34;#阻塞锁&#34;&gt;&lt;/a&gt;阻塞锁&lt;/h1&gt;
-
-&lt;p&gt;阻塞锁，与自旋锁不同，改变了线程的运行状态。&lt;br /&gt;
-阻塞锁的优势在于，阻塞的线程不会占用cpu时间，不会导致。CPU占用率过高，但进入时间以及恢复时间都要比自旋锁略慢。在竞争激烈的情况下 阻塞锁的性能要明显高于 自旋锁。&lt;br /&gt;
-理想的情况则是; 在线程竞争不激烈的情况下，使用自旋锁，竞争激烈的情况下使用，阻塞锁。&lt;/p&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;可重入锁&#34; href=&#34;#可重入锁&#34;&gt;&lt;/a&gt;可重入锁&lt;/h1&gt;
-
-&lt;p&gt;可重入锁，也叫做递归锁，指的是同一线程外层函数获得锁之后，内层递归函数仍然有获取该锁的代码，等到其他线程unlock时，这个线程能够从这个锁里出来。&lt;/p&gt;
-
-&lt;p&gt;参考：&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://ifeve.com/starvation-and-fairness/&#34;&gt;饥饿和公平&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/java_lock_see1/&#34;&gt;java锁的种类以及辨析（一）：自旋锁&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/java_lock_see2/&#34;&gt;Java锁的种类以及辨析（二）：自旋锁的其他种类&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/java_lock_see3/&#34;&gt;Java锁的种类以及辨析（三）：阻塞锁&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/java_lock_see4/&#34;&gt;Java锁的种类以及辨析（四）：可重入锁&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    <item>
       <title>笔记 - java annotation</title>
       <link>http://defworld.com/2014/12/18/java-annotation.html</link>
       <pubDate>2014-12-18 12:00:00 +0800</pubDate>
@@ -1071,6 +1039,38 @@ RUNTIME
 &lt;a href=&#34;http://tutorials.jenkov.com/java/annotations.html&#34;&gt;Java Annotations&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&#34;http://docs.oracle.com/javase/tutorial/java/annotations/&#34;&gt;Lesson: Annotations&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&#34;http://en.wikipedia.org/wiki/Java_annotation#Processing&#34;&gt;Java annotation wiki&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>并发编程 - 锁</title>
+      <link>http://defworld.com/2014/12/18/concurrent-programming-lock.html</link>
+      <pubDate>2014-12-18 12:00:00 +0800</pubDate>
+      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;饥饿和公平&#34; href=&#34;#饥饿和公平&#34;&gt;&lt;/a&gt;饥饿和公平&lt;/h1&gt;
+
+&lt;p&gt;饥饿是说某个线程总是被其他线程抢走CPU运行时间，而公平指所有的线程都能公平的获得运行机会。&lt;br /&gt;
+如果是使用synchronized同步块，不能保证某个线程一定获得运行机会，所以需要使用锁。锁的实现里可以自己控制唤醒时的机会分配。理论上Java不能实现100%公平。&lt;/p&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;自旋锁&#34; href=&#34;#自旋锁&#34;&gt;&lt;/a&gt;自旋锁&lt;/h1&gt;
+
+&lt;p&gt;自旋锁是采用让当前线程不停地在循环体内执行实现的。&lt;/p&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;阻塞锁&#34; href=&#34;#阻塞锁&#34;&gt;&lt;/a&gt;阻塞锁&lt;/h1&gt;
+
+&lt;p&gt;阻塞锁，与自旋锁不同，改变了线程的运行状态。&lt;br /&gt;
+阻塞锁的优势在于，阻塞的线程不会占用cpu时间，不会导致。CPU占用率过高，但进入时间以及恢复时间都要比自旋锁略慢。在竞争激烈的情况下 阻塞锁的性能要明显高于 自旋锁。&lt;br /&gt;
+理想的情况则是; 在线程竞争不激烈的情况下，使用自旋锁，竞争激烈的情况下使用，阻塞锁。&lt;/p&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;可重入锁&#34; href=&#34;#可重入锁&#34;&gt;&lt;/a&gt;可重入锁&lt;/h1&gt;
+
+&lt;p&gt;可重入锁，也叫做递归锁，指的是同一线程外层函数获得锁之后，内层递归函数仍然有获取该锁的代码，等到其他线程unlock时，这个线程能够从这个锁里出来。&lt;/p&gt;
+
+&lt;p&gt;参考：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://ifeve.com/starvation-and-fairness/&#34;&gt;饥饿和公平&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/java_lock_see1/&#34;&gt;java锁的种类以及辨析（一）：自旋锁&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/java_lock_see2/&#34;&gt;Java锁的种类以及辨析（二）：自旋锁的其他种类&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/java_lock_see3/&#34;&gt;Java锁的种类以及辨析（三）：阻塞锁&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/java_lock_see4/&#34;&gt;Java锁的种类以及辨析（四）：可重入锁&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -1650,53 +1650,6 @@ var select = function (callback) {
 </description>
     </item>
     <item>
-      <title>Node的异步代码怎么写</title>
-      <link>http://defworld.com/2014/09/19/node-how-to-write-node-async-code.html</link>
-      <pubDate>2014-09-19 12:00:00 +0800</pubDate>
-      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;函数式编程&#34; href=&#34;#函数式编程&#34;&gt;&lt;/a&gt;函数式编程&lt;/h1&gt;
-
-&lt;p&gt;函数作为js中的一等公民，可以作为参数或返回值传递，此谓高阶函数。偏函数也是基于此，返回一个函数，但是这个返回的函数一部分已经预置了，举个例子：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;// 一个调用多次才会执行的函数
-_.after = function(times, func) {
-    if (times &amp;lt;= 0)return func();
-    return function() {
-        if (--times &amp;lt; 1) {
-            return func.apply(this, arguments);
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;异步编程难点&#34; href=&#34;#异步编程难点&#34;&gt;&lt;/a&gt;异步编程难点&lt;/h1&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;异常处理&#34; href=&#34;#异常处理&#34;&gt;&lt;/a&gt;异常处理&lt;/h2&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;函数嵌套过深&#34; href=&#34;#函数嵌套过深&#34;&gt;&lt;/a&gt;函数嵌套过深&lt;/h2&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;阻塞代码&#34; href=&#34;#阻塞代码&#34;&gt;&lt;/a&gt;阻塞代码&lt;/h2&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;多线程编程&#34; href=&#34;#多线程编程&#34;&gt;&lt;/a&gt;多线程编程&lt;/h2&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;异步编程解决方案&#34; href=&#34;#异步编程解决方案&#34;&gt;&lt;/a&gt;异步编程解决方案&lt;/h1&gt;
-
-&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;事件发布订阅模式&#34; href=&#34;#事件发布订阅模式&#34;&gt;&lt;/a&gt;事件发布订阅模式&lt;/h2&gt;
-
-&lt;p&gt;Node自身提供的events模块。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;// 订阅
-emitter.on(&amp;quot;event1&amp;quot;, function (message) {
-    console.log(message);
-});
-
-// 发布
-emitter.emit(&#39;event1&#39;, &amp;quot;I am message!&amp;quot;);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;将事件与具体的处理逻辑解耦，一个时间与多个回调函数关联。从某种角度来说事件的设计就是组件的接口设计。&lt;/p&gt;
-</description>
-    </item>
-    <item>
       <title>聊聊Node.js的异步I/O</title>
       <link>http://defworld.com/2014/09/19/node-js-async-i-o.html</link>
       <pubDate>2014-09-19 12:00:00 +0800</pubDate>
@@ -1795,6 +1748,53 @@ Node提供的几个异步调用都是绑定在这些观察者身上的：&lt;/p&
 &lt;p&gt;《Unix Network Programming Vol1 1002003, 3Ed 6.2 I/O Models》http://english.tebyan.net/newindex.aspx?pid=31159&amp;amp;BookID=23760&amp;amp;PageIndex=92&amp;amp;Language=3&lt;br /&gt;
 《怎样理解阻塞非阻塞与同步异步的区别？》http://www.zhihu.com/question/19732473&lt;br /&gt;
 《深入浅出Node.js》作者：朴灵&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>Node的异步代码怎么写</title>
+      <link>http://defworld.com/2014/09/19/node-how-to-write-node-async-code.html</link>
+      <pubDate>2014-09-19 12:00:00 +0800</pubDate>
+      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;函数式编程&#34; href=&#34;#函数式编程&#34;&gt;&lt;/a&gt;函数式编程&lt;/h1&gt;
+
+&lt;p&gt;函数作为js中的一等公民，可以作为参数或返回值传递，此谓高阶函数。偏函数也是基于此，返回一个函数，但是这个返回的函数一部分已经预置了，举个例子：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;// 一个调用多次才会执行的函数
+_.after = function(times, func) {
+    if (times &amp;lt;= 0)return func();
+    return function() {
+        if (--times &amp;lt; 1) {
+            return func.apply(this, arguments);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;异步编程难点&#34; href=&#34;#异步编程难点&#34;&gt;&lt;/a&gt;异步编程难点&lt;/h1&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;异常处理&#34; href=&#34;#异常处理&#34;&gt;&lt;/a&gt;异常处理&lt;/h2&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;函数嵌套过深&#34; href=&#34;#函数嵌套过深&#34;&gt;&lt;/a&gt;函数嵌套过深&lt;/h2&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;阻塞代码&#34; href=&#34;#阻塞代码&#34;&gt;&lt;/a&gt;阻塞代码&lt;/h2&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;多线程编程&#34; href=&#34;#多线程编程&#34;&gt;&lt;/a&gt;多线程编程&lt;/h2&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;异步编程解决方案&#34; href=&#34;#异步编程解决方案&#34;&gt;&lt;/a&gt;异步编程解决方案&lt;/h1&gt;
+
+&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;事件发布订阅模式&#34; href=&#34;#事件发布订阅模式&#34;&gt;&lt;/a&gt;事件发布订阅模式&lt;/h2&gt;
+
+&lt;p&gt;Node自身提供的events模块。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;js&#34;&gt;// 订阅
+emitter.on(&amp;quot;event1&amp;quot;, function (message) {
+    console.log(message);
+});
+
+// 发布
+emitter.emit(&#39;event1&#39;, &amp;quot;I am message!&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;将事件与具体的处理逻辑解耦，一个时间与多个回调函数关联。从某种角度来说事件的设计就是组件的接口设计。&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -2068,7 +2068,7 @@ if (maybeComputer.isPresent()) { // 这里只有present/absent两种状态，pre
     </item>
     <item>
       <title>压力测试 - 关注那些点</title>
-      <link>http://defworld.com/2014/08/08/load-test-3.html</link>
+      <link>http://defworld.com/2014/08/08/stress-test_attention-points.html</link>
       <pubDate>2014-08-08 12:00:00 +0800</pubDate>
       <description>&lt;h2&gt;&lt;a style=&#34;display: block;&#34; name=&#34;jvm&#34; href=&#34;#jvm&#34;&gt;&lt;/a&gt;jvm&lt;/h2&gt;
 
@@ -2100,7 +2100,7 @@ d. 启动加载问题
     </item>
     <item>
       <title>压力测试小结 - 工具</title>
-      <link>http://defworld.com/2014/08/08/load-test-1.html</link>
+      <link>http://defworld.com/2014/08/08/stress-test_tools.html</link>
       <pubDate>2014-08-08 12:00:00 +0800</pubDate>
       <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;工具&#34; href=&#34;#工具&#34;&gt;&lt;/a&gt;工具&lt;/h1&gt;
 
@@ -3958,6 +3958,62 @@ mvn clean deploy 只发布calss jar包
 </description>
     </item>
     <item>
+      <title>java锁笔记</title>
+      <link>http://defworld.com/2013/08/30/java-locks.html</link>
+      <pubDate>2013-08-30 12:00:00 +0800</pubDate>
+      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;线程通信&#34; href=&#34;#线程通信&#34;&gt;&lt;/a&gt;线程通信&lt;/h1&gt;
+
+&lt;p&gt;通信遇到的问题包括：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;共享对象：需要做同步处理&lt;/li&gt;
+&lt;li&gt;忙等待：循环等待另一个线程发来信号，可sleep&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;wait(),notify()&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1. 遇到mobj.wait()，让线程进入非运行状态，直到另一个线程mobj.nitify
+2. 这几个方法必须在获得mobj锁的前提下调用，否则IllegalMonitorStateException
+3. 一个线程调用了wait()，即释放mobj上的锁
+4. 一旦一个线程被唤醒，不能立刻就退出wait()的方法调用，直到调用
+notify()的线程退出了它自己的同步块。因此，多个线程被notifyAll唤醒，只有一个
+线程可以最终退出wait()方法，因为必须获得mobj的锁
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;丢失的信号（Missed Signal）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;线程A先调用了mobj.notify()，线程B后调用mobj.wait()，通知信号发送过了就被丢弃，
+线程B就可能永远不能醒来。
+这就需要一个额外的变量来保存‘是否被通知过’的信息。
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;假唤醒（spurious wakeups）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;没有调用过notify()和notifyAll()的情况下醒来，原因未知
+需要加个自旋锁，即将wait()方法放到while循环中
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;不要在字符串常量或全局对象中调用wait()。mobj与信号常量不是一一对应。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;mobj: 管程 (英语：Monitors，也称为监视器)&lt;/p&gt;
+
+&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;锁&#34; href=&#34;#锁&#34;&gt;&lt;/a&gt;锁&lt;/h1&gt;
+
+&lt;p&gt;锁由synchronized实现，有以下几个特性:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;同一时刻只能有一个线程穿过临界区，进入同步块&lt;/li&gt;
+&lt;li&gt;锁的可重入性：synchronized同步块可重入，相应也有可重入锁&lt;/li&gt;
+&lt;li&gt;锁的公平性：多个线程不断竞争访问相同的synchronized同步块，可能存在某个
+线程一直竞争不到。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;参考&lt;/strong&gt;:&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/locks/&#34;&gt;Java中的锁&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://ifeve.com/thread-signaling/&#34;&gt;线程通信&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    <item>
       <title>jdk自带工具</title>
       <link>http://defworld.com/2013/08/30/jdk-tools.html</link>
       <pubDate>2013-08-30 12:00:00 +0800</pubDate>
@@ -4054,59 +4110,14 @@ runnable - 线程状态
 </description>
     </item>
     <item>
-      <title>java锁笔记</title>
-      <link>http://defworld.com/2013/08/30/java-locks.html</link>
-      <pubDate>2013-08-30 12:00:00 +0800</pubDate>
-      <description>&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;线程通信&#34; href=&#34;#线程通信&#34;&gt;&lt;/a&gt;线程通信&lt;/h1&gt;
+      <title>玩Pi过程中Q&amp;A(持续更新)</title>
+      <link>http://defworld.com/2013/06/30/pi-q-a.html</link>
+      <pubDate>2013-06-30 12:00:00 +0800</pubDate>
+      <description>&lt;p&gt;自己玩Pi过程中遇到的问题，有些只是找到解决方案，原理并没有深究&lt;/p&gt;
 
-&lt;p&gt;通信遇到的问题包括：&lt;/p&gt;
+&lt;h4&gt;执行apt-get install时，报404 Not Found&lt;/h4&gt;
 
-&lt;ol&gt;
-&lt;li&gt;共享对象：需要做同步处理&lt;/li&gt;
-&lt;li&gt;忙等待：循环等待另一个线程发来信号，可sleep&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;wait(),notify()&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;1. 遇到mobj.wait()，让线程进入非运行状态，直到另一个线程mobj.nitify
-2. 这几个方法必须在获得mobj锁的前提下调用，否则IllegalMonitorStateException
-3. 一个线程调用了wait()，即释放mobj上的锁
-4. 一旦一个线程被唤醒，不能立刻就退出wait()的方法调用，直到调用
-notify()的线程退出了它自己的同步块。因此，多个线程被notifyAll唤醒，只有一个
-线程可以最终退出wait()方法，因为必须获得mobj的锁
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;丢失的信号（Missed Signal）&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;线程A先调用了mobj.notify()，线程B后调用mobj.wait()，通知信号发送过了就被丢弃，
-线程B就可能永远不能醒来。
-这就需要一个额外的变量来保存‘是否被通知过’的信息。
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;假唤醒（spurious wakeups）&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;没有调用过notify()和notifyAll()的情况下醒来，原因未知
-需要加个自旋锁，即将wait()方法放到while循环中
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;不要在字符串常量或全局对象中调用wait()。mobj与信号常量不是一一对应。&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;mobj: 管程 (英语：Monitors，也称为监视器)&lt;/p&gt;
-
-&lt;h1&gt;&lt;a style=&#34;display: block;&#34; name=&#34;锁&#34; href=&#34;#锁&#34;&gt;&lt;/a&gt;锁&lt;/h1&gt;
-
-&lt;p&gt;锁由synchronized实现，有以下几个特性:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;同一时刻只能有一个线程穿过临界区，进入同步块&lt;/li&gt;
-&lt;li&gt;锁的可重入性：synchronized同步块可重入，相应也有可重入锁&lt;/li&gt;
-&lt;li&gt;锁的公平性：多个线程不断竞争访问相同的synchronized同步块，可能存在某个
-线程一直竞争不到。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;strong&gt;参考&lt;/strong&gt;:&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/locks/&#34;&gt;Java中的锁&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;http://ifeve.com/thread-signaling/&#34;&gt;线程通信&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;执行&lt;code&gt;sugo apt-get update&lt;/code&gt;解决&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -4161,17 +4172,6 @@ Host github
 
 &lt;p&gt;任何使用&lt;code&gt;pi@defworld.com&lt;/code&gt;的地方用&lt;code&gt;pi&lt;/code&gt;代替，例如&lt;code&gt;ssh pi@defworld.com&lt;/code&gt;用&lt;code&gt;ssh pi&lt;/code&gt;代替，
 会自动查找指定的密钥&lt;code&gt;id_rsa&lt;/code&gt;进行权限验证。于是，你可以单机保存多个密钥。&lt;/p&gt;
-</description>
-    </item>
-    <item>
-      <title>玩Pi过程中Q&amp;A(持续更新)</title>
-      <link>http://defworld.com/2013/06/30/pi-q-a.html</link>
-      <pubDate>2013-06-30 12:00:00 +0800</pubDate>
-      <description>&lt;p&gt;自己玩Pi过程中遇到的问题，有些只是找到解决方案，原理并没有深究&lt;/p&gt;
-
-&lt;h4&gt;执行apt-get install时，报404 Not Found&lt;/h4&gt;
-
-&lt;p&gt;执行&lt;code&gt;sugo apt-get update&lt;/code&gt;解决&lt;/p&gt;
 </description>
     </item>
     <item>
