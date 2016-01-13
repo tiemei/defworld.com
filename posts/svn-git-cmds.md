@@ -124,6 +124,7 @@ svn commit -m "comment" # 提交回滚，版本升级到29
 * stash的内容，切换到另一个分支后，能够合并回来（注意解决冲突）
 
 * `git stash` 暂存当前快照，包括所有未commit内容
+* `git stash save 'you stash name'` 暂存并命名
 * ` git stash list`
 * `git stash apply [stash@{n}]` 应用某个stash，不加stash@{0}默认最新的
 * `git stash pop [stash@{n}]` 应用的同时移除
