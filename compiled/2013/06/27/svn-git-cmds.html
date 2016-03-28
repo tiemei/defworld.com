@@ -234,6 +234,8 @@ svn commit -m &quot;comment&quot; # 提交回滚，版本升级到29
 
 <li><p><code>git stash drop [stash@{n}]</code> 删除</p></li>
 
+<li><p><code>git stash show [stash@{0}]</code> 简略显示某个stash的改动文件</p></li>
+
 <li><p><code>git stash show -p [stash@{0}] | git apply -R</code> 取消stash，也可以通过别名来实现：</p>
 
 <pre><code>$ git config --global alias.stash-unapply '!git stash show -p | git apply -R'

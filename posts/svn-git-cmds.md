@@ -129,6 +129,7 @@ svn commit -m "comment" # 提交回滚，版本升级到29
 * `git stash apply [stash@{n}]` 应用某个stash，不加stash@{0}默认最新的
 * `git stash pop [stash@{n}]` 应用的同时移除
 * `git stash drop [stash@{n}]` 删除
+* `git stash show [stash@{0}]` 简略显示某个stash的改动文件
 * `git stash show -p [stash@{0}] | git apply -R` 取消stash，也可以通过别名来实现：
 
         $ git config --global alias.stash-unapply '!git stash show -p | git apply -R'

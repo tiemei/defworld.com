@@ -80,6 +80,7 @@ changed descendants`
 * `F2 / ⇧ F2` next/preview highlighting syntax problem
 * `settings → file types`设定文件后缀与文件类型的对应关系
 * `⇧ ⌘ A` to find any action inside the IDE user find action
+* 设置itenllij左侧窗口颜色。Project view: Settings/File colors, Add (Alt+insert), choose 'project files' scope, select a color. Uncheck the 'Use in editor tabs' checkbox, make sure to check 'Use in project view'
 
 ### 编辑代码
 
